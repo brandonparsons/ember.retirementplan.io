@@ -1,4 +1,6 @@
+// export default DS.RESTAdapter;
+
 export default DS.ActiveModelAdapter.extend({
   // host: 'localhost:3000',
-  namespace: 'api/v1'
+  // namespace: 'api/v1'
 });
