@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>App | RetirementPlan.io</title>
-    <meta name="description" content="">
+
+    <meta name="description" content="RetirementPlan.io - Ember Application">
     <meta name="author" content="Brandon Parsons">
 
     <link rel="shortcut icon" href="/favicon.ico">
@@ -16,8 +17,7 @@
     {{BASE_TAG}}
 
     <link rel="stylesheet" href="assets/retirement-plan.css">
-
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/vendor.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -44,6 +44,7 @@
     <div id='ember-application'></div>
 
     <script>window.ENV = {{ENV}};</script>
+    <script src="assets/alertify.js"></script>
     <script src="assets/retirement-plan.js"></script>
     <script>window.RetirementPlan = require('retirement-plan/app')['default'].create(ENV.APP);</script>
   </body>

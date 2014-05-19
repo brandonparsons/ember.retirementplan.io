@@ -1,6 +1,8 @@
 import { request as icAjaxRequest } from 'ic-ajax';
 
 var CustomAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
+  // This is essentially the Devise authenticator (with a few tweaks), pulled in
+  // to the application as you aren't using Devise.
 
   serverLoginEndpoint:  ENV.serverLoginEndpoint,
   serverLogoutEndpoint: ENV.serverLogoutEndpoint,
@@ -19,20 +21,13 @@ var CustomAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
     var _this = this;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      var data = {};
-
-      data['user'] = {
-        email:    credentials.identification,
-        password: credentials.password
-      };
-
       icAjaxRequest({
-        url:        _this.serverLoginEndpoint,
-        type:       'POST',
-        data:       data,
-        dataType:   'json',
-        beforeSend: function(xhr, settings) {
-          xhr.setRequestHeader('Accept', settings.accepts.json);
+        url:      _this.serverLoginEndpoint,
+        type:     'POST',
+        dataType: 'json',
+        data:     {
+          email:    credentials.identification,
+          password: credentials.password
         }
       }).then(function(response) {
         Ember.run(function() {
@@ -61,6 +56,8 @@ var CustomAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
 
 
 var CustomAuthorizer = Ember.SimpleAuth.Authorizers.Base.extend({
+  // This is essentially the Devise authorizer (with a few tweaks), pulled in
+  // to the application as you aren't using Devise.
 
   authorize: function(jqXHR, requestOptions) {
     var userToken = this.get('session.user_token');
