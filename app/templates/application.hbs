@@ -1,7 +1,11 @@
-<h2 id='title'>Welcome to this ember app!</h2>
+{{partial 'sections/navbar'}}
 
-{{link-to 'Home' 'application'}}
-{{link-to 'About' 'about'}}
-{{link-to 'Speakers' 'speakers'}}
+<div class="container-fluid" style='margin-top:20px;'>
+  <div clas='row'>
+    <div class='col-md-12'>
+      {{outlet}}
+    </div>
+  </div>
+</div>
 
-{{outlet}}
+{{partial 'sections/footer'}}

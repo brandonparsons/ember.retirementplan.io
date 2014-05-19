@@ -1,23 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>RetirementPlan</title>
-    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>App | RetirementPlan.io</title>
+    <meta name="description" content="">
+    <meta name="author" content="Brandon Parsons">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
 
     {{BASE_TAG}}
 
     <link rel="stylesheet" href="assets/retirement-plan.css">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
   </head>
+
   <body>
-    <script>
-      window.ENV = {{ENV}};
-    </script>
+    <!--[if lte IE 8]>
+      <p>You are using an <strong>outdated</strong> browser, that likely won't work for this site. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <noscript>
+      <div class='row'>
+        <div class='col-md-12'>
+          <div class="alert alert-danger text-center">
+            <h4>Usage of this site <strong>requires</strong> Javascript. Looks like you have it turned off.</h4>
+          </div>
+        </div>
+      </div>
+    </noscript>
+
+    <div id='ember-application'></div>
+
+    <script>window.ENV = {{ENV}};</script>
     <script src="assets/retirement-plan.js"></script>
-    <script>
-      window.RetirementPlan = require('retirement-plan/app')['default'].create(ENV.APP);
-    </script>
+    <script>window.RetirementPlan = require('retirement-plan/app')['default'].create(ENV.APP);</script>
   </body>
+
 </html>

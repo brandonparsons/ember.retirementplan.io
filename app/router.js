@@ -3,10 +3,14 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('login');
+
   this.route('about');
-  this.resource('speakers', function() {
-    this.route('show', {path: ':speaker_id'});
+
+  this.resource('securities', function() {
+    this.route('show', {path: ':security_id'});
   });
+
 });
 
 export default Router;

@@ -1,4 +1,4 @@
-import startApp from '../helpers/start-app';
+import startApp from 'retirement-plan/tests/helpers/start-app';
 
 var App;
 
