@@ -4,8 +4,8 @@ var CustomAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
   // This is essentially the Devise authenticator (with a few tweaks), pulled in
   // to the application as you aren't using Devise.
 
-  serverLoginEndpoint:  ENV.serverLoginEndpoint,
-  serverLogoutEndpoint: ENV.serverLogoutEndpoint,
+  serverLoginEndpoint:  ENV.apiHost + '/users/sign_in',
+  serverLogoutEndpoint: ENV.apiHost + '/users/sign_out',
 
   restore: function (properties) {
     return new Ember.RSVP.Promise(function(resolve, reject) {
@@ -89,6 +89,7 @@ export default {
         'http://localhost:3000',
         'https://localhost:3000'
       ]
+      // routeAfterAuthentication: 'dashboard'  // Not required, we over-rode the application route action
     });
 
   }

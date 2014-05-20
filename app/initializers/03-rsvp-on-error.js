@@ -1,18 +1,8 @@
 export default {
   name: 'rsvp-on-error',
   initialize: function(container, application) {
-    // Grab the router so we can transition to login if 401
-    var router = application.__container__.lookup('router:main');
 
-    var defaultErrorMessage = function(error) {
-      return error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.error;
-    };
-
-    var passedErrorMessage = function(error) {
-      return error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.message;
-    };
-
-    var handleError = function(error) {
+    Ember.RSVP.on('error', function (error) {
       var errorMessage;
 
       if (window.ENV.debug) {
@@ -21,20 +11,35 @@ export default {
         window.console.log(error.jqXHR.responseJSON);
       }
 
-      if (error.errorThrown === 'Unauthorized') {
-        errorMessage =  defaultErrorMessage(error) || passedErrorMessage(error) || 'Invalid credentials.';
-        router.transitionTo('login');
+      // Handle all non-401 errors. Ember-simple-auth hooks handle the 401's
+      if (error.errorThrown !== 'Unauthorized' && error.jqXHR.status !== 401) {
+        errorMessage = _passedErrorMessage(error) || _defaultErrorMessage(error) || 'Sorry - something went wrong.';
         application.setFlash('error', errorMessage);
-      } else {
-        application.setFlash('error', "Sorry - something went wrong...");
+
+        // / If you turn this on, consider doing the same in the 'error' route/view
+        // / Note that you were having troubles getting stuff in the 'error' route
+        // / to execute.
+        // Em.$.ajax('/somewhere/error-notification', 'POST', {
+        //   stack: error.stack,
+        //   otherInformation: 'exception message'
+        // });
       }
 
-      // Em.$.ajax('/error-notification', 'POST', {
-      //   stack: error.stack,
-      //   otherInformation: 'exception message'
-      // });
+    });
+
+    //////
+
+    // Utility methods:
+
+    // Will be hoisted above Ember.RSVP.on ....
+    var _passedErrorMessage = function(error) {
+      return error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.message;
     };
 
-    Ember.RSVP.on('error', function (errorObject) { handleError(errorObject); });
+    // Will be hoisted above Ember.RSVP.on ....
+    var _defaultErrorMessage = function(error) {
+      return error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.error;
+    };
+
   }
 };

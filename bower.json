@@ -17,6 +17,7 @@
     "bootstrap-sass-official": "~3.1.1+2",
     "fastclick": "~1.0.1",
     "ember-simple-auth": "~0.4.0",
-    "alertify.js": "~0.3.11"
+    "alertify.js": "~0.3.11",
+    "ember-google-analytics": "*"
   }
 }

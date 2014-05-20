@@ -48,6 +48,8 @@ app.import('vendor/ember-simple-auth/ember-simple-auth.js');
   var fullPath = 'vendor/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/' + path;
   app.import(fullPath);
 });
+
+app.import('vendor/ember-google-analytics/ember-google-analytics.js')
 //
 
 // Additional CSS (goes to vendor.css)
