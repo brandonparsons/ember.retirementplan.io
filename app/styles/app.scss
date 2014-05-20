@@ -1,5 +1,7 @@
 @import "bootstrap_overrides";
 @import "vendor/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
 
+@import "utilities";
 @import "navbar";
-@import "sticky_footer";
+@import "footer";
+@import "forms";
