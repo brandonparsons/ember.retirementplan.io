@@ -9,7 +9,9 @@
     "DS": true,
     "$": true,
     "ENV": true,
-    "module": true
+    "module": true,
+    "RetirementPlan": true,
+    "Bootstrap": true
   },
   "node" : false,
   "browser" : false,

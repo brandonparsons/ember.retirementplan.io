@@ -6,6 +6,58 @@
 
 <p>Head <a href="/about">somewhere</a> for interesting information.</p>
 
-<a data-toggle="tooltip" title="Some tooltip text!">Hover over me</a>
 
-<a data-toggle="popover" data-content="My Popover Content..." data-title="asdf">Click on me</a>
+<h3>Heading with <strong>danger</strong> {{bs-label content="Careful!" type="danger"}}</h3>
+
+<br>
+
+{{bs-button title="Show Modal" clicked="showModal"}}
+{{#bs-modal name="myModal" fade=true footerButtonsBinding="myModalButtons" title="My Modal"}}
+  <p>Modal content!</p>
+{{/bs-modal}}
+
+<br>
+<br>
+
+<div class="bs-example">
+  {{bs-btn-group icon_inactive="fa fa-square-o" icon_active="fa fa-check-square-o" contentBinding="buttonGroupOptions" selectedBinding="selected"}}
+  <br>
+  <br>
+  <p>Controller says selected item is: {{selected.title}}</p>
+</div>
+
+{{#bs-well large=true}}
+  Look, I'm in a large well!
+{{/bs-well}}
+
+{{#bs-panel heading="Info Panel" type="info"}}
+  <p>Panel content.</p>
+{{/bs-panel}}
+
+{{bs-page-header title="Example page header" sub="Subtext for header"}}
+
+<a class='btn btn-default' {{action changeProgress}}>Change Progress</a>
+{{bs-progress progress=progress stripped=true animated=true}}
+
+<br>
+<br>
+
+<p class="muted" style="margin-bottom: 0;">
+  Here is <a {{bs-bind-tooltip content="A tooltip!" placement="auto bottom" title="my title"}}>a cool</a> link with a tooltip,.
+  You can mix as many <a {{bs-bind-tooltip title="Another tooltip!" placement="top"}}>tooltips</a> as you wish.
+</p>
+
+<br>
+<br>
+
+<ul class="list-group" style="width:250px">
+  <li class="list-group-item" {{bs-bind-popover stickyPop}}>
+     Hover for a sticky popup
+  </li>
+  <li class="list-group-item" {{bs-bind-popover hoverPop}}>
+     Hover for a non-sticky popup
+  </li>
+  <li class="list-group-item" {{bs-bind-popover clickPop}}>
+     Click for a popup
+  </li>
+</ul>

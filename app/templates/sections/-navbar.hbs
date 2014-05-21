@@ -11,7 +11,7 @@
 
       <a class='navbar-brand' href='/' alt='Link to project root'><img src="images/logo.png" alt="RetirementPlan.io Logo"></a>
 
-      <p class="navbar-text"><em>Public Beta</em></p>
+      <p class="navbar-text center-with-logo"><em>Public Beta</em></p>
     </div>
 
     <div class="collapse navbar-collapse">
@@ -27,14 +27,14 @@
           {{!-- User is logged in --}}
 
           <li class="dropdown visible-md visible-lg" style='margin-right: 15px;'> {{!-- Right margin required on this element as the `row` padding is not pushing the button over --}}
-            <button class="dropdown-toggle btn btn-default navbar-btn space-left" data-toggle="dropdown">{{fontawesome-icon type='user'}} Bob&nbsp;&nbsp;<b class="caret"></b></button>
+            <button class="dropdown-toggle btn btn-default navbar-btn space-left" data-toggle="dropdown">{{fontawesome-icon type='user'}} {{session.user_name}}&nbsp;&nbsp;<b class="caret"></b></button>
             <ul class="dropdown-menu">
               <li class="dropdown-header">
                 {{fontawesome-icon type='cog'}} Settings
               </li>
               <li><a href="#">Preferences</a>
-              {{#link-to 'about' tagName='li'}}<a href='#' title="">About</a>{{/link-to}}
-              {{#link-to 'securities' tagName='li'}}<a href='#' title="">Securities</a>{{/link-to}}
+              {{#link-to 'about' tagName='li'}}<a>About</a>{{/link-to}}
+              {{#link-to 'securities' tagName='li'}}<a>Securities</a>{{/link-to}}
               <li class="divider"></li>
               <li class="dropdown-header">
                 {{fontawesome-icon type='user'}} Account

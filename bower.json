@@ -18,6 +18,7 @@
     "fastclick": "~1.0.1",
     "ember-simple-auth": "~0.4.0",
     "alertify.js": "~0.3.11",
-    "ember-google-analytics": "*"
+    "ember-google-analytics": "*",
+    "ember-addons.bs_for_ember": "~0.7.0"
   }
 }

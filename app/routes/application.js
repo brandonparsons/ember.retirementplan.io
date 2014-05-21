@@ -1,11 +1,25 @@
-/* global RetirementPlan */
-
 export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
+
+  /* renderTemplate requires customization for `bootstrap-for-ember` tooltips */
+  /* and popovers. See: http://ember-addons.github.io/bootstrap-for-ember/#/show_components/popover */
+  renderTemplate: function() {
+    this.render(); // Render default outlet
+
+    // render extra outlets
+    var controller = this.controllerFor('tooltip-box');
+    this.render("bs-tooltip-box", {
+      outlet: "bs-tooltip-box",
+      controller: controller,
+      into: "application" // important when using at root level
+    });
+  },
+  /* */
+
 
   actions: {
 
-    // Over-ride the Ember-simple-auth controller action, so that we can do
-    // things on login (e.g. google analytics user_id).
+    /* Over-ride the Ember-simple-auth controller action, so that we can do */
+    /* things on login (e.g. google analytics user_id). */
     sessionAuthenticationSucceeded: function() {
 
       // Set the google analytics user id now that we have it. Supposedly can
@@ -27,20 +41,21 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
         this.transitionTo('dashboard');
       }
     },
+    /* */
 
-    // Over-ride the Ember-simple-auth controller action, and set the error
-    // message here instead of relying on the RSVP.on 'error' call.
+    /* Over-ride the Ember-simple-auth controller action, and set the error */
+    /* message here instead of relying on the RSVP.on 'error' call. */
     sessionAuthenticationFailed: function(error) {
       var errorMessage = this._passedErrorMessage(error) || this._defaultErrorMessage(error) || 'Invalid credentials.';
-      RetirementPlan.setFlash('error', errorMessage);
       // this.controllerFor('application').set('loginErrorMessage', error.message);
+      RetirementPlan.setFlash('error', errorMessage);
     }
+    /* */
 
   },
 
 
-  // Private methods
-
+  /* Private methods */
   _passedErrorMessage: function(error) {
     return error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.message;
   },
@@ -48,5 +63,6 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
   _defaultErrorMessage: function(error) {
     return error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.error;
   }
+  /* */
 
 });
