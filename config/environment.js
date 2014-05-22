@@ -34,7 +34,6 @@ module.exports = function(environment) {
     ENV.ga_tracking_code      = 'UA-XXX-DEVELOPMENT';
     ENV.ga_domain             = 'retirementplan.io';
     ENV.facebook_app_id       = '649704131751768';
-    ENV.google_client_apiKey  = 'AIzaSyDcNEYEnwSJc7mrfiU3d_yLvUhZbBpCE8E';
     ENV.google_client_id      = '473904766177-cataubhq5mhaqadd9j3gjil8i02omft3.apps.googleusercontent.com';
     /* */
   }
@@ -45,8 +44,7 @@ module.exports = function(environment) {
     ENV.ga_tracking_code      = 'UA-49011476-2';
     ENV.ga_domain             = 'retirementplan.io';
     ENV.facebook_app_id       = '234609303319737';
-    ENV.google_client_apiKey  = 'AIzaSyCMBIk3_UFIfcfI0hVjWaU2rh5L_phrzwU';
-    ENV.google_client_id      = '397821256171-gjvb503eta4573q3affeprdfr9abf8gs.apps.googleusercontent.com'
+    ENV.google_client_id      = '397821256171-gjvb503eta4573q3affeprdfr9abf8gs.apps.googleusercontent.com';
     /* */
   }
 
