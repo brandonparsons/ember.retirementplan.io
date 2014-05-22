@@ -11,7 +11,8 @@
     "ENV": true,
     "module": true,
     "RetirementPlan": true,
-    "Bootstrap": true
+    "Bootstrap": true,
+    "_": true
   },
   "node" : false,
   "browser" : false,

@@ -13,12 +13,13 @@
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.1",
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.1",
     "pretender": "~0.0.5",
-    "underscore": "~1.6.0",
     "bootstrap-sass-official": "~3.1.1+2",
     "fastclick": "~1.0.1",
     "ember-simple-auth": "~0.4.0",
     "alertify.js": "~0.3.11",
     "ember-google-analytics": "*",
-    "ember-addons.bs_for_ember": "~0.7.0"
+    "ember-addons.bs_for_ember": "~0.7.0",
+    "lodash": "~2.4.1",
+    "hello": "~0.2.6"
   }
 }

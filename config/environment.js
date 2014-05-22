@@ -5,19 +5,16 @@ module.exports = function(environment) {
 
     debug: false,
 
-    FEATURES: { // Here you can enable experimental features on an ember canary build e.g. 'with-controller': true
+    FEATURES: {
+      // Here you can enable experimental features on an ember canary build
+      // e.g. 'with-controller': true
     },
 
-    APP: { // Here you can pass flags/options to your application instance when it is created
+    APP: {
+      // Here you can pass flags/options to your application instance when it
+      // is created
       rootElement: '#ember-application'
-    },
-
-    // BKP-Added
-    // Some overwritten below per-environment
-    apiHost:            'http://localhost:3000',
-    ga_tracking_code:   'UA-XXX-DEVELOPMENT',
-    ga_domain:          'retirementplan.io',
-    LOG_EVENT_TRACKING: false, // ember-google-analytics
+    }
   };
 
   if (environment === 'development') {
@@ -25,19 +22,32 @@ module.exports = function(environment) {
     ENV.APP.LOG_RESOLVER = true;
     ENV.APP.LOG_ACTIVE_GENERATION = true;
     ENV.APP.LOG_MODULE_RESOLVER = true;
+    ENV.APP.LOG_VIEW_LOOKUPS = true;
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-    ENV.APP.LOG_VIEW_LOOKUPS = true;
 
 
-    // BKP-Added
-    ENV.LOG_EVENT_TRACKING  = true;
-    ENV.debug               = true;
+    /* BKP-Added */
+    ENV.LOG_EVENT_TRACKING    = true;
+    ENV.debug                 = true;
+    ENV.apiHost               = 'http://localhost:3000';
+    ENV.ga_tracking_code      = 'UA-XXX-DEVELOPMENT';
+    ENV.ga_domain             = 'retirementplan.io';
+    ENV.facebook_app_id       = '649704131751768';
+    ENV.google_client_apiKey  = 'AIzaSyDcNEYEnwSJc7mrfiU3d_yLvUhZbBpCE8E';
+    ENV.google_client_id      = '473904766177-cataubhq5mhaqadd9j3gjil8i02omft3.apps.googleusercontent.com';
+    /* */
   }
 
   if (environment === 'production') {
-    ENV.apiHost           = 'https://api.retirementplan.io';
-    ENV.ga_tracking_code  = 'UA-49011476-2';
+    /* BKP-Added */
+    ENV.apiHost               = 'https://api.retirementplan.io';
+    ENV.ga_tracking_code      = 'UA-49011476-2';
+    ENV.ga_domain             = 'retirementplan.io';
+    ENV.facebook_app_id       = '234609303319737';
+    ENV.google_client_apiKey  = 'AIzaSyCMBIk3_UFIfcfI0hVjWaU2rh5L_phrzwU';
+    ENV.google_client_id      = '397821256171-gjvb503eta4573q3affeprdfr9abf8gs.apps.googleusercontent.com'
+    /* */
   }
 
   return ENV;

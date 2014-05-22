@@ -4,6 +4,7 @@
 var EmberApp    = require('ember-cli/lib/broccoli/ember-app');
 var pickFiles   = require('ember-cli/node_modules/broccoli-static-compiler');
 var mergeTrees  = require('ember-cli/node_modules/broccoli-merge-trees');
+var concatFiles = require('ember-cli/node_modules/broccoli-concat');
 
 
 var app = new EmberApp({
@@ -31,18 +32,22 @@ app.import('vendor/ic-ajax/dist/named-amd/main.js', {
 
 
 /* These are only compiled in development - used for faking responses in tests */
-app.import({development:'vendor/route-recognizer/dist/route-recognizer.js'});
-app.import({development:'vendor/FakeXMLHttpRequest/fake_xml_http_request.js'});
-app.import({development:'vendor/pretender/pretender.js'});
+if (app.env !== 'production') {
+  app.import('vendor/route-recognizer/dist/route-recognizer.js');
+  app.import('vendor/FakeXMLHttpRequest/fake_xml_http_request.js');
+  app.import('vendor/pretender/pretender.js');
+}
 /* */
 
 
 /* Additional Javascript libraries */
-app.import('vendor/underscore/underscore.js');
+app.import('vendor/ember-simple-auth/ember-simple-auth.js');
+
+app.import('vendor/ember-google-analytics/ember-google-analytics.js')
+
+app.import('vendor/lodash/dist/lodash.min.js');
 
 app.import('vendor/fastclick/lib/fastclick.js');
-
-app.import('vendor/ember-simple-auth/ember-simple-auth.js');
 
 // Standard Bootstrap javascript
 ['transition.js', 'dropdown.js', 'collapse.js', 'modal.js', 'tooltip.js', 'popover.js'].forEach(function (path) {
@@ -55,8 +60,6 @@ app.import('vendor/ember-simple-auth/ember-simple-auth.js');
   var fullPath = 'vendor/ember-addons.bs_for_ember/dist/js/' + path;
   app.import(fullPath);
 });
-
-app.import('vendor/ember-google-analytics/ember-google-analytics.js')
 /* */
 
 
@@ -71,7 +74,8 @@ app.import('vendor/font-awesome/css/font-awesome.min.css');
 /* Import fontawesome fonts */
 var fontawesome = pickFiles('vendor/font-awesome/', {
   srcDir: '/fonts',
-  // files: isn't strictly necessary (if left out will load all files), but leaving in to be explicit.
+  // files: isn't strictly necessary (if left out will load all files), but
+  // leaving in to be explicit.
   files: [
     'fontawesome-webfont.ttf',
     'fontawesome-webfont.woff',
@@ -87,9 +91,19 @@ var fontawesome = pickFiles('vendor/font-awesome/', {
 /* Import alertify (this is an un-named AMD module, just load into the window.) */
 /* In the future, ember-cli may handle un-named modules. */
 var alertifyJS = pickFiles('vendor/alertify.js', {
-  srcDir: '/lib',
-  files: ['alertify.js'],
-  destDir: '/assets'
+  srcDir:   '/lib',
+  files:    ['alertify.min.js'],
+  destDir:  '/assets/vendor'
+});
+/* */
+
+
+/* Import hello.js (this is an un-named AMD module, just load into the window.) */
+/* In the future, ember-cli may handle un-named modules. */
+var helloJS = pickFiles('vendor/hello', {
+  srcDir:   '/dist',
+  files:    ['hello.all.min.js'],
+  destDir: '/assets/vendor'
 });
 /* */
 
@@ -98,6 +112,7 @@ var alertifyJS = pickFiles('vendor/alertify.js', {
 module.exports = mergeTrees([
   fontawesome,
   alertifyJS,
+  helloJS,
   app.toTree() // module.exports = app.toTree();
 ])
 /* */
