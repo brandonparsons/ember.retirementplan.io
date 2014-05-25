@@ -1,13 +1,52 @@
+/* global hello */
+
+
 import { request as icAjaxRequest } from 'ic-ajax';
 
 
-var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
-  // the custom authenticator that initiates the authentication process with Facebook
+var serverLoginEndpoint       = ENV.apiHost + '/users/sign_in';
+var serverLogoutEndpoint      = ENV.apiHost + '/users/sign_out';
+var serverCheckOauthEndpoint  = ENV.apiHost + '/users/check_oauth';
 
-  restore: function(properties) {
+
+var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
+  // A generic authenticator that will register with the appropriate service,
+  // using hello.js
+
+  sessionStorageIsValid: function(savedStorageProperties) {
+    // The OAuth authenticator can use saved values if the user DOES NOT have
+    // a password (i.e. they are not from email/password), and there is still
+    // a user_token, user_email and image saved.
+    return  !Ember.isEmpty(savedStorageProperties.has_password) &&
+            !Ember.isEmpty(savedStorageProperties.user_token)   &&
+            !Ember.isEmpty(savedStorageProperties.user_email)   &&
+            !Ember.isEmpty(savedStorageProperties.user_image)   &&
+            savedStorageProperties.has_password === 'no';
+  },
+
+  extractUserProperties: function(jsonData) {
+    return {
+      uid:    jsonData.id,
+      name:   jsonData.name,
+      email:  jsonData.email,
+      image:  jsonData.picture || jsonData.thumbnail,
+    };
+  },
+
+  confirmUserIdentity: function(userData) {
+    return icAjaxRequest({
+      url:  serverCheckOauthEndpoint,
+      type: 'POST',
+      data: { user: userData }
+    });
+  },
+
+  restore: function(savedStorageProperties) {
+    var _this = this;
+
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      if (!Ember.isEmpty(properties.access_token)) {
-        resolve(properties);
+      if ( _this.sessionStorageIsValid(savedStorageProperties) ) {
+        resolve(savedStorageProperties);
       } else {
         reject();
       }
@@ -15,54 +54,66 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
   },
 
   authenticate: function(controllerData) {
-    var provider = controllerData.provider;
+    var _this     = this;
+    var provider  = controllerData.provider;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      // Starts popup auth flow
-      hello(provider).login();
 
       // Attach event listener for when login completes
       hello.on('auth.login', function(auth) {
+        var access_token = auth.authResponse.access_token;
 
         // Get user details
-        hello( auth.network ).api( '/me' ).success(function(json){
+        hello( auth.network ).api( '/me' ).success( function(json) {
           if (window.ENV.debug) {
             Ember.debug('Received user data from OAuth endpoint');
             Ember.debug(Ember.inspect(json));
           }
 
-          Ember.run(function() {
-            resolve({
-              access_token:   auth.authResponse.access_token,
-              image:          json.picture,
-              user_name:      json.name,
-              facebookId:     json.id, // Not really used
-              facebookEmail:  json.email
-            });
-          });
+          var userData          = _this.extractUserProperties(json);
+          userData.access_token = access_token;
+          userData.provider     = provider;
 
+          _this.confirmUserIdentity(userData).then( function(serverUserData) {
+            resolve(serverUserData);
+          }, function(error) {
+            reject(error);  // Error confirming the user's identity
+          });
         }).error(function() {
-          reject()
+          reject({
+            message: 'There was an error connecting to your selected third-party service. Please try again later.'
+          }); // hello.js api error
         });
 
-      });
+      }); // END hello.on('auth.login')
+
+      // Starts popup auth flow
+      hello(provider).login();
+
     });
   },
 
-  invalidate: function() {
-    return Ember.RSVP.resolve();
-    // Issue DELETE to token endpoint to clear auth token prior to signing out
-    // on client side. See:
-    // https://github.com/simplabs/ember-simple-auth/issues/156
-    // return icAjaxRequest({
-    //   url: this.serverLogoutEndpoint,
-    //   type: 'DELETE'
-    // });
-    // return new Ember.RSVP.Promise(function(resolve, reject) {
-    //   FB.logout(function(response) {
-    //     Ember.run(resolve);
-    //   });
-    // });
+  invalidate: function() {  // First argument would be the session object
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+
+      // Wait for the hello.js data to be cleared before we tell ember-simple-auth
+      // we are good to go.
+      hello.on('auth.logout', function() {
+        resolve();
+      });
+
+      // Issue DELETE to token endpoint to clear auth token prior to signing out
+      // on client side. See:
+      // https://github.com/simplabs/ember-simple-auth/issues/156
+      icAjaxRequest({
+        url:      serverLogoutEndpoint,
+        type:     'DELETE'
+      }).then(function() {
+        hello.logout();
+      }, function(error) {
+        reject(error);
+      });
+    });
   }
 
 });
@@ -73,13 +124,24 @@ var PasswordAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
   // This is essentially the Devise authenticator (with a few tweaks), pulled in
   // to the application as you aren't using Devise.
 
-  serverLoginEndpoint:  ENV.apiHost + '/users/sign_in',
-  serverLogoutEndpoint: ENV.apiHost + '/users/sign_out',
+  sessionStorageIsValid: function(savedStorageProperties) {
+    // The password authenticator can use saved values if the user has a password
+    // (i.e. they are not from OAuth), and there is still a user_token and
+    // user_email saved.  No user_image exists for email/password registered
+    // users.
+    return  !Ember.isEmpty(savedStorageProperties.has_password) &&
+            !Ember.isEmpty(savedStorageProperties.user_token)   &&
+            !Ember.isEmpty(savedStorageProperties.user_email)   &&
+            !Ember.isEmpty(savedStorageProperties.user_image)   &&
+            savedStorageProperties.has_password === 'yes';
+  },
 
-  restore: function (properties) {
+  restore: function (savedStorageProperties) {
+    var _this = this;
+
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      if (!Ember.isEmpty(properties.user_token) && !Ember.isEmpty(properties.user_email)) {
-        resolve(properties);
+      if ( _this.sessionStorageIsValid(savedStorageProperties) ) {
+        resolve(savedStorageProperties);
       } else {
         reject();
       }
@@ -87,11 +149,9 @@ var PasswordAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
   },
 
   authenticate: function (credentials) {
-    var _this = this;
-
     return new Ember.RSVP.Promise(function(resolve, reject) {
       icAjaxRequest({
-        url:      _this.serverLoginEndpoint,
+        url:      serverLoginEndpoint,
         type:     'POST',
         dataType: 'json',
         data:     {
@@ -116,7 +176,7 @@ var PasswordAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
     // on client side. See:
     // https://github.com/simplabs/ember-simple-auth/issues/156
     return icAjaxRequest({
-      url: this.serverLogoutEndpoint,
+      url:  serverLogoutEndpoint,
       type: 'DELETE'
     });
   }

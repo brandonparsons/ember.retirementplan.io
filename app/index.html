@@ -60,16 +60,19 @@
 
     <div id='ember-application'></div>
 
+    <!-- Vendor scripts that haven't been rolled into build process -->
     <script src="assets/vendor/alertify.min.js"></script>
-
     <script src="assets/vendor/hello.all.min.js"></script>
+
     <script>
       hello.init({
         facebook : window.ENV.facebook_app_id,
         google   : window.ENV.google_client_id,
         twitter  : window.ENV.twitter_api_key
       }, {
-        redirect_uri:'/'
+        redirect_uri:'/' //,
+        // You will need this if you try to use Twitter or other OAuth1.0 provider
+        //oauth_proxy:'https://retirementplan-oauth-shim.herokuapp.com/proxy'
       });
     </script>
 

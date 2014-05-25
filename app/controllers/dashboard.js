@@ -1,5 +1,7 @@
 export default Ember.Controller.extend({
 
+  needs: ['login'],
+
   progress: 45,
 
   myModalButtons: [
@@ -52,9 +54,11 @@ export default Ember.Controller.extend({
     },
 
     cancelModal: function() {
-      // We don't need to hide the model manually because we set
-      // {..., dismiss: 'modal'} on the button meta data
       RetirementPlan.setFlash('notice', 'Cancelled modal....');
+    },
+
+    authenticateWithHelloJs: function(provider) {
+      this.get('controllers.login').send('authenticateWithHelloJs', provider);
     }
 
   }

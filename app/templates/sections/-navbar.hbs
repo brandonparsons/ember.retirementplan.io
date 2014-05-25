@@ -29,9 +29,9 @@
           <li class="dropdown visible-md visible-lg" style='margin-right: 15px;'> {{!-- Right margin required on this element as the `row` padding is not pushing the button over --}}
 
             {{!-- If a social image is present, cut down on the button padding so can make the image larger without affecting navbar height --}}
-            {{#if session.image}}
+            {{#if session.user_image}}
               <button class="dropdown-toggle btn btn-default navbar-btn space-left button-with-social-image" data-toggle="dropdown">
-                <img {{bind-attr src=session.image}} width='28' height='28'>
+                <img {{bind-attr src=session.user_image}} width='28' height='28'>
                 {{session.user_name}}
                 &nbsp;&nbsp;<b class="caret"></b>
               </button>

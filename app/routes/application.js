@@ -46,7 +46,9 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
     /* Over-ride the Ember-simple-auth controller action, and set the error */
     /* message here instead of relying on the RSVP.on 'error' call. */
     sessionAuthenticationFailed: function(error) {
-      var errorMessage = this._passedErrorMessage(error) || this._defaultErrorMessage(error) || 'Invalid credentials.';
+      var errorMessage =  this._passedErrorMessage(error)  ||
+                          this._serverDefaultErrorMessage(error) ||
+                          'Invalid credentials.';
       // this.controllerFor('application').set('loginErrorMessage', error.message);
       RetirementPlan.setFlash('error', errorMessage);
     }
@@ -57,10 +59,16 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
 
   /* Private methods */
   _passedErrorMessage: function(error) {
-    return error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.message;
+    if (error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.message) {
+      return error.jqXHR.responseJSON.message;
+    } else if (error && error.message) {
+      return error.message;
+    } else {
+      return false;
+    }
   },
 
-  _defaultErrorMessage: function(error) {
+  _serverDefaultErrorMessage: function(error) {
     return error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.error;
   }
   /* */

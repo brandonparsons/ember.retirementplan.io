@@ -1,0 +1,30 @@
+    <!-- START FACEBOOK CLIENT-SIDE LOGIN SETUP -->
+    <div id='fb-root'></div>
+    <script>
+      // setup Facebook SDK
+      // FB.init({appId: window.ENV.facebook_app_id});
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : window.ENV.facebook_app_id,
+          version    : 'v2.0' // use version 2.0
+        });
+      };
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <!-- END FACEBOOK CLIENT-SIDE LOGIN SETUP -->
+
+    <!-- START GOOGLE CLIENT-SIDE LOGIN SETUP -->
+    <script>
+      // setup Google+ API
+      function googleApiLoaded() {
+        gapi.client.setApiKey(window.ENV.google_client_apiKey);
+      };
+    </script>
+    <script src="https://apis.google.com/js/client.js?onload=googleApiLoaded"></script>
+    <!-- END GOOGLE CLIENT-SIDE LOGIN SETUP -->
