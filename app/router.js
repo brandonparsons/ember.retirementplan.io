@@ -3,9 +3,12 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+
   this.route('login');
 
-  this.route('about');
+  this.route('help');
+
+  this.route('profile')
 
   this.route('dashboard');
 

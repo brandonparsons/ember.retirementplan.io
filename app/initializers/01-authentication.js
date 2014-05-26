@@ -4,9 +4,9 @@
 import { request as icAjaxRequest } from 'ic-ajax';
 
 
-var serverLoginEndpoint       = ENV.apiHost + '/users/sign_in';
-var serverLogoutEndpoint      = ENV.apiHost + '/users/sign_out';
-var serverCheckOauthEndpoint  = ENV.apiHost + '/users/check_oauth';
+var serverLoginEndpoint       = ENV.apiHost + '/session';
+var serverLogoutEndpoint      = ENV.apiHost + '/session';
+var serverCheckOauthEndpoint  = ENV.apiHost + '/session/check_oauth';
 
 
 var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
@@ -59,14 +59,15 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
 
-      // Attach event listener for when login completes
-      hello.on('auth.login', function(auth) {
+      // Starts popup auth flow.  Not using the event listener version, as then
+      // it will try to check_oauth every time you log in to a 3rd party.
+      hello(provider).login( function(auth) {
         var access_token = auth.authResponse.access_token;
 
         // Get user details
         hello( auth.network ).api( '/me' ).success( function(json) {
           if (window.ENV.debug) {
-            Ember.debug('Received user data from OAuth endpoint');
+            Ember.debug('Received user data from ' + auth.network  + ' OAuth endpoint');
             Ember.debug(Ember.inspect(json));
           }
 
@@ -77,20 +78,17 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
           _this.confirmUserIdentity(userData).then( function(serverUserData) {
             resolve(serverUserData);
           }, function(error) {
-            reject(error);  // Error confirming the user's identity
+            // Error confirming the user's identity
+            reject(error);
           });
         }).error(function() {
+          // hello.js api error
           reject({
             message: 'There was an error connecting to your selected third-party service. Please try again later.'
-          }); // hello.js api error
-        });
-
-      }); // END hello.on('auth.login')
-
-      // Starts popup auth flow
-      hello(provider).login();
-
-    });
+          });
+        }); // .api('/me')
+      }); // (provider).login
+    }); // Ember.RSVP
   },
 
   invalidate: function() {  // First argument would be the session object
@@ -117,7 +115,6 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
   }
 
 });
-
 
 
 var PasswordAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
@@ -202,6 +199,7 @@ var CustomAuthorizer = Ember.SimpleAuth.Authorizers.Base.extend({
   }
 
 }); // CustomAuthorizer
+
 
 export default {
   name: 'authentication',

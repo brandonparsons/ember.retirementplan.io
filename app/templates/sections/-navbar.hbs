@@ -44,29 +44,29 @@
             {{/if}}
 
             <ul class="dropdown-menu">
-              <li class="dropdown-header">
-                {{fontawesome-icon type='cog'}} Settings
-              </li>
-              <li><a href="#">Preferences</a>
-              {{#link-to 'about' tagName='li'}}<a>About</a>{{/link-to}}
+
+              <li class="dropdown-header">App</li>
+              <li><a>{{fontawesome-icon type='cog'}} Preferences</a></li>
+              {{#link-to 'help' tagName='li'}}<a>{{fontawesome-icon type='question-circle'}} Help</a>{{/link-to}}
               {{#link-to 'securities' tagName='li'}}<a>Securities</a>{{/link-to}}
+
               <li class="divider"></li>
-              <li class="dropdown-header">
-                {{fontawesome-icon type='user'}} Account
-              </li>
-              <li><a href="#">Edit Profile</a>
+
+              <li class="dropdown-header">Account</li>
+              {{#link-to 'profile' tagName='li'}}<a>{{fontawesome-icon type='user'}} Edit Profile</a>{{/link-to}}
               <li><a {{action 'invalidateSession'}}>{{fontawesome-icon type='sign-out'}} Sign out</a></li>
-            </ul>
+
+            </ul> {{!-- dropdown-menu --}}
+          </li> {{!-- dropdown --}}
+
+          <li class='visible-xs visible-sm'>
+            {{#link-to 'profile'}}
+              {{fontawesome-icon type='cog'}} Edit Profile
+            {{/link-to}}
           </li>
 
           <li class='visible-xs visible-sm'>
             <a {{action 'invalidateSession'}}>{{fontawesome-icon type='sign-out'}} Sign out</a>
-          </li>
-
-          <li class='visible-xs visible-sm'>
-            {{#link-to 'about'}}
-              {{fontawesome-icon type='cog'}} Edit Account
-            {{/link-to}}
           </li>
 
         {{else}}

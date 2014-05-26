@@ -1,7 +1,5 @@
 export default Ember.Controller.extend({
 
-  needs: ['login'],
-
   progress: 45,
 
   myModalButtons: [
@@ -55,10 +53,6 @@ export default Ember.Controller.extend({
 
     cancelModal: function() {
       RetirementPlan.setFlash('notice', 'Cancelled modal....');
-    },
-
-    authenticateWithHelloJs: function(provider) {
-      this.get('controllers.login').send('authenticateWithHelloJs', provider);
     }
 
   }
