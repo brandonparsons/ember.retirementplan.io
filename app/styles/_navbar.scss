@@ -12,17 +12,32 @@ body { padding-top: 50px; }
   // padding-left: 5px;
 }
 
+.center-with-logo {
+  padding-top: 3px;
+  margin-bottom: 12px;
+}
+
+.button-with-image { padding: 2px 5px; }
+
+// Make Navigation Toggle on Desktop Hover
+// See associated javascript (ensures clicking on root element still works if
+// it has an href)
 @media only screen and (min-width : 768px) {
-  // Make Navigation Toggle on Desktop Hover
-  // See associated javascript
   .dropdown:hover .dropdown-menu {
     display: block;
   }
 }
 
-.center-with-logo {
-  padding-top: 4px;
-  margin-bottom: 11px;
-}
 
-.button-with-social-image { padding: 2px 5px; }
+// Width between iphone landscape & portait (will have another breakpoint for
+// landscape). Navbar image & text makes navbar overflow unless you shrink them.
+@media (max-width : 450px) {
+  .navbar {
+    .navbar-brand {
+      padding-top: 10px;
+      padding-bottom: 3px;
+      img { width: 170px; }
+    }
+    .navbar-text { font-size: 0.75em; }
+  }
+}

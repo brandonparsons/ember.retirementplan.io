@@ -4,13 +4,13 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
 
-  this.route('login');
-
   this.route('help');
 
-  this.route('profile')
+  this.route('login');
 
   this.route('dashboard');
+
+  this.route('profile');
 
   this.resource('securities', function() {
     this.route('show', {path: ':security_id'});

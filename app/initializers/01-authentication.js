@@ -9,19 +9,24 @@ var serverLogoutEndpoint      = ENV.apiHost + '/session';
 var serverCheckOauthEndpoint  = ENV.apiHost + '/session/check_oauth';
 
 
+var setUpGoogleAnalyticsUserID = function(userID) {
+  // Set the google analytics user id now that we have it. Supposedly can
+  // do this... see:
+  // http://stackoverflow.com/questions/23379338/set-google-analytics-user-id-after-creating-the-tracker
+  Ember.debug("Logged in - setting Google Analytics userID to " + userID);
+  window.ga('set', '&uid', userID);
+};
+
+
 var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
   // A generic authenticator that will register with the appropriate service,
   // using hello.js
 
   sessionStorageIsValid: function(savedStorageProperties) {
-    // The OAuth authenticator can use saved values if the user DOES NOT have
-    // a password (i.e. they are not from email/password), and there is still
-    // a user_token, user_email and image saved.
-    return  !Ember.isEmpty(savedStorageProperties.has_password) &&
-            !Ember.isEmpty(savedStorageProperties.user_token)   &&
-            !Ember.isEmpty(savedStorageProperties.user_email)   &&
-            !Ember.isEmpty(savedStorageProperties.user_image)   &&
-            savedStorageProperties.has_password === 'no';
+    // The helloJS authenticator can use saved values if there is still a
+    // user_token and user_email saved.
+    return  !Ember.isEmpty(savedStorageProperties.user_token) &&
+            !Ember.isEmpty(savedStorageProperties.user_email);
   },
 
   extractUserProperties: function(jsonData) {
@@ -46,6 +51,7 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       if ( _this.sessionStorageIsValid(savedStorageProperties) ) {
+        setUpGoogleAnalyticsUserID(savedStorageProperties.user_id);
         resolve(savedStorageProperties);
       } else {
         reject();
@@ -76,6 +82,7 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
           userData.provider     = provider;
 
           _this.confirmUserIdentity(userData).then( function(serverUserData) {
+            setUpGoogleAnalyticsUserID(serverUserData.user_id);
             resolve(serverUserData);
           }, function(error) {
             // Error confirming the user's identity
@@ -122,15 +129,10 @@ var PasswordAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
   // to the application as you aren't using Devise.
 
   sessionStorageIsValid: function(savedStorageProperties) {
-    // The password authenticator can use saved values if the user has a password
-    // (i.e. they are not from OAuth), and there is still a user_token and
-    // user_email saved.  No user_image exists for email/password registered
-    // users.
-    return  !Ember.isEmpty(savedStorageProperties.has_password) &&
-            !Ember.isEmpty(savedStorageProperties.user_token)   &&
-            !Ember.isEmpty(savedStorageProperties.user_email)   &&
-            !Ember.isEmpty(savedStorageProperties.user_image)   &&
-            savedStorageProperties.has_password === 'yes';
+    // The password authenticator can use saved values if there is still a
+    // user_token and user_email saved.
+    return  !Ember.isEmpty(savedStorageProperties.user_token) &&
+            !Ember.isEmpty(savedStorageProperties.user_email);
   },
 
   restore: function (savedStorageProperties) {
@@ -138,6 +140,7 @@ var PasswordAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       if ( _this.sessionStorageIsValid(savedStorageProperties) ) {
+        setUpGoogleAnalyticsUserID(savedStorageProperties.user_id);
         resolve(savedStorageProperties);
       } else {
         reject();
@@ -155,9 +158,10 @@ var PasswordAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
           email:    credentials.identification,
           password: credentials.password
         }
-      }).then(function(response) {
+      }).then(function(serverUserData) {
         Ember.run(function() {
-          resolve(response);
+          setUpGoogleAnalyticsUserID(serverUserData.user_id);
+          resolve(serverUserData);
         });
       }, function(error) {
         Ember.run(function() {
@@ -218,7 +222,6 @@ export default {
         'http://localhost:3000',
         'https://localhost:3000'
       ]
-      // routeAfterAuthentication: 'dashboard'  // Not required, we over-rode the application route action
     });
 
   }

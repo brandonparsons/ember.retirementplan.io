@@ -1,0 +1,23 @@
+<script type="text/javascript">
+
+  (function(){
+    var notifierJsScheme = (("https:" == document.location.protocol) ? "https://" : "http://");
+    document.write(unescape("%3Cscript src='" + notifierJsScheme + "brandon-errbit.herokuapp.com/javascripts/notifier.js' type='text/javascript'%3E%3C/script%3E"));
+  })();
+
+
+  try {
+    window.Airbrake = (typeof(Airbrake) == 'undefined' && typeof(Hoptoad) != 'undefined') ? Hoptoad : Airbrake
+    Airbrake.setKey('abcdef');
+    Airbrake.setHost('brandon-errbit.herokuapp.com');
+    Airbrake.setEnvironment('production');
+    Airbrake.setErrorDefaults({
+      url: "http://www.retirementplan.io/",
+      component: "pages",
+      action: "show"
+    });
+  } catch (e) {
+    window.onerror = null;
+  }
+
+</script>

@@ -20,6 +20,9 @@
     "ember-google-analytics": "*",
     "ember-addons.bs_for_ember": "~0.7.0",
     "lodash": "~2.4.1",
-    "hello": "~0.2.6"
+    "hello": "~0.2.6",
+    "ember-debug": "~0.3.0",
+    "ember-validations": "http://builds.dockyard.com.s3.amazonaws.com/ember-validations/ember-validations-latest.js",
+    "ember-forms": "brandonparsons/ember-forms"
   }
 }

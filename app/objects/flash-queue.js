@@ -7,7 +7,7 @@ var FlashQueue = Ember.ArrayProxy.create({
   add: function(type, message, sticky) {
     var log, messageTiming;
 
-    if (typeof sticky !== "undefined") {
+    if (typeof sticky !== "undefined" && sticky !== null && !!sticky) {
       messageTiming = 0;
     } else {
       messageTiming = 3500;

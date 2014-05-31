@@ -5,27 +5,42 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
   renderTemplate: function() {
     this.render(); // Render default outlet
 
-    // render extra outlets
+    // Fender extra outlets
     var controller = this.controllerFor('tooltip-box');
     this.render("bs-tooltip-box", {
       outlet: "bs-tooltip-box",
       controller: controller,
-      into: "application" // important when using at root level
+      into: "application"
     });
   },
   /* */
 
 
+  beforeModel: function(transition) {
+    // If we are booting up the app already with session info (they reloaded the
+    // page while logged in), set the current user controller content to the user.
+    var userID = this.get('session.user_id');
+    // Need to send action to transition in a beforeModel (first route)
+    if (userID) { transition.send('setupCurrentUserController', userID); }
+  },
+
+
   actions: {
 
-    /* Over-ride the Ember-simple-auth controller action, so that we can do */
-    /* things on login (e.g. google analytics user_id). */
-    sessionAuthenticationSucceeded: function() {
+    setupCurrentUserController: function(userID) {
+      var currentUserController;
 
-      // Set the google analytics user id now that we have it. Supposedly can
-      // do this... see:
-      // http://stackoverflow.com/questions/23379338/set-google-analytics-user-id-after-creating-the-tracker
-      window.ga('set', '&uid', this.get('session.user_id'));
+      currentUserController = this.controllerFor('currentUser');
+      this.store.find('user', userID).then( function(user) {
+        currentUserController.set('content', user);
+      });
+    },
+
+    /* Over-ride the Ember-simple-auth controller action */
+    sessionAuthenticationSucceeded: function() {
+      // Set up the current user controller with the user ID we just received
+      var userID = this.get('session.user_id');
+      this.send('setupCurrentUserController', userID);
 
       // Everything below here is essentially a copy of the original
       // ember-simple-auth behaviour.
@@ -36,41 +51,13 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
         attemptedTransition.retry();
         this.set('session.attemptedTransition', null);
       } else {
-        // There was no failed transition - send to dashboard. This is the
-        // `routeAfterAuthentication`
+        // There was no failed transition - send to dashboard. This would otherwise
+        // be the `routeAfterAuthentication` in the simple-auth initializer
         this.transitionTo('dashboard');
       }
-    },
-    /* */
-
-    /* Over-ride the Ember-simple-auth controller action, and set the error */
-    /* message here instead of relying on the RSVP.on 'error' call. */
-    sessionAuthenticationFailed: function(error) {
-      var errorMessage =  this._passedErrorMessage(error)  ||
-                          this._serverDefaultErrorMessage(error) ||
-                          'Invalid credentials.';
-      // this.controllerFor('application').set('loginErrorMessage', error.message);
-      RetirementPlan.setFlash('error', errorMessage);
     }
     /* */
 
-  },
-
-
-  /* Private methods */
-  _passedErrorMessage: function(error) {
-    if (error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.message) {
-      return error.jqXHR.responseJSON.message;
-    } else if (error && error.message) {
-      return error.message;
-    } else {
-      return false;
-    }
-  },
-
-  _serverDefaultErrorMessage: function(error) {
-    return error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.error;
   }
-  /* */
 
 });

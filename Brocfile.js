@@ -31,11 +31,16 @@ app.import('vendor/ic-ajax/dist/named-amd/main.js', {
 /* */
 
 
-/* These are only compiled in development - used for faking responses in tests */
+/* These are only compiled in development */
 if (app.env !== 'production') {
+
+  // Used for faking responses in tests
   app.import('vendor/route-recognizer/dist/route-recognizer.js');
   app.import('vendor/FakeXMLHttpRequest/fake_xml_http_request.js');
   app.import('vendor/pretender/pretender.js');
+
+  // https://github.com/aexmachina/ember-debug
+  app.import('vendor/ember-debug/ember-debug.js');
 }
 /* */
 
@@ -43,7 +48,11 @@ if (app.env !== 'production') {
 /* Additional Javascript libraries */
 app.import('vendor/ember-simple-auth/ember-simple-auth.js');
 
-app.import('vendor/ember-google-analytics/ember-google-analytics.js')
+app.import('vendor/ember-google-analytics/ember-google-analytics.js');
+
+app.import('vendor/ember-validations/index.js');
+
+app.import('vendor/ember-forms/dist/ember_forms.js');
 
 app.import('vendor/lodash/dist/lodash.min.js');
 
@@ -56,6 +65,7 @@ app.import('vendor/fastclick/lib/fastclick.js');
 });
 
 // Bootstrap for ember
+// Careful adding additional modules here - some require full handlebars.js, and by default ember-cli only includes runtime in production
 ['bs-core.min.js', 'bs-modal.min.js', 'bs-label.min.js', 'bs-button.min.js', 'bs-basic.min.js', 'bs-popover.min.js', 'bs-progressbar.min.js'].forEach(function (path) {
   var fullPath = 'vendor/ember-addons.bs_for_ember/dist/js/' + path;
   app.import(fullPath);
@@ -114,5 +124,5 @@ module.exports = mergeTrees([
   alertifyJS,
   helloJS,
   app.toTree() // module.exports = app.toTree();
-])
+]);
 /* */

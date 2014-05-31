@@ -1,4 +1,12 @@
 // If you put in <a> without href, this will ensure it still gets a pointer cursor
 a { cursor: pointer; }
 
-.page-header {text-align: center;}
+.page-header {
+  text-align: center;
+  margin-top: 0px; // Already enough top margin built-in to navbar & body
+}
+
+.inline-button {
+  display: inline;
+  float: left;
+}

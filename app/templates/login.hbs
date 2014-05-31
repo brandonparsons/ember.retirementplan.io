@@ -1,13 +1,12 @@
 <div class='row'>
   <div class='col-md-offset-3 col-md-6'>
 
-    <form class="form-horizontal" role="form" {{action 'authenticate' on='submit'}}>
-
+    {{#em-form model=this form_layout='horizontal' action='authenticate' submit_button=false}}
       <fieldset class='fieldset-border'>
         <legend class='fieldset-border'>Sign in</legend>
 
         <div id='social-login-buttons' class='row'>
-          <div class='col-md-8 col-md-offset-2'>
+          <div class='col-md-10 col-md-offset-2'>
 
             <a class="btn btn-block btn-social btn-facebook" {{ action 'authenticateWithHelloJs' 'facebook' }}>
               {{fontawesome-icon type='fa fa-facebook-square'}} Sign in with Facebook
@@ -22,37 +21,13 @@
 
         <hr>
 
-        <div class="form-group">
-          <label for="identification" class="col-sm-2 control-label">Email</label>
+        {{em-input property="identification" type='email' label="Email" placeholder="joe@example.com"}}
+        {{em-input property="password" type='password' label="Password"}}
 
-          <div class="col-sm-8">
-            <div class="input-group">
-              <span class="input-group-addon"><i class='fa fa-envelope'></i></span>
-              {{input type='email' placeholder='me@example.com' value=identification id='identification' classNames='form-control'}}
-            </div>
-          </div>
-
-        </div>
-
-        <div class="form-group">
-          <label for="password" class="col-sm-2 control-label">Password</label>
-          <div class="col-sm-8">
-            <div class="input-group">
-              <span class="input-group-addon"><i class='fa fa-lock'>&nbsp;</i></span>
-              {{input type='password' value=password id='password' classNames='form-control'}}
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-8">
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </div>
-        </div>
+        {{em-form-submit text="Sign in" classes='btn btn-success'}}
 
       </fieldset>
-
-    </form>
+    {{/em-form}}
 
   </div>
 </div>
