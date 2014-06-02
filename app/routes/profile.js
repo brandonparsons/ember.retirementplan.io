@@ -1,6 +1,7 @@
 import errorProcessor from 'retirement-plan/utils/error-processor';
 
-export default Ember.Route.extend(Ember.SimpleAuth.AuthenticatedRouteMixin, {
+export default Ember.Route.extend(
+  Ember.SimpleAuth.AuthenticatedRouteMixin, {
 
   model: function () {
     // Rails controller will return the current_user no matter what ID we search
@@ -24,8 +25,8 @@ export default Ember.Route.extend(Ember.SimpleAuth.AuthenticatedRouteMixin, {
     },
 
     editProfile: function() {
-      var user  = this.modelFor('profile');
-      var self  = this;
+      var route = this;
+      var user  = this.get('currentModel');
 
       if (!user.get('isDirty')) {
         RetirementPlan.setFlash("notice", "You haven't made any changes.");
@@ -36,14 +37,14 @@ export default Ember.Route.extend(Ember.SimpleAuth.AuthenticatedRouteMixin, {
           // Over-write the user email in ember-simple-auth's localStorage data,
           // and the current session.
           newEmail        = user.get('email');
-          authStore       = RetirementPlan.__container__.lookup('ember-simple-auth-session-store:local-storage');
+          authStore       = route.get('session.store');
           currentAuthData = authStore.restore();
 
           authStore.replace( Ember.$.extend(currentAuthData, { user_email: newEmail }) );
-          self.get('session').set('user_email', newEmail);
+          route.get('session').set('user_email', newEmail);
 
           // Go back to the dashboard
-          self.transitionTo('dashboard');
+          route.transitionTo('dashboard');
           RetirementPlan.setFlash('success', 'Your profile has been updated.');
 
         }, function(errorResponse) {
@@ -51,7 +52,12 @@ export default Ember.Route.extend(Ember.SimpleAuth.AuthenticatedRouteMixin, {
           RetirementPlan.setFlash('error', errorMessage);
         });
       }
-    } // editProfile
+    }, // editProfile
+
+    cancel: function() {
+      this.get('currentModel').rollback();
+      this.transitionTo('dashboard');
+    }
 
   } // actions
 

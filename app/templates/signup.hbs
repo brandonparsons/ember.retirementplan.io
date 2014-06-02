@@ -1,0 +1,65 @@
+<div class='row'>
+  <div class='col-md-offset-2 col-md-8'>
+
+    {{#em-form model=this form_layout='horizontal' action='createUser' submit_button=false}}
+      <fieldset class='fieldset-border'>
+        <legend class='fieldset-border'>Sign up</legend>
+
+        <div id='social-login-buttons' class='row'>
+          <div class='col-sm-10 col-sm-offset-2'>
+
+            <p class='help-block'>Use an external login provider to create an account. One less password to remember!</p>
+
+            <div class='row'>
+              <div class='col-sm-8'>
+
+                <a class="btn btn-block btn-social btn-facebook" {{ action 'authenticateWithHelloJs' 'facebook' }}>
+                  {{fontawesome-icon type='fa fa-facebook-square'}} Sign up using Facebook
+                </a>
+
+                <a class="btn btn-block btn-social btn-google-plus" {{ action 'authenticateWithHelloJs' 'google' }}>
+                  {{fontawesome-icon type='fa fa-google-plus-square'}} Sign up using Google
+                </a>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <hr>
+
+        <div class='row'>
+          <div class='col-sm-12'>
+
+            <div class='row'>
+              <div class='col-sm-10 col-sm-offset-2'>
+                <p class='help-block'>Or, create an account with us using your email and a password.</p>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='col-sm-12'>
+
+                {{em-input property="email" type='email' label="Email" placeholder="joe@example.com"}}
+                {{em-input property="password" type='password' label="Password"}}
+                {{em-input property="passwordConfirmation" type='password' label="Password Confirmation"}}
+
+                <div class='col-sm-10 col-sm-offset-2'>
+                  {{form-submit-button text="Sign up"}}
+                  {{form-button action="transitionToSignin" text="Sign in"}}
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </fieldset>
+    {{/em-form}}
+
+    {{partial 'sections/quick-links'}}
+
+  </div>
+</div>

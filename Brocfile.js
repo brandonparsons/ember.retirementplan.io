@@ -98,6 +98,7 @@ var fontawesome = pickFiles('vendor/font-awesome/', {
 /* */
 
 
+
 /* Import alertify (this is an un-named AMD module, just load into the window.) */
 /* In the future, ember-cli may handle un-named modules. */
 var alertifyJS = pickFiles('vendor/alertify.js', {

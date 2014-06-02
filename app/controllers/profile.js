@@ -3,7 +3,8 @@
 import { request as icAjaxRequest } from 'ic-ajax';
 
 
-var profileController = Ember.ObjectController.extend(Ember.Validations.Mixin, {
+var profileController = Ember.ObjectController.extend(
+  Ember.Validations.Mixin, {
 
   ////////////////////
   // COMPUTED PROPS //
@@ -85,7 +86,7 @@ profileController.reopen({
   validations: {
     name: {
       presence: true,
-      length: {minimum: 3}
+      length: {minimum: 2}
     },
     email: {
       presence: true,

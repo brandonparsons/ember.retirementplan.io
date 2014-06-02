@@ -1,5 +1,5 @@
 <div class='row'>
-  <div class='col-md-offset-3 col-md-6'>
+  <div class='col-md-offset-2 col-md-8'>
 
     {{#em-form model=this form_layout='horizontal' action='editProfile' submit_button=false}}
       <fieldset class='fieldset-border'>
@@ -8,36 +8,39 @@
         {{em-input property="name" label="Name" placeholder="Enter a name..."}}
         {{em-input property="email" type='email' label="Email" placeholder="joe@example.com"}}
 
-        {{em-form-submit text="Update profile" classes='btn btn-success inline-button'}}
+        <div class='col-sm-10 col-sm-offset-2'>
+          {{form-submit-button text="Update your profile"}}
+          {{form-button action="cancel" text="Cancel"}}
+        </div>
+
       </fieldset>
     {{/em-form}}
 
-
     <hr>
-
-    <h4 class='text-center'>Enable Third-Party Authentications</h4>
 
     <div class='row'>
 
-      <div class='col-md-6'>
-        <h5>Attached Authentication Providers</h5>
-        <ul>
+      <h4 class='text-center'>Enable Third-Party Authentications</h4>
+
+      <div class='col-md-6 text-center'>
+        <h5>Enabled Authentication Providers</h5>
+        <ul class='list-unstyled'>
           {{#each auth in authentications}}
             <li><strong>{{fontawesome-icon type=auth.fontawesomeIconClass}} {{titleize auth.provider}}</strong> - <a {{action removeAuth auth}}>{{fontawesome-icon type='times-circle'}} Remove</a></span></li>
           {{/each}}
         </ul>
       </div>
 
-      <div class='col-md-6'>
+      <div class='col-md-6 text-center'>
         <h5>Available Authentication Providers</h5>
         {{#if remainingAuthenticationProviders.length}}
-          <ul>
+          <ul class='list-unstyled'>
             {{#each provider in remainingAuthenticationProviders}}
               <li><a {{action addOAuthProvider provider}}>Enable {{titleize provider}} login</a></li>
             {{/each}}
           </ul>
         {{else}}
-          <p class='help-block'>You've added all available providers.</p>
+          <p class='help-block'>You have already added all available providers.</p>
         {{/if}}
       </div>
 

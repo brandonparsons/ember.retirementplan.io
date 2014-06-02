@@ -1,33 +1,50 @@
 <div class='row'>
-  <div class='col-md-offset-3 col-md-6'>
+  <div class='col-md-offset-2 col-md-8'>
 
     {{#em-form model=this form_layout='horizontal' action='authenticate' submit_button=false}}
       <fieldset class='fieldset-border'>
         <legend class='fieldset-border'>Sign in</legend>
 
         <div id='social-login-buttons' class='row'>
-          <div class='col-md-10 col-md-offset-2'>
+          <div class='col-sm-10 col-sm-offset-2'>
 
-            <a class="btn btn-block btn-social btn-facebook" {{ action 'authenticateWithHelloJs' 'facebook' }}>
-              {{fontawesome-icon type='fa fa-facebook-square'}} Sign in with Facebook
-            </a>
+            <div class='row'>
+              <div class='col-sm-8'>
 
-            <a class="btn btn-block btn-social btn-google-plus" {{ action 'authenticateWithHelloJs' 'google' }}>
-              {{fontawesome-icon type='fa fa-google-plus-square'}} Sign in with Google
-            </a>
+                <a class="btn btn-block btn-social btn-facebook" {{ action 'authenticateWithHelloJs' 'facebook' }}>
+                  {{fontawesome-icon type='fa fa-facebook-square'}} Sign in with Facebook
+                </a>
+
+                <a class="btn btn-block btn-social btn-google-plus" {{ action 'authenticateWithHelloJs' 'google' }}>
+                  {{fontawesome-icon type='fa fa-google-plus-square'}} Sign in with Google
+                </a>
+
+              </div>
+            </div>
 
           </div>
         </div>
 
         <hr>
 
-        {{em-input property="identification" type='email' label="Email" placeholder="joe@example.com"}}
-        {{em-input property="password" type='password' label="Password"}}
+        <div class='row'>
+          <div class='col-sm-12'>
 
-        {{em-form-submit text="Sign in" classes='btn btn-success'}}
+            {{em-input property="identification" type='email' label="Email" placeholder="joe@example.com"}}
+            {{em-input property="password" type='password' label="Password"}}
+
+            <div class='col-sm-10 col-sm-offset-2'>
+              {{form-submit-button text="Sign in"}}
+              {{form-button action="transitionToSignup" text="Sign up"}}
+            </div>
+
+          </div>
+        </div>
 
       </fieldset>
     {{/em-form}}
+
+    {{partial 'sections/quick-links'}}
 
   </div>
 </div>

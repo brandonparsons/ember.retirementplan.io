@@ -7,6 +7,7 @@ Router.map(function() {
   this.route('help');
 
   this.route('login');
+  this.route('signup');
 
   this.route('dashboard');
 
@@ -16,6 +17,8 @@ Router.map(function() {
     this.route('show', {path: ':security_id'});
   });
 
+
+  this.route("notFound", { path: "*path"});
 });
 
 export default Router;

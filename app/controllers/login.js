@@ -2,14 +2,7 @@ var loginController = Ember.Controller.extend(
   Ember.SimpleAuth.LoginControllerMixin,
   Ember.Validations.Mixin, {
 
-  authenticatorFactory: 'authenticator:password',
-
-  actions: {
-    authenticateWithHelloJs: function(provider) {
-      this.get('session').authenticate('authenticator:hello', {provider: provider});
-    }
-  }
-
+  authenticatorFactory: 'authenticator:password'
 });
 
 
