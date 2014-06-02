@@ -1,4 +1,4 @@
-var loginController = Ember.Controller.extend(
+var signInController = Ember.Controller.extend(
   Ember.SimpleAuth.LoginControllerMixin,
   Ember.Validations.Mixin, {
 
@@ -6,7 +6,7 @@ var loginController = Ember.Controller.extend(
 });
 
 
-loginController.reopen({
+signInController.reopen({
 
   validations: {
     identification: {
@@ -26,4 +26,4 @@ loginController.reopen({
 });
 
 
-export default loginController;
+export default signInController;

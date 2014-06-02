@@ -29,12 +29,12 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
 
     /* Bubble from various locations */
 
-    transitionToSignup: function() {
-      this.transitionTo('signup');
+    transitionToSignUp: function() {
+      this.transitionTo('sign_up');
     },
 
-    transitionToSignin: function() {
-      this.transitionTo('login');
+    transitionToSignIn: function() {
+      this.transitionTo('sign_in');
     },
 
     /* */

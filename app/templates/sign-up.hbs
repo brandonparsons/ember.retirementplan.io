@@ -5,7 +5,7 @@
       <fieldset class='fieldset-border'>
         <legend class='fieldset-border'>Sign up</legend>
 
-        <div id='social-login-buttons' class='row'>
+        <div class='row' id='social-login-buttons'>
           <div class='col-sm-10 col-sm-offset-2'>
 
             <p class='help-block'>Use an external login provider to create an account. One less password to remember!</p>
@@ -41,13 +41,15 @@
             <div class='row'>
               <div class='col-sm-12'>
 
-                {{em-input property="email" type='email' label="Email" placeholder="joe@example.com"}}
-                {{em-input property="password" type='password' label="Password"}}
-                {{em-input property="passwordConfirmation" type='password' label="Password Confirmation"}}
+                {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" autofocus=true required=true}}
+                {{em-input property="password" type='password' label="Password" required=true}}
+                {{em-input property="passwordConfirmation" type='password' label="Password Confirmation" required=true}}
 
-                <div class='col-sm-10 col-sm-offset-2'>
-                  {{form-submit-button text="Sign up"}}
-                  {{form-button action="transitionToSignin" text="Sign in"}}
+                <div class='row'>
+                  <div class='col-sm-10 col-sm-offset-2'>
+                    {{form-submit-button text="Sign up"}}
+                    {{form-button action="transitionToSignIn" text="Sign in"}}
+                  </div>
                 </div>
 
               </div>

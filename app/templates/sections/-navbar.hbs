@@ -65,12 +65,12 @@
           {{!-- User is logged out --}}
 
           <li>
-            {{#link-to 'login'}}
+            {{#link-to 'sign_in'}}
               {{fontawesome-icon type='sign-in'}} Sign in
             {{/link-to}}
           </li>
           <li>
-            <button class="btn btn-success navbar-btn navbar-right-button" {{action transitionToSignup}}>{{fontawesome-icon type='lock'}}Sign up</button>
+            <button class="btn btn-success navbar-btn navbar-right-button" {{action transitionToSignUp}}>{{fontawesome-icon type='lock'}}Sign up</button>
           </li>
 
         {{/if}}

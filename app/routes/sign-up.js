@@ -6,16 +6,17 @@ import { request as icAjaxRequest } from 'ic-ajax';
 export default Ember.Route.extend(
   SignedOutRoute, {
 
+  deactivate: function() {
+    this.get('controller').send('reset');
+  },
+
   actions: {
 
     authenticateWithHelloJs: function(provider) {
-      var controller = this.get('controller');
-
       this.get('session').authenticate('authenticator:hello', {
         provider: provider
       }).then( function() {
         RetirementPlan.setFlash('success', 'Welcome! Account created.');
-        controller.send('reset'); // Get rid of password property
       });
     },
 
@@ -37,7 +38,6 @@ export default Ember.Route.extend(
           password:       controller.get('password')
         }).then( function() {
           RetirementPlan.setFlash('success', 'Welcome! Account created.');
-          controller.send('reset'); // Get rid of password property
         });
       }, function(errorResponse) {
         var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong when saving your changes.";

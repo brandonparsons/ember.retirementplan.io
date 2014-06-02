@@ -1,4 +1,4 @@
-var signupController = Ember.ObjectController.extend(
+var signUpController = Ember.ObjectController.extend(
   Ember.Validations.Mixin, {
 
   email: null,
@@ -15,8 +15,7 @@ var signupController = Ember.ObjectController.extend(
 
   actions: {
     reset: function() {
-      // Get rid of password property
-      this.set('email', null);
+      // Get rid of password properties
       this.set('password', null);
       this.set('passwordConfirmation', null);
     }
@@ -24,7 +23,7 @@ var signupController = Ember.ObjectController.extend(
 
 });
 
-signupController.reopen({
+signUpController.reopen({
 
   validations: {
     email: {
@@ -38,7 +37,7 @@ signupController.reopen({
     password: {
       presence: true,
       length: {minimum: 6},
-      confirmation: true
+      confirmation: {message: 'Confirmation must match password'}
     },
     passwordConfirmation: {
       presence: true
@@ -47,4 +46,4 @@ signupController.reopen({
 
 });
 
-export default signupController;
+export default signUpController;

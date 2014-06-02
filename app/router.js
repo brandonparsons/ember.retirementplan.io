@@ -6,12 +6,13 @@ Router.map(function() {
 
   this.route('help');
 
-  this.route('login');
-  this.route('signup');
+  this.route('sign_in');
+  this.route('sign_up');
 
   this.route('dashboard');
 
   this.route('profile');
+  this.route('change_password');
 
   this.resource('securities', function() {
     this.route('show', {path: ':security_id'});

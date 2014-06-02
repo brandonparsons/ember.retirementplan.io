@@ -221,7 +221,8 @@ export default {
         'https://api.retirementplan.io',
         'http://localhost:3000',
         'https://localhost:3000'
-      ]
+      ],
+      authenticationRoute: 'sign_in'
     });
 
   }
