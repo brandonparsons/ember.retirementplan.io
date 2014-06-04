@@ -5,22 +5,45 @@
       <fieldset class='fieldset-border'>
         <legend class='fieldset-border'>Edit Your Profile</legend>
 
-        {{em-input property="currentPassword" type='password' label="Current Password" placeholder="Your current password is required" required=true}}
+        {{#if hasPassword}}
+          {{!-- User has a password - we can allow profile edits --}}
 
-        {{em-input property="name" type='text' label="Name" placeholder="Enter a name..." required=true disabled=currentPasswordMissing}}
-        {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" required=true disabled=currentPasswordMissing}}
+          {{em-input property="currentPassword" type='password' label="Current Password" placeholder="Your current password is required" required=true}}
 
-        <hr>
+          {{em-input property="name" type='text' label="Name" placeholder="Enter a name..." required=true disabled=currentPasswordMissing}}
+          {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" required=true disabled=currentPasswordMissing}}
 
-        {{em-input property="password" type='password' label="Password" placeholder="Leave blank to not change" disabled=currentPasswordMissing}}
-        {{em-input property="passwordConfirmation" type='password' label="Password Confirmation" placeholder="Leave blank to not change" disabled=currentPasswordMissing}}
+          <hr>
 
-        <div class='row'>
-          <div class='col-sm-10 col-sm-offset-2'>
-            {{form-submit-button text="Update your profile"}}
-            {{form-button action="cancel" text="Cancel"}}
+          {{em-input property="password" type='password' label="Password" placeholder="Leave blank to not change" disabled=currentPasswordMissing}}
+          {{em-input property="passwordConfirmation" type='password' label="Password Confirmation" placeholder="Leave blank to not change" disabled=currentPasswordMissing}}
+
+          <div class='row'>
+            <div class='col-sm-10 col-sm-offset-2'>
+              {{form-submit-button text="Update your profile"}}
+              {{form-button action="cancel" text="Cancel"}}
+            </div>
           </div>
-        </div>
+
+        {{else}}
+          {{!-- User is strictly from OAuth. They need to set a password before we allow profile edits --}}
+
+          {{em-input property="name" type='text' label="Name" placeholder="Enter a name..." required=true disabled=true}}
+          {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" required=true disabled=true}}
+
+          <div class='row'>
+            <div class='col-sm-10 col-sm-offset-2'>
+              {{#bs-panel heading="Name/Email Changes" type="warning"}}
+                <p>You originally signed up for this site using an external provider.  For security purposes, we can't allow changes to your profile, unless you set a password on your account.</p>
+
+                <p>
+                  <a class='btn btn-default' {{action setPasswordOnOauthAccount}}>Set a password</a>
+                </p>
+              {{/bs-panel}}
+            </div>
+          </div>
+
+        {{/if}}
 
       </fieldset>
     {{/em-form}}

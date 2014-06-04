@@ -4,6 +4,14 @@ var requestPasswordResetController = Ember.ObjectController.extend(
   password: null,
   passwordConfirmation: null,
 
+  serialized: function() {
+    return {
+      password_reset_token:   this.get('token'),
+      password:               this.get('password'),
+      password_confirmation:  this.get('passwordConfirmation')
+    }
+  }.property('token', 'password', 'passwordConfirmation'),
+
   actions: {
     reset: function() {
       this.set('password', null);

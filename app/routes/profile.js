@@ -44,6 +44,8 @@ export default Ember.Route.extend(
         authStore.replace( Ember.$.extend(currentAuthData, { user_email: newEmail }) );
         route.get('session').set('user_email', newEmail);
 
+        controller.get('model').reload();
+
         RetirementPlan.setFlash('success', 'Your profile has been updated.');
         route.transitionTo('dashboard');
       }, function(errorResponse) {
@@ -55,6 +57,21 @@ export default Ember.Route.extend(
 
     cancel: function() {
       this.transitionTo('dashboard'); // Controller reset built-in to `deactivate`
+    },
+
+    setPasswordOnOauthAccount: function() {
+      var currentUserEmail = this.get('controller.email');
+
+      icAjaxRequest({
+        url:  ENV.apiHost + '/users/create_password',
+        type: 'POST'
+      }).then( function(response) {
+        var sticky = true;
+        RetirementPlan.setFlash('notice', response.message, sticky);
+      }, function(errorResponse) {
+        var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
+        RetirementPlan.setFlash('error', errorMessage);
+      });
     }
 
   }

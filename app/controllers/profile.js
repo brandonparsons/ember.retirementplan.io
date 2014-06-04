@@ -56,9 +56,11 @@ var profileController = Ember.ObjectController.extend(
   // ACTIONS //
   /////////////
 
+  // For some reason, couldn't move #addOAuthProvider out to the route, leaving
+  // in the controller. #removeAuth kept in the controller to match.
+
   actions: {
 
-    // This likes to live in the controller - doesn't work on the route.
     addOAuthProvider: function(provider) {
       var controller  = this;
       var store       = this.store;
@@ -97,8 +99,6 @@ var profileController = Ember.ObjectController.extend(
       hello(provider).login();
     },
 
-    // Couldn't move addOAuthProvider out to the route, leave this in the
-    // controller.
     removeAuth: function(auth) {
       if (this.get('authenticationCount') > 1 || this.get('hasPassword')) {
         auth.deleteRecord();
