@@ -39,7 +39,7 @@ export default Ember.Route.extend({
           store.find('user', session.get('user_id')).then( function(user) {
             user.reload();
             route.transitionTo('dashboard');
-          })
+          });
         } else {
           message = 'Password has been successfully changed. Please log in.';
           route.transitionTo('sign_in');

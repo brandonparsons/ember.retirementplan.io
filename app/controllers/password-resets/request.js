@@ -9,7 +9,7 @@ var requestPasswordResetController = Ember.ObjectController.extend(
       password_reset_token:   this.get('token'),
       password:               this.get('password'),
       password_confirmation:  this.get('passwordConfirmation')
-    }
+    };
   }.property('token', 'password', 'passwordConfirmation'),
 
   actions: {

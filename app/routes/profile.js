@@ -60,8 +60,6 @@ export default Ember.Route.extend(
     },
 
     setPasswordOnOauthAccount: function() {
-      var currentUserEmail = this.get('controller.email');
-
       icAjaxRequest({
         url:  ENV.apiHost + '/users/create_password',
         type: 'POST'
