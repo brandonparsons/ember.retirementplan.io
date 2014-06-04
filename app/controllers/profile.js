@@ -86,7 +86,7 @@ var profileController = Ember.ObjectController.extend(
           data: { user: authData }
         }).then( function(response) {
           store.pushPayload('authentication', response);
-          controller.get('model').reload() // Reload the user to update the hasMany
+          controller.get('model').reload(); // Reload the user to update the hasMany
         }, function(errorResponse) {
           var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
           RetirementPlan.setFlash('error', errorMessage);
