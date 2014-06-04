@@ -21,10 +21,15 @@ export default Ember.Route.extend(
   actions: {
 
     removeAuth: function(auth) {
-      auth.deleteRecord();
-      auth.save().then(function() {
-        RetirementPlan.setFlash('success', 'Authentication removed.');
-      });
+      var user = this.get('currentModel');
+      if (user.get('authenticationCount') > 1 || user.get('hasPassword')) {
+        auth.deleteRecord();
+        auth.save().then(function() {
+          RetirementPlan.setFlash('success', 'Authentication removed.');
+        });
+      } else {
+        RetirementPlan.setFlash('notice', "Can't delete that provider - it's your last one and you haven't set a password.");
+      }
     },
 
     editProfile: function() {

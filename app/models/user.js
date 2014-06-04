@@ -4,5 +4,9 @@ export default DS.Model.extend({
   image:            DS.attr('string'),
   hasPassword:      DS.attr('boolean'),
 
-  authentications:  DS.hasMany('authentication', {async: true})
+  authentications:  DS.hasMany('authentication', {async: true}),
+
+  authenticationCount: function() {
+    return this.get('authentications.length');
+  }.property('authentications.@each')
 });
