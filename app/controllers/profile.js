@@ -16,9 +16,10 @@ var profileController = Ember.ObjectController.extend(
   // COMPUTED PROPS //
   ////////////////////
 
-  // Returns a list of authentication providers that the user has not yet
-  // attached. (e.g. ['google'])
   remainingAuthenticationProviders: function() {
+    // Returns a list of authentication providers that the user has not yet
+    // attached. (e.g. ['google'])
+
     var controller = this;
     var availableAuthentications = ['google', 'facebook'];
 
@@ -57,12 +58,13 @@ var profileController = Ember.ObjectController.extend(
 
   actions: {
 
-    // This likes to live in the controller - doesn't quite function right on
-    // the route.
+    // This likes to live in the controller - doesn't work on the route.
     addOAuthProvider: function(provider) {
-      var store = this.store;
+      var controller  = this;
+      var store       = this.store;
 
       hello.on('auth.login', function(auth) {
+        var authData;
 
         // First thing - clear the handler.
         hello.off('auth.login');
@@ -73,7 +75,7 @@ var profileController = Ember.ObjectController.extend(
         }
 
         // Save the auth data before we logout
-        var authData = auth.authResponse;
+        authData          = auth.authResponse;
         authData.provider = provider; // Need to note the provider
 
         hello(provider).logout();
@@ -84,6 +86,7 @@ var profileController = Ember.ObjectController.extend(
           data: { user: authData }
         }).then( function(response) {
           store.pushPayload('authentication', response);
+          controller.get('model').reload() // Reload the user to update the hasMany
         }, function(errorResponse) {
           var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
           RetirementPlan.setFlash('error', errorMessage);
@@ -92,6 +95,19 @@ var profileController = Ember.ObjectController.extend(
       }); // hello.on
 
       hello(provider).login();
+    },
+
+    // Couldn't move addOAuthProvider out to the route, leave this in the
+    // controller.
+    removeAuth: function(auth) {
+      if (this.get('authenticationCount') > 1 || this.get('hasPassword')) {
+        auth.deleteRecord();
+        auth.save().then(function() {
+          RetirementPlan.setFlash('success', 'Authentication removed.');
+        });
+      } else {
+        RetirementPlan.setFlash('notice', "Can't delete that provider - it's your last one and you haven't set a password.");
+      }
     },
 
     reset: function() {

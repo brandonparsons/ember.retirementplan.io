@@ -5,11 +5,11 @@ import { request as icAjaxRequest } from 'ic-ajax';
 export default Ember.Route.extend(
   Ember.SimpleAuth.AuthenticatedRouteMixin, {
 
-  model: function () {
+  model: function() {
     // Rails controller will return the current_user no matter what ID we search
     // for, but using the proper session user_id so that ember-data doesn't get
     // confused.
-    // Need to load up the actual user so will have access to authentications
+    // Need to load up the actual user so will have access to authentications.
     return this.store.find( 'user', this.session.get('user_id') );
   },
 
@@ -19,18 +19,6 @@ export default Ember.Route.extend(
 
 
   actions: {
-
-    removeAuth: function(auth) {
-      var user = this.get('currentModel');
-      if (user.get('authenticationCount') > 1 || user.get('hasPassword')) {
-        auth.deleteRecord();
-        auth.save().then(function() {
-          RetirementPlan.setFlash('success', 'Authentication removed.');
-        });
-      } else {
-        RetirementPlan.setFlash('notice', "Can't delete that provider - it's your last one and you haven't set a password.");
-      }
-    },
 
     editProfile: function() {
       var route       = this;
@@ -63,13 +51,12 @@ export default Ember.Route.extend(
         RetirementPlan.setFlash('error', errorMessage);
       });
 
-    }, // editProfile
+    },
 
     cancel: function() {
-      // Controller reset built-in to `deactivate`
-      this.transitionTo('dashboard');
+      this.transitionTo('dashboard'); // Controller reset built-in to `deactivate`
     }
 
-  } // actions
+  }
 
 });
