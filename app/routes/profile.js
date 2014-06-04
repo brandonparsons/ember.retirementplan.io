@@ -1,4 +1,6 @@
 import errorProcessor from 'retirement-plan/utils/error-processor';
+import { request as icAjaxRequest } from 'ic-ajax';
+
 
 export default Ember.Route.extend(
   Ember.SimpleAuth.AuthenticatedRouteMixin, {
@@ -7,11 +9,12 @@ export default Ember.Route.extend(
     // Rails controller will return the current_user no matter what ID we search
     // for, but using the proper session user_id so that ember-data doesn't get
     // confused.
+    // Need to load up the actual user so will have access to authentications
     return this.store.find( 'user', this.session.get('user_id') );
   },
 
-  deactivate: function () {
-    this.get('controller.model').rollback();
+  deactivate: function() {
+    this.get('controller').send('reset');
   },
 
 
@@ -25,37 +28,40 @@ export default Ember.Route.extend(
     },
 
     editProfile: function() {
-      var route = this;
-      var user  = this.get('currentModel');
+      var route       = this;
+      var store       = this.store;
+      var controller  = this.get('controller');
 
-      if (!user.get('isDirty')) {
-        RetirementPlan.setFlash("notice", "You haven't made any changes.");
-      } else {
-        user.save().then( function(user) {
-          var newEmail, authStore, currentAuthData;
+      icAjaxRequest({
+        url:  ENV.apiHost + '/users/current',
+        type: 'PUT',
+        data: { user: controller.get('serialized') }
+      }).then( function(userData) {
+        var newEmail, authStore, currentAuthData;
 
-          // Over-write the user email in ember-simple-auth's localStorage data,
-          // and the current session.
-          newEmail        = user.get('email');
-          authStore       = route.get('session.store');
-          currentAuthData = authStore.restore();
+        // Over-write the user's data in the store
+        store.pushPayload('user', userData);
 
-          authStore.replace( Ember.$.extend(currentAuthData, { user_email: newEmail }) );
-          route.get('session').set('user_email', newEmail);
+        // Over-write the user email in ember-simple-auth's localStorage data,
+        // and the current session.
+        newEmail        = userData.user.email;
+        authStore       = route.get('session.store');
+        currentAuthData = authStore.restore();
 
-          // Go back to the dashboard
-          route.transitionTo('dashboard');
-          RetirementPlan.setFlash('success', 'Your profile has been updated.');
+        authStore.replace( Ember.$.extend(currentAuthData, { user_email: newEmail }) );
+        route.get('session').set('user_email', newEmail);
 
-        }, function(errorResponse) {
-          var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong when saving your changes.";
-          RetirementPlan.setFlash('error', errorMessage);
-        });
-      }
+        RetirementPlan.setFlash('success', 'Your profile has been updated.');
+        route.transitionTo('dashboard');
+      }, function(errorResponse) {
+        var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
+        RetirementPlan.setFlash('error', errorMessage);
+      });
+
     }, // editProfile
 
     cancel: function() {
-      this.get('currentModel').rollback();
+      // Controller reset built-in to `deactivate`
       this.transitionTo('dashboard');
     }
 

@@ -1,10 +1,16 @@
 /* global hello */
 
+import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
 
 
 var profileController = Ember.ObjectController.extend(
   Ember.Validations.Mixin, {
+
+  currentPassword:      null,
+  password:             null,
+  passwordConfirmation: null,
+
 
   ////////////////////
   // COMPUTED PROPS //
@@ -19,21 +25,30 @@ var profileController = Ember.ObjectController.extend(
     var promiseArray = DS.PromiseArray.create({
       promise: new Ember.RSVP.Promise(function(resolve) {
         controller.get('authentications').then(function(authentications) {
-
           var auths = _.reject(availableAuthentications, function(provider) {
             return _.any(authentications.get('content'), function(auth) {
               return auth.get('provider') === provider;
             });
           });
-
           resolve(auths);
-
         });
-      })
-    });
-
+      }) // promise
+    }); // promiseArray
     return promiseArray;
   }.property('authentications.@each.provider'),
+
+  serialized: function() {
+    return {
+      name:                   this.get('name'),
+      email:                  this.get('email'),
+      current_password:       this.get('currentPassword'),
+      password:               this.get('password'),
+      password_confirmation:  this.get('passwordConfirmation')
+    };
+  }.property('name', 'email', 'currentPassword', 'password', 'passwordConfirmation'),
+
+  currentPasswordMissing: Ember.computed.empty('currentPassword'),
+  passwordPresent:        Ember.computed.notEmpty('password'),
 
 
   /////////////
@@ -69,11 +84,21 @@ var profileController = Ember.ObjectController.extend(
           data: { user: authData }
         }).then( function(response) {
           store.pushPayload('authentication', response);
+        }, function(errorResponse) {
+          var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
+          RetirementPlan.setFlash('error', errorMessage);
         });
 
       }); // hello.on
 
       hello(provider).login();
+    },
+
+    reset: function() {
+      this.set('currentPassword', null);
+      this.set('password', null);
+      this.set('passwordConfirmation', null);
+      this.get('model').rollback();
     }
 
   }
@@ -95,7 +120,23 @@ profileController.reopen({
         allowBlank: false,
         with: /^[^@\s]+@[^@\s]+\.[^@\s]+$/
       }
-    }
+    },
+    currentPassword: {
+      presence: true,
+      length: {
+        minimum: 6
+      }
+    },
+    password: {
+      length: {
+        if: 'passwordPresent',
+        minimum: 6
+      },
+      confirmation: {
+        if: 'passwordPresent',
+        message: 'Confirmation must match password'
+      }
+    },
   }
 
 });

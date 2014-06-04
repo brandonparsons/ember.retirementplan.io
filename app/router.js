@@ -8,7 +8,6 @@ Router.map(function() {
   this.route('sign_up');
 
   this.route('profile');
-  this.route('change_password');
   this.resource('password_resets', function() {
     this.route('new');
     this.route('request', {path: '/request/:token'});

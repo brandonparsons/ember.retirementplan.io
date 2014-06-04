@@ -22,3 +22,10 @@ legend.fieldset-border {
 #social-login-buttons i {
   margin-left: 5px;
 }
+
+// ember-forms adds an empty span.help-block after it finishes validating a form
+// input. This throws everything down the page, and sucks. Remove margin from
+// the validated elements in order to keep everything lined up.
+.has-success, .has-error {
+  margin-bottom: 0px;
+}
