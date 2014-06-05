@@ -1,4 +1,4 @@
-`/* global FastClick */`
+`/* global FastClick, Headroom */`
 
 applicationView = Ember.View.extend
 
@@ -18,5 +18,10 @@ applicationView = Ember.View.extend
           return false
         else
           return true
+
+      # Initialize headroom.js
+      header    = $('.navbar')[0]
+      headroom  = new Headroom(header);
+      headroom.init();
 
 `export default applicationView`

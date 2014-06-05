@@ -119,11 +119,21 @@ var helloJS = pickFiles('vendor/hello', {
 /* */
 
 
+/* Import headroom.js (no AMD package, just load into the window.) */
+var headroom = pickFiles('vendor', {
+  srcDir:   '/',
+  files:    ['headroom.min.js'],
+  destDir: '/assets/vendor'
+});
+/* */
+
+
 /* */
 module.exports = mergeTrees([
   fontawesome,
   alertifyJS,
   helloJS,
+  headroom,
   app.toTree() // module.exports = app.toTree();
 ]);
 /* */

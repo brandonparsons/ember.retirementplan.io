@@ -3,6 +3,12 @@ body { padding-top: 50px; }
 // Navbar's margin-bottom does not affect container content
 #main {margin-top: 20px;}
 
+// Headroom.js
+// http://stackoverflow.com/questions/20648451/how-do-you-use-headroom-js-with-bootstrap-3-navbar
+.headroom {position: fixed;top: 0;left: 0;right: 0;transition: all .2s ease-in-out;}
+.headroom--unpinned {top: -100px;}
+.headroom--pinned {top: 0;}
+
 .navbar-default .navbar-brand {
   line-height: inherit;
   height: inherit;
