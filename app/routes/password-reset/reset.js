@@ -10,9 +10,7 @@ export default Ember.Route.extend({
   },
 
   model: function(params) {
-    return Ember.Object.create({
-      token: params.token
-    });
+    return Ember.Object.create({token: params.token});
   },
 
   actions: {
@@ -27,7 +25,7 @@ export default Ember.Route.extend({
       var session     = route.get('session');
 
       icAjaxRequest({
-        url:  ENV.apiHost + '/users/password_resets/request',
+        url:  ENV.apiHost + '/password_resets/reset',
         type: 'POST',
         data: controller.get('serialized')
       }).then( function() {

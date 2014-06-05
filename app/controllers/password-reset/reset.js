@@ -1,4 +1,4 @@
-var requestPasswordResetController = Ember.ObjectController.extend(
+var resetPasswordResetController = Ember.ObjectController.extend(
   Ember.Validations.Mixin, {
 
   password: null,
@@ -22,7 +22,7 @@ var requestPasswordResetController = Ember.ObjectController.extend(
 
 });
 
-requestPasswordResetController.reopen({
+resetPasswordResetController.reopen({
   validations: {
     password: {
       presence: true,
@@ -35,4 +35,4 @@ requestPasswordResetController.reopen({
   }
 });
 
-export default requestPasswordResetController;
+export default resetPasswordResetController;

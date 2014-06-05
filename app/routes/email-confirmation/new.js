@@ -11,17 +11,17 @@ export default Ember.Route.extend({
       this.transitionTo('sign_in');
     },
 
-    resetPassword: function() {
+    confirmEmail: function() {
       var route       = this;
       var controller  = this.get('controller');
       var email       = controller.get('email');
 
       icAjaxRequest({
-        url:  ENV.apiHost + '/users/password_resets/new',
+        url:  ENV.apiHost + '/email_confirmations',
         type: 'POST',
         data: { email: email }
       }).then( function() {
-        RetirementPlan.setFlash('success', 'Password reset instructions have been sent to ' + email);
+        RetirementPlan.setFlash('notice', 'Email confirmation instructions have been sent to ' + email);
         route.transitionTo('sign_in');
         controller.send('reset');
       }, function(errorResponse) {

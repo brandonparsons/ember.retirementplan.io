@@ -14,9 +14,14 @@ Router.map(function() {
     this.route('profile');
   });
 
-  this.resource('password_resets', function() {
-    this.route('new');
-    this.route('request', {path: '/request/:token'});
+  this.resource('password_reset', function() {
+    this.route('new', {path: '/'});
+    this.route('reset', {path: '/reset/:token'});
+  });
+
+  this.resource('email_confirmation', function() {
+    this.route('new', {path: '/'});
+    this.route('confirm', {path: '/confirm/:token'});
   });
 
   this.resource('securities', function() {
