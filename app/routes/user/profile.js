@@ -30,23 +30,27 @@ export default Ember.Route.extend(
         type: 'PUT',
         data: { user: controller.get('serialized') }
       }).then( function(userData) {
-        var newEmail, authStore, currentAuthData;
+        var messageType, message, sticky;
 
-        // Over-write the user's data in the store
+        // Pull out the unconfirmed email to determine if this was an original
+        // email confirmation, or an email change confirmation.
+        var unconfirmedEmail = userData.unconfirmed_email;
+        if (unconfirmedEmail) {
+          messageType = 'notice';
+          message     = 'Your email change requires confirmation (other changes have been applied). We have sent instructions to your new address - ' + unconfirmedEmail;
+          sticky      = true;
+          delete(userData.unconfirmed_email); // This will still be there, even if null
+        } else {
+          messageType = 'success';
+          message     = 'Your profile has been updated.';
+          sticky      = false;
+        }
+
+        // Over-write the user's data in the store. We aren't changing their
+        // email here, so no need to update the session.
         store.pushPayload('user', userData);
 
-        // Over-write the user email in ember-simple-auth's localStorage data,
-        // and the current session.
-        newEmail        = userData.user.email;
-        authStore       = route.get('session.store');
-        currentAuthData = authStore.restore();
-
-        authStore.replace( Ember.$.extend(currentAuthData, { user_email: newEmail }) );
-        route.get('session').set('user_email', newEmail);
-
-        controller.get('model').reload();
-
-        RetirementPlan.setFlash('success', 'Your profile has been updated.');
+        RetirementPlan.setFlash(messageType, message, sticky);
         route.transitionTo('user.dashboard');
       }, function(errorResponse) {
         var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";

@@ -16,15 +16,33 @@ export default Ember.Route.extend({
       type: 'POST',
       data: {email_confirmation_token: token}
     }).then( function(response) {
-      var store   = route.store;
+      var newEmail, store, authStore, currentAuthData;
       var session = route.get('session');
+
       if (session.get('isAuthenticated')) {
-        // Reload the current user model so that confirmation gets reflected
-        store.find('user', session.get('user_id')).then( function(user) {
-          user.reload();
-        });
+        newEmail = response.updated_email;
+        if (newEmail) {
+          // The user's email on the server has been updated, but the current
+          // session and data-store still have the old email. We need to update
+          // the session, and ember-data's info.
+          store           = route.store;
+          authStore       = session.get('store');
+          currentAuthData = authStore.restore();
+
+          // Replace the session data, and session-store data (localStorage)
+          authStore.replace( Ember.$.extend(currentAuthData, { user_email: newEmail }) );
+          route.get('session').set('user_email', newEmail);
+
+          // Reload the current user model so that confirmation gets reflected
+          store.find('user', session.get('user_id')).then( function(user) {
+            user.reload(); // The original find will just return from the cache.
+          });
+        }
+        route.transitionTo('user.dashboard');
+      } else {
+        route.transitionTo('sign_in');
       }
-      route.transitionTo('user.dashboard');
+
       RetirementPlan.setFlash('success', response.message);
     }, function(errorResponse) {
       var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
