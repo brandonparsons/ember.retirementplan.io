@@ -24,7 +24,6 @@ var signUpController = Ember.ObjectController.extend(
 });
 
 signUpController.reopen({
-
   validations: {
     email: {
       presence: true,
@@ -43,7 +42,6 @@ signUpController.reopen({
       presence: true
     }
   }
-
 });
 
 export default signUpController;

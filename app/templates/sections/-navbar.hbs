@@ -22,7 +22,7 @@
           {{!-- User is logged in --}}
 
           <li>
-            {{#link-to 'dashboard'}}
+            {{#link-to 'user.dashboard'}}
               {{fontawesome-icon type='home'}} Dashboard
             {{/link-to}}
           </li>
@@ -30,8 +30,8 @@
           <li class="dropdown visible-md visible-lg" style='margin-right: 15px;'> {{!-- Right margin required on this element as the `row` padding is not pushing the button over --}}
 
             <button class="dropdown-toggle btn btn-default navbar-btn space-left button-with-image" data-toggle="dropdown">
-              <img {{bind-attr src=currentUser.image}} width='28' height='28'>
-              {{currentUser.name}}
+              <img {{bind-attr src=image}} width='28' height='28'>
+              {{name}}
               &nbsp;&nbsp;<b class="caret"></b>
             </button>
 
@@ -45,14 +45,14 @@
               <li class="divider"></li>
 
               <li class="dropdown-header">Account</li>
-              {{#link-to 'profile' tagName='li'}}<a>{{fontawesome-icon type='user'}} Edit Profile</a>{{/link-to}}
+              {{#link-to 'user.profile' tagName='li'}}<a>{{fontawesome-icon type='user'}} Edit Profile</a>{{/link-to}}
               <li><a {{action 'invalidateSession'}}>{{fontawesome-icon type='sign-out'}} Sign out</a></li>
 
             </ul> {{!-- dropdown-menu --}}
           </li> {{!-- dropdown --}}
 
           <li class='visible-xs visible-sm'>
-            {{#link-to 'profile'}}
+            {{#link-to 'user.profile'}}
               {{fontawesome-icon type='cog'}} Edit Profile
             {{/link-to}}
           </li>

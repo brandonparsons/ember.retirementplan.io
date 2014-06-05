@@ -1,13 +1,10 @@
 var signInController = Ember.Controller.extend(
   Ember.SimpleAuth.LoginControllerMixin,
   Ember.Validations.Mixin, {
-
   authenticatorFactory: 'authenticator:password'
 });
 
-
 signInController.reopen({
-
   validations: {
     identification: {
       presence: true,
@@ -22,8 +19,6 @@ signInController.reopen({
       length: {minimum: 6}
     }
   }
-
 });
-
 
 export default signInController;

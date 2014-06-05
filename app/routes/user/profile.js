@@ -47,7 +47,7 @@ export default Ember.Route.extend(
         controller.get('model').reload();
 
         RetirementPlan.setFlash('success', 'Your profile has been updated.');
-        route.transitionTo('dashboard');
+        route.transitionTo('user.dashboard');
       }, function(errorResponse) {
         var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
         RetirementPlan.setFlash('error', errorMessage);
@@ -56,7 +56,7 @@ export default Ember.Route.extend(
     },
 
     cancel: function() {
-      this.transitionTo('dashboard'); // Controller reset built-in to `deactivate`
+      this.transitionTo('user.dashboard'); // Controller reset built-in to `deactivate`
     },
 
     setPasswordOnOauthAccount: function() {

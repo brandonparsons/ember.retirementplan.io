@@ -21,7 +21,7 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
     // page while logged in), set the current user controller content to the user.
     var userID = this.get('session.user_id');
     // Need to send action to transition in a beforeModel (first route)
-    if (userID) { transition.send('_setupCurrentUserController', userID); }
+    if (userID) { transition.send('_setCurrentUserContent', userID); }
   },
 
 
@@ -44,7 +44,7 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
     sessionAuthenticationSucceeded: function() {
       // Set up the current user controller with the user ID we just received
       var userID = this.get('session.user_id');
-      this.send('_setupCurrentUserController', userID);
+      this.send('_setCurrentUserContent', userID);
 
       // Everything below here is essentially a copy of the original
       // ember-simple-auth behaviour.
@@ -57,16 +57,17 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
       } else {
         // There was no failed transition - send to dashboard. This would otherwise
         // be the `routeAfterAuthentication` in the simple-auth initializer
-        this.transitionTo('dashboard');
+        this.transitionTo('user.dashboard');
       }
     },
     /* */
 
     /* Called only from inside this route */
-    _setupCurrentUserController: function(userID) {
-      var currentUserController = this.controllerFor('currentUser');
+    _setCurrentUserContent: function(userID) {
+      // var currentUserController = this.controllerFor('user.current');
+      var controller = this.controllerFor('application');
       this.store.find('user', userID).then( function(user) {
-        currentUserController.set('content', user);
+        controller.set('content', user);
       });
     }
     /* */
