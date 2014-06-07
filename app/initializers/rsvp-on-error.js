@@ -52,6 +52,7 @@ export default {
         } else {
           //
         }
+        sticky = true;
         application.setFlash('error', errorMessage, sticky);
       } else {
         // Not any of the errors above. Just grab the error message and process it.

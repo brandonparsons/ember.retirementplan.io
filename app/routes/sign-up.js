@@ -13,10 +13,12 @@ export default Ember.Route.extend(
   actions: {
 
     authenticateWithHelloJs: function(provider) {
-      this.get('session').authenticate('authenticator:hello', {
+      var session = this.get('session');
+      session.authenticate('authenticator:hello', {
         provider: provider
       }).then( function() {
-        RetirementPlan.setFlash('success', 'Welcome! Account created.');
+        var email = session.get('user_email');
+        RetirementPlan.setFlash('success', 'Welcome! An account has been created for ' + email);
       });
     },
 
@@ -37,7 +39,7 @@ export default Ember.Route.extend(
           identification: controller.get('email'),
           password:       controller.get('password')
         }).then( function() {
-          RetirementPlan.setFlash('success', 'Welcome! Account created.');
+          RetirementPlan.setFlash('success', 'Welcome! You have been registered as ' + controller.get('email') + '.');
         });
       }, function(errorResponse) {
         var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong when saving your changes.";

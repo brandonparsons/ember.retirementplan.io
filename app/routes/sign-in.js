@@ -6,7 +6,12 @@ export default Ember.Route.extend(
 
   actions: {
     authenticateWithHelloJs: function(provider) {
-      this.get('session').authenticate('authenticator:hello', {provider: provider});
+      var session = this.get('session');
+
+      session.authenticate('authenticator:hello', {provider: provider}).then( function() {
+        var email = session.get('user_email');
+        RetirementPlan.setFlash('success', 'Welcome! Signed in as ' + email);
+      });
     }
   }
 
