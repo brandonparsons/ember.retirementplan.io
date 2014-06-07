@@ -37,8 +37,8 @@ export default Ember.Route.extend(
         var unconfirmedEmail = userData.unconfirmed_email;
         if (unconfirmedEmail) {
           messageType = 'notice';
-          message     = 'Your email change requires confirmation (other changes have been applied). We have sent instructions to your new address - ' + unconfirmedEmail;
-          sticky      = true;
+          message     = 'Your email change requires confirmation (other changes have been applied). We have sent instructions to your new address - ' + unconfirmedEmail + '.';
+          sticky      = 10000;
           delete(userData.unconfirmed_email); // This will still be there, even if null
         } else {
           messageType = 'success';
@@ -68,8 +68,7 @@ export default Ember.Route.extend(
         url:  ENV.apiHost + '/users/create_password',
         type: 'POST'
       }).then( function(response) {
-        var sticky = true;
-        RetirementPlan.setFlash('notice', response.message, sticky);
+        RetirementPlan.setFlash('notice', response.message, 10000);
       }, function(errorResponse) {
         var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
         RetirementPlan.setFlash('error', errorMessage);

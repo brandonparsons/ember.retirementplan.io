@@ -8,7 +8,14 @@ var FlashQueue = Ember.ArrayProxy.create({
     var log, messageTiming;
 
     if (typeof sticky !== "undefined" && sticky !== null && !!sticky) {
-      messageTiming = 0;
+      if ( !isNaN(parseFloat(sticky)) && isFinite(sticky) ) {
+        // Sticky is a number - we want to leave it up for a specified period of
+        // time.
+        messageTiming = sticky;
+      } else {
+        // Sticky is `true` - leave it up there
+        messageTiming = 0;
+      }
     } else {
       messageTiming = 3500;
     }

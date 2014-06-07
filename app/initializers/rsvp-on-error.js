@@ -52,8 +52,7 @@ export default {
         } else {
           //
         }
-        sticky = true;
-        application.setFlash('error', errorMessage, sticky);
+        application.setFlash('error', errorMessage, 10000);
       } else {
         // Not any of the errors above. Just grab the error message and process it.
         errorMessage  = _determineErrorMessage(error);
