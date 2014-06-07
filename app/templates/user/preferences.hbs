@@ -1,0 +1,72 @@
+<div class='row'>
+  <div class='col-md-offset-2 col-md-8'>
+
+    {{#em-form form_layout='default' classNames='default-layout' model=this action='editPreferences' submit_button=false}}
+      <fieldset class='fieldset-border'>
+        <legend class='fieldset-border'>Edit Your Preferecnes</legend>
+
+          <h5><strong>Allowable Portfolio Drift (%)</strong></h5>
+          <p>Your portfolio allocations will not be allowed to drift any more than this value before we will contact you to rebalance.</p>
+          {{!-- Spinbox for allowableDrift --}}
+          <div class="clearfix">
+            <div class='spinbox-horiz'>
+              <button class="btn btn-default spinbox-btn" tabindex="2" {{action "spin" "AllowableDrift" "up"}}>
+                {{fontawesome-icon type='minus'}}
+              </button>
+              {{spin-box range=rangeForAllowableDrift value=allowableDrift circular=false visibleRows=1 tabindex=3 spinUpWhen=spinAllowableDriftUp spinDownWhen=spinAllowableDriftDown}}
+              <button class="btn btn-default spinbox-btn" tabindex="4" {{action "spin" "AllowableDrift" "down"}}>
+                {{fontawesome-icon type='plus'}}
+              </button>
+            </div>
+          </div>
+          {{!--  --}}
+          <p class='help-block'>Lower values will reduce the risk of being out of balance, but will result in more frequent e-mail notifications.</p>
+
+          <br>
+
+          <h5><strong>Rebalance Contact Freqency (days)</strong></h5>
+          <p>Want to limit the frequency of e-mail notifications? We will not contact you (with rebalancing information) more often than this.</p>
+          {{!-- Spinbox for maxContactFrequencyDays --}}
+          <div class="clearfix">
+            <div class='spinbox-horiz'>
+              <button class="btn btn-default spinbox-btn" tabindex="5" {{action "spin" "ContactFrequency" "up"}}>
+                {{fontawesome-icon type='minus'}}
+              </button>
+              {{spin-box range=rangeForContactFrequency value=maxContactFrequencyDays circular=false visibleRows=1 tabindex=6 spinUpWhen=spinContactFrequencyUp spinDownWhen=spinContactFrequencyDown}}
+              <button class="btn btn-default spinbox-btn" tabindex="7" {{action "spin" "ContactFrequency" "down"}}>
+                {{fontawesome-icon type='plus'}}
+              </button>
+            </div>
+          </div>
+          {{!--  --}}
+          <p class='help-block'>If you only want to be contacted once per week (even if your portfolio drifts out of balance), set to 7.</p>
+
+          <br>
+
+          <h5><strong>Minimum Rebalance Spacing (days)</strong></h5>
+          <p>We will contact you at a minimum this often to rebalance your portfolio - even if you are within the set limits.</p>
+          {{!-- Spinbox for minRebalanceSpacingDays --}}
+          <div class="clearfix">
+            <div class='spinbox-horiz'>
+              <button class="btn btn-default spinbox-btn" tabindex="8" {{action "spin" "RebalanceSpacing" "up"}}>
+                {{fontawesome-icon type='minus'}}
+              </button>
+              {{spin-box range=rangeForRebalanceSpacing value=minRebalanceSpacingDays circular=false visibleRows=1 tabindex=9 spinUpWhen=spinRebalanceSpacingUp spinDownWhen=spinRebalanceSpacingDown}}
+              <button class="btn btn-default spinbox-btn" tabindex="10" {{action "spin" "RebalanceSpacing" "down"}}>
+                {{fontawesome-icon type='plus'}}
+              </button>
+            </div>
+          </div>
+          {{!--  --}}
+          <p class='help-block'>Many financial advisors will recommend that you rebalance your portfolio (if only to review your asset allocations and personal financial goals) once per quarter.</p>
+
+          <br>
+
+          {{form-submit-button text="Update preferences"}}
+          {{form-button action="cancel" text="Cancel"}}
+
+      </fieldset>
+    {{/em-form}}
+
+  </div>
+</div>

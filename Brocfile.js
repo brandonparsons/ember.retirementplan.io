@@ -46,6 +46,8 @@ if (app.env !== 'production') {
 
 
 /* Additional Javascript libraries */
+app.import('vendor/momentjs/moment.js');
+
 app.import('vendor/ember-simple-auth/ember-simple-auth.js');
 
 app.import('vendor/ember-google-analytics/ember-google-analytics.js');
@@ -53,6 +55,9 @@ app.import('vendor/ember-google-analytics/ember-google-analytics.js');
 app.import('vendor/ember-validations/index.js');
 
 app.import('vendor/ember-forms/dist/ember_forms.js');
+
+app.import('vendor/ember-spin-box/dist/ember-spin-box.js');
+app.import('vendor/ember-date-picker/dist/ember-date-picker.js');
 
 app.import('vendor/lodash/dist/lodash.min.js');
 
@@ -76,6 +81,9 @@ app.import('vendor/fastclick/lib/fastclick.js');
 /* Additional CSS (goes to vendor.css) */
 app.import('vendor/alertify.js/themes/alertify.core.css');
 app.import('vendor/alertify.js/themes/alertify.default.css');
+
+app.import('vendor/ember-spin-box/dist/ember-spin-box.css');
+app.import('vendor/ember-date-picker/dist/ember-date-picker.css');
 
 app.import('vendor/font-awesome/css/font-awesome.min.css');
 /* */

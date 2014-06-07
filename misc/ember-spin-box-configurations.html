@@ -1,0 +1,54 @@
+<!-- Controller configuration:
+spinBoxRange: [1, 30],
+spinEx1Up: false,
+spinEx1Down: false,
+
+actions: {
+    spin: function(target, direction) {
+     this.set('spin' + target + (direction === 'up' ? 'Up' : 'Down'), true);
+    }
+}
+ -->
+
+
+<!-- Vertical, buttons top and bottom chevrons -->
+
+<div class='spinbox-vert'>
+  <button class="btn btn-default spinbox-btn" tabindex="3" {{action "spin" "Ex1" "up"}}>
+    {{fontawesome-icon type='minus'}}
+  </button>
+  {{spin-box range=spinBoxRange value=maxContactFrequencyDays circular=false visibleRows=3 tabindex=4 spinUpWhen=spinEx1Up spinDownWhen=spinEx1Down}}
+  <button class="btn btn-default spinbox-btn" tabindex="5" {{action "spin" "Ex1" "down"}}>
+    {{fontawesome-icon type='plus'}}
+  </button>
+</div>
+
+
+<!-- Horizontal, plus/minus on either side -->
+
+<div class="clearfix">
+  <div class='spinbox-horiz'>
+    <button class="btn btn-default spinbox-btn" tabindex="3" {{action "spin" "Ex1" "up"}}>
+      {{fontawesome-icon type='minus'}}
+    </button>
+    {{spin-box range=spinBoxRange value=maxContactFrequencyDays circular=false visibleRows=1 tabindex=4 spinUpWhen=spinEx1Up spinDownWhen=spinEx1Down}}
+    <button class="btn btn-default spinbox-btn" tabindex="5" {{action "spin" "Ex1" "down"}}>
+      {{fontawesome-icon type='plus'}}
+    </button>
+  </div>
+</div>
+
+
+<!-- Horizontal, up/down arrows on right side of box -->
+
+<div class='spinbox-split clearfix'>
+  {{spin-box range=spinBoxRange value=maxContactFrequencyDays circular=false visibleRows=1 tabindex=4 rowHeight=39 spinUpWhen=spinEx1Up spinDownWhen=spinEx1Down}}
+  <div class='pull-left'>
+    <button class="btn btn-default spinbox-btn" tabindex="3" {{action "spin" "Ex1" "up"}}>
+      {{fontawesome-icon type='chevron-up'}}
+    </button>
+    <button class="btn btn-default spinbox-btn" tabindex="5" {{action "spin" "Ex1" "down"}}>
+      {{fontawesome-icon type='chevron-down'}}
+    </button>
+  </div>
+</div>

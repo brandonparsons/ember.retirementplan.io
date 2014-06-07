@@ -1,7 +1,10 @@
+// // //
+
+// Colours //
+
 $green: #469d44;
 $blue:  #3073a9;
 $light-orange: #ff8c00;
-
 
 // $brand-primary: $green;
 // $brand-success: $blue;
@@ -10,3 +13,13 @@ $light-orange: #ff8c00;
 // $brand-danger
 
 // $navbar-default-bg: #312312;
+
+// // //
+
+
+// Get rid of huge top-margin on page headers.... Already enough top margin
+// built-in to navbar & body
+.page-header {
+  text-align: center;
+  margin-top: 0px;
+}

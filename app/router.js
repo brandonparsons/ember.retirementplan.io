@@ -12,6 +12,7 @@ Router.map(function() {
   this.resource('user', function() {
     this.route('dashboard');
     this.route('profile');
+    this.route('preferences');
   });
 
   this.resource('password_reset', function() {

@@ -23,6 +23,8 @@
     "hello": "~0.2.6",
     "ember-debug": "~0.3.0",
     "ember-validations": "http://builds.dockyard.com.s3.amazonaws.com/ember-validations/ember-validations-latest.js",
-    "ember-forms": "brandonparsons/ember-forms"
+    "ember-forms": "brandonparsons/ember-forms",
+    "ember-date-picker": "~0.0.4",
+    "momentjs": "~2.6.0"
   }
 }

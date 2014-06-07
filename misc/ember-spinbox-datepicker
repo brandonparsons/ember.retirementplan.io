@@ -1,0 +1,9 @@
+# controller
+
+myDate: moment().format('MMMM Do YYYY'),
+
+
+# template
+
+{{date-picker-input controls="my-datepicker" value=myDate dateFormat='MMMM Do YYYY'}}
+{{date-picker-controls id="my-datepicker"}}

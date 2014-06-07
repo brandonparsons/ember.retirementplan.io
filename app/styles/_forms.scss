@@ -15,17 +15,20 @@ legend.fieldset-border {
   border-bottom:none;
 }
 
-.help-block {
-  font-size: 80%;
-}
+form .help-block { font-size: 80%; }
 
-#social-login-buttons i {
-  margin-left: 5px;
-}
+// bootstrap_social buttons have icons that are a bit crowded to left side of box
+#social-login-buttons i { margin-left: 5px; }
 
 // ember-forms adds an empty span.help-block after it finishes validating a form
 // input. This throws everything down the page, and sucks. Remove margin from
 // the validated elements in order to keep everything lined up.
 .has-success, .has-error {
   margin-bottom: 0px;
+}
+
+// ember-forms doesn't properly line up the feedback checkboxes on a default
+// layout form (i.e. not horizontal or inline). Need to add .default-layout to form
+.default-layout {
+  .has-feedback .form-control-feedback { top: 0; }
 }

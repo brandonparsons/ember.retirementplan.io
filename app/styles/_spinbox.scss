@@ -1,0 +1,87 @@
+/*
+Spinbox Styling, from:
+http://billdami.com/ember-spin-box/dist/demo.css
+*/
+.spinbox-btn {
+  border-color: #ddd;
+  color: #999;
+  font-size: 11px;
+}
+
+.spinbox-vert {
+  .spinbox {
+    width: 80px;
+    text-align: center;
+  }
+  .spinbox-btn {
+    width: 80px;
+  }
+  .spinbox-btn:first-child {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .spinbox-btn:last-child {
+    margin-top: -1px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+}
+
+.spinbox-horiz {
+  .spinbox {
+    float: left;
+    width: 60px;
+    text-align: center;
+  }
+  .spinbox-selection-window {
+    border: 0;
+    background: transparent;
+  }
+  .spinbox-btn {
+    display: block;
+    float: left;
+    height: 30px;
+  }
+  .spinbox-btn:first-child {
+    margin-right: -1px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .spinbox-btn:last-child {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.spinbox-split {
+  .spinbox {
+    float: left;
+    width: 50px;
+    text-align: center;
+  }
+  .spinbox-row {
+    height: 39px;
+    line-height: 32px;
+  }
+  .spinbox-selection-window {
+    border: 0;
+    background: transparent;
+  }
+  .spinbox-btn {
+    display: block;
+    height: 21px;
+    padding: 3px 12px;
+    margin-left: -1px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
+  .spinbox-btn:first-child {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+  }
+  .spinbox-btn:last-child {
+    border-top-right-radius: 0;
+  }
+}
