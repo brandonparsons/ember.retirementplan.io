@@ -46,6 +46,9 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
       var userID = this.get('session.user_id');
       this.send('_setCurrentUserContent', userID);
 
+      var email = this.get('session.user_email');
+      RetirementPlan.setFlash('success', 'Welcome! Signed in as ' + email + '.');
+
       // Everything below here is essentially a copy of the original
       // ember-simple-auth behaviour.
 
