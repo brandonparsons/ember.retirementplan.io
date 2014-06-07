@@ -64,6 +64,7 @@ var profileController = Ember.ObjectController.extend(
     addOAuthProvider: function(provider) {
       var controller  = this;
       var store       = this.store;
+      var email       = this.get('session.user_email');
 
       hello.on('auth.login', function(auth) {
         var authData;
@@ -73,7 +74,7 @@ var profileController = Ember.ObjectController.extend(
 
         if (window.ENV.debug) {
           Ember.debug('Received auth data from ' + auth.network  + ' OAuth endpoint');
-          Ember.debug(Ember.inspect(auth));
+          window.console.log(auth);
         }
 
         // Save the auth data before we logout
@@ -85,7 +86,7 @@ var profileController = Ember.ObjectController.extend(
         icAjaxRequest({
           url:  ENV.apiHost + '/authentications',
           type: 'POST',
-          data: { user: authData }
+          data: { user: _.merge(authData, {email: email}) }
         }).then( function(response) {
           store.pushPayload('authentication', response);
           controller.get('model').reload(); // Reload the user to update the hasMany
