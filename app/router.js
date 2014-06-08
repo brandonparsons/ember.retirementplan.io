@@ -4,10 +4,19 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
 
+  /////////////////
+  // APP-GENERIC //
+  /////////////////
+
   this.route('sign_in');
   this.route('sign_up');
 
   this.route('help');
+
+
+  //////////
+  // USER //
+  //////////
 
   this.resource('user', function() {
     this.route('dashboard');
@@ -23,6 +32,16 @@ Router.map(function() {
   this.resource('email_confirmation', function() {
     this.route('new', {path: '/'});
     this.route('confirm', {path: '/confirm/:token'});
+  });
+
+
+  //////////
+  // APP //
+  //////////
+
+  this.resource('questionnaire', function() {
+    this.route('new',   {path: '/new'}  );
+    this.route('edit',  {path: '/edit'} );
   });
 
   this.resource('securities', function() {

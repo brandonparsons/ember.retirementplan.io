@@ -2,6 +2,7 @@ import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
 
 export default Ember.Route.extend({
+
   deactivate: function() {
     this.get('controller').send('reset');
   },

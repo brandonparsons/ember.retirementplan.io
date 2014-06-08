@@ -1,8 +1,23 @@
 export default DS.Model.extend({
+
+  ////////////////
+  // Properties //
+  ////////////////
+
   uid:        DS.attr('string'),
   provider:   DS.attr('string'),
 
+
+  ///////////////////
+  // Associations //
+  //////////////////
+
   user:       DS.belongsTo('user'),
+
+
+  /////////////////////////
+  // Computed Properties //
+  /////////////////////////
 
   fontawesomeIconClass: function () {
     var provider = this.get('provider');
@@ -14,4 +29,5 @@ export default DS.Model.extend({
       throw new Error('Invalid provider');
     }
   }.property('provider')
+
 });

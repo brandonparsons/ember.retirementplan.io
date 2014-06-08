@@ -2,8 +2,7 @@ import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
 
 
-export default Ember.Route.extend(
-  Ember.SimpleAuth.AuthenticatedRouteMixin, {
+export default Ember.Route.extend({
 
   model: function() {
     // Rails controller will return the current_user no matter what ID we search

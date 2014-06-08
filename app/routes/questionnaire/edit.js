@@ -4,33 +4,34 @@ import errorProcessor from 'retirement-plan/utils/error-processor';
 export default Ember.Route.extend({
 
   model: function() {
-    return this.store.find('userPreference').then(function(array) {
-      return array.get('firstObject');
-    });
+    return this.modelFor('questionnaire');
+  },
+
+  afterModel: function(model) {
+    if (model.get('isNew')) this.transitionTo('questionnaire.new');
   },
 
   deactivate: function() {
     this.get('currentModel').rollback();
   },
 
+  renderTemplate: function() {
+    this.render({controller: 'questionnaire'});
+  },
 
   actions: {
+    updateQuestionnaire: function() {
+      var route         = this;
+      var questionnaire = this.get('currentModel');
 
-    editPreferences: function() {
-      var route = this;
-      this.get('currentModel').save().then( function() {
-        RetirementPlan.setFlash('success', 'Your preferences have been updated.');
+      questionnaire.save().then( function() {
+        RetirementPlan.setFlash('success', 'Your responses have been saved.');
         route.transitionTo('user.dashboard');
       }, function(errorResponse) {
         var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
         RetirementPlan.setFlash('error', errorMessage);
       });
-    },
-
-    cancel: function() {
-      this.transitionTo('user.dashboard');
     }
-
   }
 
 });

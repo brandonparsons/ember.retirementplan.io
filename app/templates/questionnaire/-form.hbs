@@ -1,0 +1,157 @@
+<fieldset class='fieldset-border'>
+  <legend class='fieldset-border'>Risk Tolerance Questionnaire</legend>
+
+  {{!-- SEX INPUT --}}
+  {{em-select property="sex" label="Gender" prompt="-select-" content=sexOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- AGE INPUT --}}
+  {{em-input property="age" type='number' label="Age" placeholder="Your age"}}
+
+  {{!-- MARRIED INPUT --}}
+  {{em-select property="married" label="Maritial Status" prompt="-select-" content=marriedOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- NO_PEOPLE INPUT --}}
+  {{em-input property="noPeople" type='number' label="Household Size" placeholder="Number of people in your household"}}
+
+  {{!-- REAL_ESTATE_VAL INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>How much would your real estate property be worth if sold today?</p>
+    </div>
+  </div>
+  {{em-select property="realEstateVal" label="Real Estate Value" prompt="-select-" content=realEstateValueOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- SAVING_REASON INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>What would you describe as your most important reason for saving?</p>
+    </div>
+  </div>
+  {{em-select property="savingReason" label="Reason for Saving" prompt="-select-" content=savingReasonOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- INVESTMENT_TIMELINE INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>In planning your saving and spending, are the next few months most important for you?</p>
+    </div>
+  </div>
+  {{em-select property="investmentTimeline" label="Short-term Spending" prompt="-select-" content=investmentTimelineOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- INVESTMENT_TIMELINE_LENGTH INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>In planning your saving and spending, do you have longer than 5 years before needing the majority of your funds?</p>
+    </div>
+  </div>
+  {{em-select property="investmentTimelineLength" label="Long-term Spending" prompt="-select-" content=investmentTimelineLengthOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- ECONOMY_PERFORMANCE INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>Do you expect the economy to perform better in the next 5 years than it has over the past 5?</p>
+    </div>
+  </div>
+  {{em-select property="economyPerformance" label="Economy Performance" prompt="-select-" content=economyPerformanceOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- FINANCIAL_RISK INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>Are you comfortable taking financial risks with your savings?</p>
+    </div>
+  </div>
+  {{em-select property="financialRisk" label="Risk Tolerance" prompt="-select-" content=financialRiskOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- CREDIT_CARD INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>Do you always pay off the full balance of your credit card account each month?</p>
+    </div>
+  </div>
+  {{em-select property="creditCard" label="Credit Card Balance" prompt="-select-" content=creditCardOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- PENSION INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>How much do you expect your future monthly pension to be?</p>
+    </div>
+  </div>
+  {{em-select property="pension" label="Pension Value" prompt="-select-" content=pensionOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- INHERITANCE INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>About how much in future inheritance (or transfer of assets) do you expect?</p>
+    </div>
+  </div>
+  {{em-select property="inheritance" label="Inheritance" prompt="-select-" content=inheritanceOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- BEQUEATH INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>Do you expect to leave a sizable estate to others?</p>
+    </div>
+  </div>
+  {{em-select property="bequeath" label="Bequeathment Expectations" prompt="-select-" content=bequeathOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- DEGREE INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>What is the highest degree you have earned?</p>
+    </div>
+  </div>
+  {{em-select property="degree" label="Education" prompt="-select-" content=degreeOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- LOAN INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>Have you applied for any type of credit or loan in the last 5 years?</p>
+    </div>
+  </div>
+  {{em-select property="loan" label="Recent Loan Applications" prompt="-select-" content=loanOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- FORSEEABLE_EXPENSES INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>Are you currently saving for forseeable future expenses?</p>
+    </div>
+  </div>
+  {{em-select property="forseeableExpenses" label="Forseeable Expenses" prompt="-select-" content=forseeableExpensesOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- EMERGENCY_FUND INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>About how much do you think you need to have in savings for emergencies and other unexpected things that may come up?</p>
+    </div>
+  </div>
+  {{em-select property="emergencyFund" label="Emergency Fund" prompt="-select-" content=emergencyFundOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+  {{!-- JOB_TITLE INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>Which of the following closely matches your job title?</p>
+    </div>
+  </div>
+  {{em-select property="jobTitle" label="Job Title" prompt="-select-" content=jobTitleOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+
+  {{!-- INVESTMENT EXPERIENCE INPUT --}}
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      <p class='help-block'>How would you describe your investment experience?</p>
+    </div>
+  </div>
+  {{em-select property="investmentExperience" label="Investment Experience" prompt="-select-" content=investmentExperienceOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+
+  {{!--  --}}
+  {{!-- ACTION BUTTONS --}}
+  {{!--  --}}
+
+  <div class='row'>
+    <div class='col-sm-10 col-sm-offset-2'>
+      {{form-submit-button text="Save responses"}}
+      {{form-button action="cancel" text="Cancel"}}
+    </div>
+  </div>
+
+</fieldset>
