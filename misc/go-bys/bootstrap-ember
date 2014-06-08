@@ -1,0 +1,141 @@
+{{bs-page-header title="Dashboard!" sub="With context."}}
+
+<h3>Heading with <strong>danger</strong> {{bs-label content="Careful!" type="danger"}}</h3>
+
+{{#bs-well large=true}}
+  Look, I'm in a large well!
+{{/bs-well}}
+
+{{#bs-panel heading="Info Panel" type="info"}}
+  <p>Panel content.</p>
+{{/bs-panel}}
+
+
+
+//// MODAL /////
+
+// Controller
+
+myModalButtons: [
+  Ember.Object.create({title: 'Submit', clicked:'submitModal'}),
+  Ember.Object.create({title: 'Cancel', clicked:'cancelModal', dismiss: 'modal'})
+],
+
+actions: {
+  showModal: function() {
+    Bootstrap.ModalManager.show('myModal');
+  },
+  submitModal: function() {
+    RetirementPlan.setFlash('success', 'Submitted modal!');
+    Bootstrap.ModalManager.hide('myModal');
+  },
+
+  cancelModal: function() {
+    RetirementPlan.setFlash('notice', 'Cancelled modal....');
+  }
+}
+
+// Template
+
+{{bs-button title="Show Modal" clicked="showModal"}}
+{{#bs-modal name="myModal" fade=true footerButtonsBinding="myModalButtons" title="My Modal"}}
+  <p>Modal content!</p>
+{{/bs-modal}}
+
+////
+
+
+
+//// CHECKBOX BUTTON GROUP /////
+
+// Controller
+
+buttonGroupOptions: [
+  Ember.Object.create({title: 'Option 1'}),
+  Ember.Object.create({title: 'Option 2'})
+],
+
+// Template
+
+<div class="bs-example">
+  {{bs-btn-group icon_inactive="fa fa-square-o" icon_active="fa fa-check-square-o" contentBinding="buttonGroupOptions" selectedBinding="selected"}}
+  <br>
+  <br>
+  <p>Controller says selected item is: {{selected.title}}</p>
+</div>
+
+////
+
+
+
+//// PROGRESS BAR /W CHANGE /////
+
+// Controller
+
+progress: 45,
+
+actions: {
+  changeProgress: function() {
+    this.set('progress', 75);
+  },
+}
+
+// Template
+
+<a class='btn btn-default' {{action changeProgress}}>Change Progress</a>
+{{bs-progress progress=progress stripped=true animated=true}}
+
+////
+
+
+
+//// TOOLTIPS/POPOVERS /////
+
+// Controller
+
+clickPop: Ember.Object.create({
+  title: "Clickable!",
+  content: "This is a clickable popover",
+  placement: "auto bottom"
+}),
+
+// Template
+
+<p class="muted" style="margin-bottom: 0;">
+  Here is <a {{bs-bind-tooltip content="A tooltip!" placement="auto bottom" title="my title"}}>a cool</a> link with a tooltip,.
+  You can mix as many <a {{bs-bind-tooltip title="Another tooltip!" placement="top"}}>tooltips</a> as you wish.
+  You can even use popovers with <a {{bs-bind-popover clickPop}}>links</a>
+</p>
+
+////
+
+// Controller
+
+hoverPop: Ember.Object.create({
+  title: "I'm a title!",
+  content: "And i'm a content!",
+  trigger: "hover",
+  placement: "right",
+  sticky: false
+}),
+
+stickyPop: Ember.Object.create({
+  title: "I'm a title!",
+  content: "And i'm a content!",
+  trigger: "hover",
+  placement: "right",
+  sticky: true
+}),
+
+// Template
+
+<ul class="list-group" style="width:250px">
+  <li class="list-group-item" {{bs-bind-popover stickyPop}}>
+     Hover for a sticky popup
+  </li>
+  <li class="list-group-item" {{bs-bind-popover hoverPop}}>
+     Hover for a non-sticky popup
+  </li>
+</ul>
+
+////
