@@ -2,4 +2,9 @@
 
 <p class='lead'>Hello</p>
 
-Take your {{link-to 'questionnaire' 'questionnaire'}}.
+
+{{#if currentUser.completedQuestionnaire}}
+  Modify your {{link-to 'questionnaire responses' 'questionnaire.edit'}}.
+{{else}}
+  Take your {{link-to 'questionnaire' 'questionnaire.new'}}.
+{{/if}}

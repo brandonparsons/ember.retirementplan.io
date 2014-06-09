@@ -13,7 +13,6 @@
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.1",
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.1",
     "pretender": "~0.0.5",
-    "bootstrap-sass-official": "~3.1.1+2",
     "fastclick": "~1.0.1",
     "ember-simple-auth": "~0.4.0",
     "alertify.js": "~0.3.11",
@@ -25,6 +24,9 @@
     "ember-validations": "http://builds.dockyard.com.s3.amazonaws.com/ember-validations/ember-validations-latest.js",
     "ember-forms": "brandonparsons/ember-forms",
     "ember-date-picker": "~0.0.4",
-    "momentjs": "~2.6.0"
+    "momentjs": "~2.6.0",
+    "bootstrap-sass-official": "~3.1.1+2",
+    "font-awesome": "~4.1.0",
+    "headroom.js": "~0.6.0"
   }
 }

@@ -58,10 +58,6 @@ export default Ember.Route.extend({
 
     },
 
-    cancel: function() {
-      this.transitionTo('user.dashboard'); // Controller reset built-in to `deactivate`
-    },
-
     setPasswordOnOauthAccount: function() {
       icAjaxRequest({
         url:  ENV.apiHost + '/users/create_password',

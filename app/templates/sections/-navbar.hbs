@@ -30,8 +30,8 @@
           <li class="dropdown visible-md visible-lg" style='margin-right: 15px;'> {{!-- Right margin required on this element as the `row` padding is not pushing the button over --}}
 
             <button class="dropdown-toggle btn btn-default navbar-btn space-left button-with-image" data-toggle="dropdown">
-              <img {{bind-attr src=image}} width='28' height='28'>
-              {{name}}
+              <img {{bind-attr src=currentUser.image}} width='28' height='28'>
+              {{currentUser.name}}
               &nbsp;&nbsp;<b class="caret"></b>
             </button>
 

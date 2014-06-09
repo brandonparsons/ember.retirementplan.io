@@ -128,8 +128,8 @@ var helloJS = pickFiles('vendor/hello', {
 
 
 /* Import headroom.js (no AMD package, just load into the window.) */
-var headroom = pickFiles('vendor', {
-  srcDir:   '/',
+var headroom = pickFiles('vendor/headroom.js', {
+  srcDir:   '/dist',
   files:    ['headroom.min.js'],
   destDir: '/assets/vendor'
 });

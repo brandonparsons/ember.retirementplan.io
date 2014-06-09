@@ -15,7 +15,6 @@ export default Ember.Route.extend({
 
 
   actions: {
-
     editPreferences: function() {
       var route = this;
       this.get('currentModel').save().then( function() {
@@ -25,12 +24,7 @@ export default Ember.Route.extend({
         var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
         RetirementPlan.setFlash('error', errorMessage);
       });
-    },
-
-    cancel: function() {
-      this.transitionTo('user.dashboard');
     }
-
   }
 
 });

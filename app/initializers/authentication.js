@@ -206,7 +206,8 @@ var CustomAuthorizer = Ember.SimpleAuth.Authorizers.Base.extend({
 
 
 export default {
-  name: 'authentication',
+  name:     'authentication',
+  before:   'current-user-controller',
   initialize: function(container, application) {
 
     container.register('authenticator:hello',     HelloAuthenticator);

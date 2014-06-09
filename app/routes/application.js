@@ -5,7 +5,7 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
   renderTemplate: function() {
     this.render(); // Render default outlet
 
-    // Fender extra outlets
+    // Render extra outlets
     var controller = this.controllerFor('tooltip-box');
     this.render("bs-tooltip-box", {
       outlet: "bs-tooltip-box",
@@ -16,19 +16,35 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
   /* */
 
 
-  beforeModel: function(transition) {
-    // If we are booting up the app already with session info (they reloaded the
-    // page while logged in), set the current user controller content to the user.
-    var userID = this.get('session.user_id');
-    // Need to send action to transition in a beforeModel (first route)
-    if (userID) { transition.send('_setCurrentUserContent', userID); }
+  beforeModel: function() {
+    // If we are booting up the app already with session info (they reloaded
+    // the page while logged in), set the current user controller content to
+    // the user.
+    var userID  = this.get('session.user_id');
+    if (userID) {
+      return this._setCurrentUserContent(userID);
+    } else {
+      return null;
+    }
   },
 
+  _setCurrentUserContent: function(userID) {
+    // This must return a promise so that beforeModel will wait for it to
+    // resolve before continuing to render the application and leaf routes.
+    var store                 = this.store;
+    var currentUserController = this.controllerFor('user.current');
+
+    return new Ember.RSVP.Promise(function(resolve) {
+      store.find('user', userID).then( function(user) {
+        currentUserController.set('content', user);
+        resolve(null);
+      });
+    });
+  },
 
   actions: {
 
     /* Bubble from various locations */
-
     transitionToSignUp: function() {
       this.transitionTo('sign_up');
     },
@@ -37,42 +53,40 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
       this.transitionTo('sign_in');
     },
 
+    cancel: function() {
+      this.transitionTo('user.dashboard');
+    },
     /* */
 
 
     /* Over-ride the Ember-simple-auth controller action */
     sessionAuthenticationSucceeded: function() {
       // Set up the current user controller with the user ID we just received
-      var userID = this.get('session.user_id');
-      this.send('_setCurrentUserContent', userID);
+      var route   = this;
+      var session = route.get('session');
+      var userID  = session.get('user_id');
+      var email   = session.get('user_email');
 
-      var email = this.get('session.user_email');
-      RetirementPlan.setFlash('success', 'Welcome! Signed in as ' + email + '.');
+      this._setCurrentUserContent(userID).then(function() {
+        RetirementPlan.setFlash('success', 'Welcome! Signed in as ' + email + '.');
 
-      // Everything below here is essentially a copy of the original
-      // ember-simple-auth behaviour.
+        /*
+        Everything below here is essentially a copy of the original
+        ember-simple-auth behaviour.
+        */
 
-      var attemptedTransition = this.get('session.attemptedTransition');
-      if (attemptedTransition) {
-        // Retry the failed route transition
-        attemptedTransition.retry();
-        this.set('session.attemptedTransition', null);
-      } else {
-        // There was no failed transition - send to dashboard. This would otherwise
-        // be the `routeAfterAuthentication` in the simple-auth initializer
-        this.transitionTo('user.dashboard');
-      }
-    },
-    /* */
-
-    /* Called only from inside this route */
-    _setCurrentUserContent: function(userID) {
-      // var currentUserController = this.controllerFor('user.current');
-      var controller = this.controllerFor('application');
-      this.store.find('user', userID).then( function(user) {
-        controller.set('content', user);
+        var attemptedTransition = route.get('session.attemptedTransition');
+        if (attemptedTransition) {
+          // Retry the failed route transition
+          attemptedTransition.retry();
+          route.set('session.attemptedTransition', null);
+        } else {
+          // There was no failed transition - send to dashboard. This would otherwise
+          // be the `routeAfterAuthentication` in the simple-auth initializer
+          route.transitionTo('user.dashboard');
+        }
       });
-    }
+    },
     /* */
 
   }

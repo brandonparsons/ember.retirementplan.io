@@ -5,8 +5,8 @@ export default {
 
     Ember.RSVP.on('error', function (error) {
       var errorMessage, sticky;
-      var session = application.__container__.lookup('controller:application').get('session');
-      var router  = application.__container__.lookup('router:main');
+      var session = container.lookup('controller:application').get('session');
+      var router  = container.lookup('router:main');
 
       if (window.ENV.debug) {
         Ember.warn("Caught Ember.RSVP Error!");
