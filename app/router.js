@@ -8,6 +8,9 @@ Router.map(function() {
   // APP-GENERIC //
   /////////////////
 
+  // See: https://speakerdeck.com/elucid/ember-errors-and-you
+  this.route('error', {path: '/error/:error_id'});
+
   this.route('sign_in');
   this.route('sign_up');
 
