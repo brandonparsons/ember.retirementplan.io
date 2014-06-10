@@ -1,7 +1,22 @@
 export default {
-  name:   'rsvp-on-error',
+  name:   'on-error',
   after:  'flash-functions',
   initialize: function(container, application) {
+
+    Ember.onerror = function(error) {
+      if (window.ENV.debug) {
+        Ember.warn("Caught Ember.RSVP Error!");
+        window.console.log(error);
+        window.console.log(error.jqXHR.responseJSON);
+        window.console.log(error.stack);
+      }
+
+      // Em.$.ajax('/somewhere/error-notification', 'POST', {
+      //   stack: error.stack,
+      //   responseJSON: error.jqXHR.responseJSON,
+      //   message: errorMessage
+      // });
+    }
 
     Ember.RSVP.on('error', function (error) {
       var errorMessage, sticky;
@@ -15,9 +30,6 @@ export default {
         window.console.log(error.stack);
       }
 
-      // / If you turn this on, consider doing the same in the 'error' route/view
-      // / Note that you were having troubles getting stuff in the 'error' route
-      // / to execute.
       // Em.$.ajax('/somewhere/error-notification', 'POST', {
       //   stack: error.stack,
       //   responseJSON: error.jqXHR.responseJSON,

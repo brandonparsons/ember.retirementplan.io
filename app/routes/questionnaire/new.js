@@ -8,7 +8,9 @@ export default Ember.Route.extend({
   },
 
   afterModel: function(model) {
-    if (!model.get('isNew')) this.transitionTo('questionnaire.edit');
+    if ( model && !model.get('isNew') ) {
+      this.transitionTo('questionnaire.edit');
+    }
   },
 
   renderTemplate: function() {
