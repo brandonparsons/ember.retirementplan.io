@@ -16,7 +16,7 @@ export default {
       //   responseJSON: error.jqXHR.responseJSON,
       //   message: errorMessage
       // });
-    }
+    };
 
     Ember.RSVP.on('error', function (error) {
       var errorMessage, sticky;

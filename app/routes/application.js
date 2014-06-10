@@ -1,9 +1,12 @@
 export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
 
-  /* renderTemplate requires customization for `bootstrap-for-ember` tooltips */
-  /* and popovers. See: http://ember-addons.github.io/bootstrap-for-ember/#/show_components/popover */
   renderTemplate: function() {
-    this.render(); // Render default outlet
+    // Need to render a custom template/outlet for `bootstrap-for-ember` tooltips
+    // and popovers. See:
+    //http://ember-addons.github.io/bootstrap-for-ember/#/show_components/popover
+
+    // Render default outlet
+    this.render();
 
     // Render extra outlets
     var controller = this.controllerFor('tooltip-box');
@@ -13,8 +16,6 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
       into: "application"
     });
   },
-  /* */
-
 
   beforeModel: function() {
     // If we are booting up the app already with session info (they reloaded
@@ -58,9 +59,9 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
     },
     /* */
 
-
-    /* Over-ride the Ember-simple-auth controller action */
     sessionAuthenticationSucceeded: function() {
+      // Over-ride the Ember-simple-auth controller action
+
       // Set up the current user controller with the user ID we just received
       var route   = this;
       var session = route.get('session');
@@ -87,8 +88,7 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
         }
       });
     },
-    /* */
 
-  }
+  } // actions
 
 });
