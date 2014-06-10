@@ -47,7 +47,7 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
 
     error: function(error) {
       // See: https://speakerdeck.com/elucid/ember-errors-and-you
-      // This may not be required in 1.6 canary? 1.7 canary?
+      // This will not be required in Ember 1.7
       Ember.onerror(error);
       return true;
     },

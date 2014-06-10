@@ -38,7 +38,7 @@ body { padding-top: 50px; }
 
 // Width between iphone landscape & portait (will have another breakpoint for
 // landscape). Navbar image & text makes navbar overflow unless you shrink them.
-@media (max-width : 450px) {
+@media only screen and (max-width : 450px) {
   .navbar {
     .navbar-brand {
       padding-top: 10px;

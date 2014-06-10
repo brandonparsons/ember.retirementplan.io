@@ -68,6 +68,7 @@ export default {
         Ember.warn("Have not set up logging service.");
         return error;
       }
+      // FIXME: Need to post to airbrake service
       // Em.$.ajax('/somewhere/error-notification', 'POST', {
       //   stack: error.stack,
       //   responseJSON: error.jqXHR.responseJSON,

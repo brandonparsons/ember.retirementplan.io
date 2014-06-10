@@ -13,8 +13,14 @@ var setUpGoogleAnalyticsUserID = function(userID) {
   // Set the google analytics user id now that we have it. Supposedly can
   // do this... see:
   // http://stackoverflow.com/questions/23379338/set-google-analytics-user-id-after-creating-the-tracker
-  Ember.debug("Logged in - setting Google Analytics userID to " + userID);
-  window.ga('set', '&uid', userID);
+  if (window.ENV.debug) {
+    Ember.debug("Logged in - setting Google Analytics userID to " + userID);
+  }
+  if (window.ga) {
+    window.ga('set', '&uid', userID);
+  } else {
+    Ember.warn("ga (google analyics) not present on window");
+  }
 };
 
 

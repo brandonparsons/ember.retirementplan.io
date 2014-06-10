@@ -1,10 +1,32 @@
-{{bs-page-header title="Dashboard!" sub="With context."}}
+<div class='carousel hidden-xs'>
+  <div class='page-header'>
 
-<p class='lead'>Hello</p>
+      <ol class='inline carousel-indicators'>
+        <li {{bind-attr class=":indicator questionnaireActive:active"}}>
+          <span class='indicator-number'>1</span>
+          <span class='indicator-label'> Risk Questionnaire</span>
+        </li>
+        <li {{bind-attr class=":indicator portfolioSelectionActive:active"}}>
+          <span class='indicator-number'>2</span>
+          <span class='indicator-label'> Portfolio Selection</span>
+        </li>
+        <li {{bind-attr class=":indicator retirementSimulationActive:active"}}>
+          <span class='indicator-number'>3</span>
+          <span class='indicator-label'> Retirement Simulation</span>
+        </li>
+        <li {{bind-attr class=":indicator trackPortfolioActive:active"}}>
+          <span class='indicator-number'>4</span>
+          <span class='indicator-label'> Track Portfolio</span>
+        </li>
+      </ol>
 
+  </div>
+</div>
 
-{{#if currentUser.completedQuestionnaire}}
-  Modify your {{link-to 'questionnaire responses' 'questionnaire.edit'}}.
-{{else}}
+<p class='lead'>Get Started!</p>
+
+{{#if questionnaireActive}}
   Take your {{link-to 'questionnaire' 'questionnaire.new'}}.
+{{else}}
+  Modify your {{link-to 'questionnaire responses' 'questionnaire.edit'}}.
 {{/if}}
