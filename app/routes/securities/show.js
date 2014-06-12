@@ -1,4 +1,4 @@
-export default Ember.Route.extend(Ember.SimpleAuth.AuthenticatedRouteMixin, {
+export default Ember.Route.extend({
   model: function(params) {
     return this.store.find('security', params.security_id);
   }
