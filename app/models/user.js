@@ -10,6 +10,7 @@ export default DS.Model.extend({
   hasPassword:              DS.attr('boolean'),
   confirmed:                DS.attr('boolean'),
   completedQuestionnaire:   DS.attr('boolean'),
+  acceptedTerms:            DS.attr('boolean'),
 
 
   ///////////////////

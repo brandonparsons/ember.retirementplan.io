@@ -39,22 +39,25 @@ export default {
       window.location.replace(window.ENV.baseURL);
     };
 
-    var attemptClearAndTransitionTo = function(route) {
-      clearSession();
+    var transitionTo = function (route) {
       var router  = container.lookup('router:main');
       router.transitionTo(route);
     };
 
     var handleForbiddenError = function(error) {
       // If it is a 403, display the message and redirect to an appropriate page
-      var errorMessage  = determineErrorMessage(error);
+      var reason;
+      var errorMessage = determineErrorMessage(error);
 
       // Rails will sometimes provide instructions on what route to redirect to
       if (error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.reason) {
-        if (error.jqXHR.responseJSON.reason === 'email_confirmation') {
-          attemptClearAndTransitionTo('email_confirmation');
-        // } else if (other-reason) {
-        //   do something
+        reason = error.jqXHR.responseJSON.reason;
+
+        if (reason === 'email_confirmation') {
+          clearSession();
+          transitionTo('email_confirmation');
+         } else if (reason === 'terms') {
+           transitionTo('terms');
         } else {
           // No- op
         }

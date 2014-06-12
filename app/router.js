@@ -15,6 +15,7 @@ Router.map(function() {
   this.route('sign_up');
 
   this.route('help');
+  this.route('terms');
 
 
   //////////
