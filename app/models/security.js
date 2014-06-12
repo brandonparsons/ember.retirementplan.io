@@ -1,3 +1,5 @@
+import DS from 'ember-data';
+
 export default DS.Model.extend({
   ticker:         DS.attr('string'),
   assetClass:     DS.attr('string'),

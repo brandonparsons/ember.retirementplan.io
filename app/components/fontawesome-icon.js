@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 var FontawesomeIconComponent = Ember.Component.extend({
   // Bound:
   // - type

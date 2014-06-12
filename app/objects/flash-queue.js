@@ -1,5 +1,7 @@
 /* global alertify */
 
+import Ember from 'ember';
+
 var FlashQueue = Ember.ArrayProxy.create({
 
   content: [],
@@ -28,7 +30,9 @@ var FlashQueue = Ember.ArrayProxy.create({
       log = alertify.log(message, 'error', messageTiming);
     }
 
-    if (sticky) this.pushObject(log);
+    if (sticky) {
+      this.pushObject(log);
+    }
 
     return null;
   },

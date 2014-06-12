@@ -1,5 +1,7 @@
 `/* global FastClick, Headroom */`
 
+`import Ember from 'ember'`
+
 applicationView = Ember.View.extend
 
   didInsertElement: ->

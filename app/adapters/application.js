@@ -1,3 +1,4 @@
+import DS from 'ember-data';
 import { request as icAjaxRequest } from 'ic-ajax';
 
 // Override standard `ajax` function with ic-ajax wrapper. It does this
@@ -11,5 +12,5 @@ DS.ActiveModelAdapter.reopen({
 });
 
 export default DS.ActiveModelAdapter.extend({
-  host: ENV.apiHost
+  host: window.RetirementPlanENV.apiHost
 });

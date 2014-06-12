@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
 
@@ -18,7 +19,7 @@ export default Ember.Route.extend({
       var email       = controller.get('email');
 
       icAjaxRequest({
-        url:  ENV.apiHost + '/email_confirmations',
+        url:  window.RetirementPlanENV.apiHost + '/email_confirmations',
         type: 'POST',
         data: { email: email }
       }).then( function() {

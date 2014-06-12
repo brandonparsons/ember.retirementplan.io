@@ -1,5 +1,5 @@
+import Ember from 'ember';
 import SignedOutRoute from 'retirement-plan/mixins/signed-out-route';
-
 
 export default Ember.Route.extend(
   SignedOutRoute, {

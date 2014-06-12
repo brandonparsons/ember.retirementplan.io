@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 var questionnaireController = Ember.ObjectController.extend(
   Ember.Validations.Mixin, {
 

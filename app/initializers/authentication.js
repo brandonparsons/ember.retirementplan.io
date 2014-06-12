@@ -1,19 +1,18 @@
 /* global hello */
 
-
+import Ember from 'ember';
 import { request as icAjaxRequest } from 'ic-ajax';
 
-
-var serverLoginEndpoint       = ENV.apiHost + '/session';
-var serverLogoutEndpoint      = ENV.apiHost + '/session';
-var serverCheckOauthEndpoint  = ENV.apiHost + '/session/check_oauth';
+var serverLoginEndpoint       = window.RetirementPlanENV.apiHost + '/session';
+var serverLogoutEndpoint      = window.RetirementPlanENV.apiHost + '/session';
+var serverCheckOauthEndpoint  = window.RetirementPlanENV.apiHost + '/session/check_oauth';
 
 
 var setUpGoogleAnalyticsUserID = function(userID) {
   // Set the google analytics user id now that we have it. Supposedly can
   // do this... see:
   // http://stackoverflow.com/questions/23379338/set-google-analytics-user-id-after-creating-the-tracker
-  if (window.ENV.debug) {
+  if (window.RetirementPlanENV.debug) {
     Ember.debug("Logged in - setting Google Analytics userID to " + userID);
   }
   if (window.ga) {
@@ -78,7 +77,7 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
 
         // Get user details
         hello( auth.network ).api( '/me' ).success( function(json) {
-          if (window.ENV.debug) {
+          if (window.RetirementPlanENV.debug) {
             Ember.debug('Received user data from ' + auth.network  + ' OAuth endpoint');
             Ember.debug(Ember.inspect(json));
           }

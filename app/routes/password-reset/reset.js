@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
 
@@ -25,7 +26,7 @@ export default Ember.Route.extend({
       var session     = route.get('session');
 
       icAjaxRequest({
-        url:  ENV.apiHost + '/password_resets/reset',
+        url:  window.RetirementPlanENV.apiHost + '/password_resets/reset',
         type: 'POST',
         data: controller.get('serialized')
       }).then( function() {

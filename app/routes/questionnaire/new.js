@@ -1,5 +1,5 @@
+import Ember from 'ember';
 import errorProcessor from 'retirement-plan/utils/error-processor';
-
 
 export default Ember.Route.extend({
 

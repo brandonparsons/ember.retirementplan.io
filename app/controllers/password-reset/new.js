@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 var newPasswordResetController = Ember.ObjectController.extend(
   Ember.Validations.Mixin, {
 

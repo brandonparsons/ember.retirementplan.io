@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 var isCustomRailsErrorMessage = function(errors) {
   // When you are returning a custom error message from rails - e.g.
   // {"success":false,"message":"Current password is incorrect."}

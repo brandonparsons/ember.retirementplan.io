@@ -1,3 +1,6 @@
+import Ember from 'ember';
+import DS from 'ember-data';
+
 // Source: http://stackoverflow.com/questions/12168570/how-to-represent-arrays-within-ember-data-models/13884238#13884238
 // Model Usage: DS.attr('array')
 // App Usage:   this.get('model.tickers').pushObject('ABC')

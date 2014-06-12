@@ -4,23 +4,21 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>App | RetirementPlan.io</title>
+    <meta name="description" content="Client application for RetirementPlan.io. Risk tolerance, asset allocation and retirement simulation.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{BASE_TAG}}
 
-    <!-- Moved this up from bottom of body -->
-    <script>window.ENV = {{ENV}};</script>
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/retirement-plan.css">
 
-    <title>App | RetirementPlan.io</title>
 
-    <meta name="description" content="RetirementPlan.io - Ember Application">
+    <!-- Don't rearrange this - organized for easier ember-cli upgrades -->
+
     <meta name="author" content="Brandon Parsons">
-
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
-
-    <link rel="stylesheet" href="assets/retirement-plan.css">
-    <link rel="stylesheet" href="assets/vendor.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -28,34 +26,40 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!--
+    -> Needs to be above hello.init so that we have access to OAuth configs set on window.RetirementPlanENV
+    -> Needs to be above google analytics so we have access to the tracking code & domain
+    -->
+    <script>
+      window.RetirementPlanENV = {{ENV}};
+    </script>
+
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', window.ENV.ga_tracking_code, window.ENV.ga_domain);
+      ga('create', window.RetirementPlanENV.ga_tracking_code, window.RetirementPlanENV.ga_domain);
       // Can't add userId here - don't always have it. Trying to do so in application route
-      // ga('create', window.ENV.ga_tracking_code, window.ENV.ga_domain, { 'userId': '12345 });
+      // ga('create', window.RetirementPlanENV.ga_tracking_code, window.RetirementPlanENV.ga_domain, { 'userId': '12345 });
 
       // Pulled out sending pageview - automatically handled by ember-google-analytics
       // ga('send', 'pageview');
     </script>
-  </head>
 
+  </head>
   <body>
     <!--[if lte IE 8]>
       <p>You are using an <strong>outdated</strong> browser, that likely won't work for this site. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <noscript>
-      <div class='row'>
-        <div class='col-md-12'>
-          <div class="alert alert-danger text-center">
-            <h4>Usage of this site <strong>requires</strong> Javascript. Looks like you have it turned off.</h4>
-          </div>
+      <div class='row'><div class='col-md-12'>
+        <div class="alert alert-danger text-center">
+          <h4>Usage of this site <strong>requires</strong> Javascript. Looks like you have it turned off.</h4>
         </div>
-      </div>
+      </div></div>
     </noscript>
 
     <div id='ember-application'></div>
@@ -67,19 +71,23 @@
 
     <script>
       hello.init({
-        facebook : window.ENV.facebook_app_id,
-        google   : window.ENV.google_client_id,
-        twitter  : window.ENV.twitter_api_key
+        facebook : window.RetirementPlanENV.facebook_app_id,
+        google   : window.RetirementPlanENV.google_client_id,
+        twitter  : window.RetirementPlanENV.twitter_api_key
       }, {
-        redirect_uri:'/' //,
+        redirect_uri:'/'
         // You will need this if you try to use Twitter or other OAuth1.0 provider
         //oauth_proxy:'https://retirementplan-oauth-shim.herokuapp.com/proxy'
       });
     </script>
 
+    <script>
+      window.EmberENV = window.RetirementPlanENV.EmberENV;
+    </script>
+    <script src="assets/vendor.js"></script>
     <script src="assets/retirement-plan.js"></script>
-    <script>window.RetirementPlan = require('retirement-plan/app')['default'].create(ENV.APP);</script>
-
+    <script>
+      window.RetirementPlan = require('retirement-plan/app')['default'].create(RetirementPlanENV.APP);
+    </script>
   </body>
-
 </html>

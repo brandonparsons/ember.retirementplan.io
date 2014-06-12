@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 var signInController = Ember.Controller.extend(
   Ember.SimpleAuth.LoginControllerMixin,
   Ember.Validations.Mixin, {

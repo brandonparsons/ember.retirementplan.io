@@ -1,8 +1,9 @@
 /* global hello */
 
+import Ember from 'ember';
+import DS from 'ember-data';
 import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
-
 
 var profileController = Ember.ObjectController.extend(
   Ember.Validations.Mixin, {
@@ -72,7 +73,7 @@ var profileController = Ember.ObjectController.extend(
         // First thing - clear the handler.
         hello.off('auth.login');
 
-        if (window.ENV.debug) {
+        if (window.RetirementPlanENV.debug) {
           Ember.debug('Received auth data from ' + auth.network  + ' OAuth endpoint');
           window.console.log(auth);
         }
@@ -84,7 +85,7 @@ var profileController = Ember.ObjectController.extend(
         hello(provider).logout();
 
         icAjaxRequest({
-          url:  ENV.apiHost + '/authentications',
+          url:  window.RetirementPlanENV.apiHost + '/authentications',
           type: 'POST',
           data: { user: _.merge(authData, {email: email}) }
         }).then( function(response) {

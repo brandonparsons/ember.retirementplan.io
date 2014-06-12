@@ -1,7 +1,7 @@
+import Ember from 'ember';
 import errorProcessor from 'retirement-plan/utils/error-processor';
 import SignedOutRoute from 'retirement-plan/mixins/signed-out-route';
 import { request as icAjaxRequest } from 'ic-ajax';
-
 
 export default Ember.Route.extend(
   SignedOutRoute, {
@@ -22,7 +22,7 @@ export default Ember.Route.extend(
       var session     = this.get('session');
 
       icAjaxRequest({
-        url:  ENV.apiHost + '/users',
+        url:  window.RetirementPlanENV.apiHost + '/users',
         type: 'POST',
         data: { user: controller.get('serialized') }
       }).then( function(userData) {

@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
 
@@ -7,7 +8,7 @@ export default Ember.Route.extend(Ember.SimpleAuth.AuthenticatedRouteMixin, {
       var route   = this;
 
       icAjaxRequest({
-        url:  ENV.apiHost + '/users/accept_terms',
+        url:  window.RetirementPlanENV.apiHost + '/users/accept_terms',
         type: 'POST'
       }).then( function() {
         // Reload the current user model so that confirmation gets reflected

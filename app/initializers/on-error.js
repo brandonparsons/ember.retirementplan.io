@@ -1,10 +1,14 @@
+import Ember from 'ember';
+
 export default {
   name:   'on-error',
   after:  'flash-functions',
   initialize: function(container, application) {
 
     var determineErrorMessage = function(error) {
-      if (!error) return 'Sorry - something went wrong.';
+      if (!error) {
+        return 'Sorry - something went wrong.';
+      }
 
       if (error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.message) {
         return error.jqXHR.responseJSON.message;
@@ -36,7 +40,7 @@ export default {
     var handleUnauthorizedError = function() {
       // If it was a 401 error, clear the session and 'reboot'
       clearSession();
-      window.location.replace(window.ENV.baseURL);
+      window.location.replace(window.RetirementPlanENV.baseURL);
     };
 
     var transitionTo = function (route) {
@@ -67,7 +71,7 @@ export default {
     };
 
     var postErrorToLoggingService = function(error) {
-      if (window.ENV.debug) {
+      if (window.RetirementPlanENV.debug) {
         Ember.warn("Have not set up logging service.");
         return error;
       }
@@ -80,13 +84,19 @@ export default {
     };
 
     Ember.onerror = function(error) {
-      if (!error) return;
+      if (!error) {
+        return;
+      }
 
-      if (window.ENV.debug) {
+      if (window.RetirementPlanENV.debug) {
         Ember.warn("Caught Error!");
-        if (error.jqXHR && error.jqXHR.responseJSON) Ember.warn(JSON.stringify(error.jqXHR.responseJSON));
         Ember.warn(JSON.stringify(error));
-        if (error.stack) Ember.warn(JSON.stringify(error.stack));
+        if (error.jqXHR && error.jqXHR.responseJSON) {
+          Ember.warn(JSON.stringify(error.jqXHR.responseJSON));
+        }
+        if (error.stack) {
+          Ember.warn(JSON.stringify(error.stack));
+        }
       }
 
       postErrorToLoggingService(error);

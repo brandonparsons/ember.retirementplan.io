@@ -1,6 +1,6 @@
+import Ember from 'ember';
 import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
-
 
 export default Ember.Route.extend({
 
@@ -25,7 +25,7 @@ export default Ember.Route.extend({
       var controller  = this.get('controller');
 
       icAjaxRequest({
-        url:  ENV.apiHost + '/users/current',
+        url:  window.RetirementPlanENV.apiHost + '/users/current',
         type: 'PUT',
         data: { user: controller.get('serialized') }
       }).then( function(userData) {
@@ -60,7 +60,7 @@ export default Ember.Route.extend({
 
     setPasswordOnOauthAccount: function() {
       icAjaxRequest({
-        url:  ENV.apiHost + '/users/create_password',
+        url:  window.RetirementPlanENV.apiHost + '/users/create_password',
         type: 'POST'
       }).then( function(response) {
         RetirementPlan.setFlash('notice', response.message, 10000);

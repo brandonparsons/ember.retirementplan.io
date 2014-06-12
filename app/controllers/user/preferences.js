@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 var preferencesController = Ember.ObjectController.extend(Ember.Validations.Mixin, {
 
   maxContactFrequencyDays: function(key, value) {

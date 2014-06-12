@@ -1,5 +1,5 @@
+import Ember from 'ember';
 import errorProcessor from 'retirement-plan/utils/error-processor';
-
 
 export default Ember.Route.extend({
 
@@ -8,7 +8,9 @@ export default Ember.Route.extend({
   },
 
   afterModel: function(model) {
-    if (model.get('isNew')) this.transitionTo('questionnaire.new');
+    if (model.get('isNew')) {
+     this.transitionTo('questionnaire.new');
+    }
   },
 
   deactivate: function() {
