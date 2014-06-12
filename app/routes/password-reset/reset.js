@@ -34,6 +34,7 @@ export default Ember.Route.extend({
         if (session.get('isAuthenticated')) {
           message = 'Password has been successfully set.';
           // Reload the current user model so that has_password change gets reflected
+          // FIXME: Consider loading direct from user.current controller?
           store.find('user', session.get('user_id')).then( function(user) {
             user.reload();
             route.transitionTo('user.dashboard');

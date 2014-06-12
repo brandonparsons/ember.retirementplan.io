@@ -57,7 +57,7 @@ export default {
           clearSession();
           transitionTo('email_confirmation');
          } else if (reason === 'terms') {
-           transitionTo('terms');
+          transitionTo('terms');
         } else {
           // No- op
         }

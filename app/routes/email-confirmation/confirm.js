@@ -34,6 +34,7 @@ export default Ember.Route.extend({
           route.get('session').set('user_email', newEmail);
 
           // Reload the current user model so that confirmation gets reflected
+          // FIXME: Consider loading direct from user.current controller?
           store.find('user', session.get('user_id')).then( function(user) {
             user.reload(); // The original find will just return from the cache.
           });
