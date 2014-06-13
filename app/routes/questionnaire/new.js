@@ -7,12 +7,6 @@ export default Ember.Route.extend({
     return this.modelFor('questionnaire');
   },
 
-  afterModel: function(model) {
-    if ( model && !model.get('isNew') ) {
-      this.transitionTo('questionnaire.edit');
-    }
-  },
-
   renderTemplate: function() {
     this.render({controller: 'questionnaire'});
   },

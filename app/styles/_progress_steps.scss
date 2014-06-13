@@ -1,0 +1,53 @@
+.process {
+  display: table;
+  width: 100%;
+  position: relative;
+  margin-bottom: 10px;
+  padding: 10px 0px 0px 0px;
+}
+
+.process-row {
+  display: table-row;
+  &:before {
+    top: 35px;
+    bottom: 0;
+    left:0px;
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    z-order: 0;
+  }
+}
+
+.process-step {
+  display: table-cell;
+  text-align: center;
+  position: relative;
+  width: 20%;  // This assumes 5 elements
+  p {
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 0.9em;
+  }
+  button[disabled] {
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
+  }
+  i {
+    // Font-awesome icons need some manual centering inside these circles for some reason
+    padding-left: 2px;
+    padding-top: 4px;
+  }
+
+  .btn-circle {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 50%;
+  }
+}

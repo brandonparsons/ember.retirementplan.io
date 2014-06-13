@@ -1,32 +1,79 @@
-<div class='carousel hidden-xs'>
-  <div class='page-header'>
+<div class="process">
+  <div class="process-row">
 
-      <ol class='inline carousel-indicators'>
-        <li {{bind-attr class=":indicator questionnaireActive:active"}}>
-          <span class='indicator-number'>1</span>
-          <span class='indicator-label'> Risk Questionnaire</span>
-        </li>
-        <li {{bind-attr class=":indicator portfolioSelectionActive:active"}}>
-          <span class='indicator-number'>2</span>
-          <span class='indicator-label'> Portfolio Selection</span>
-        </li>
-        <li {{bind-attr class=":indicator retirementSimulationActive:active"}}>
-          <span class='indicator-number'>3</span>
-          <span class='indicator-label'> Retirement Simulation</span>
-        </li>
-        <li {{bind-attr class=":indicator trackPortfolioActive:active"}}>
-          <span class='indicator-number'>4</span>
-          <span class='indicator-label'> Track Portfolio</span>
-        </li>
-      </ol>
+    {{!-- Currently specifying 20% width on .process-step's. If you change the number of elements, need to adjust this. --}}
+
+    <div class="process-step">
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle questionnaireActive:btn-warning:btn-default"}}>
+        <i class="fa fa-check-square-o fa-2x"></i>
+      </button>
+      <p>
+        {{#if questionnaireEnabled}}
+          {{link-to "Risk Questionnaire" "questionnaire"}}
+        {{else}}
+          Risk Questionnaire
+        {{/if}}
+      </p>
+    </div>
+
+    <div class="process-step">
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle portfolioSelectionActive:btn-warning:btn-default"}}>
+        <i class="fa fa-tasks fa-2x"></i>
+      </button>
+      <p>
+        {{#if portfolioSelectionEnabled}}
+          {{link-to "Portfolio Selection" "select_portfolio"}}
+        {{else}}
+          Portfolio Selection
+        {{/if}}
+      </p>
+    </div>
+
+    <div class="process-step">
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle retirementSimulationActive:btn-warning:btn-default"}}>
+        <i class="fa fa-bar-chart-o fa-2x"></i>
+      </button>
+      <p>
+        {{#if retirementSimulationEnabled}}
+          {{link-to "Retirement Simulation" "retirement_simulation"}}
+        {{else}}
+          Retirement Simulation
+        {{/if}}
+      </p>
+    </div>
+
+     <div class="process-step">
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle trackPortfolioActive:btn-warning:btn-default"}}>
+        <i class="fa fa-cloud-upload fa-2x"></i>
+      </button>
+      <p>
+        {{#if trackPortfolioEnabled}}
+          {{link-to "Track Portfolio" "track_portfolio"}}
+        {{else}}
+          Track Portfolio
+        {{/if}}
+      </p>
+    </div>
+
+     <div class="process-step">
+      <button type="button" diabled="disabled" class="btn btn-circle btn-success">
+        <i class="fa fa-flag-checkered fa-2x"></i>
+      </button>
+      <p>Relax!</p>
+    </div>
 
   </div>
 </div>
 
-<p class='lead'>Get Started!</p>
+<br>
+<br>
 
-{{#if questionnaireActive}}
-  Take your {{link-to 'questionnaire' 'questionnaire.new'}}.
-{{else}}
-  Modify your {{link-to 'questionnaire responses' 'questionnaire.edit'}}.
-{{/if}}
+<div class='jumbotron text-center img-rounded'>
+  <h2>Welcome to RetirementPlan.io!</h2>
+  {{#if userIsComplete}}
+    <p class='lead'>Looks like you have your portfolio all set up. We are tracking it for you, and will notify you if it gets out of balance.</p>
+  {{else}}
+    <p class='lead'>Looks like you haven't got your portfolio set up yet. Next up:</p>
+    <p>{{link-to nextStepText nextStepLinkRoute classNames='btn btn-primary btn-lg'}}</p>
+  {{/if}}
+</div>

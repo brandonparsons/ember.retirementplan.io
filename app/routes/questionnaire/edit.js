@@ -7,12 +7,6 @@ export default Ember.Route.extend({
     return this.modelFor('questionnaire');
   },
 
-  afterModel: function(model) {
-    if (model.get('isNew')) {
-     this.transitionTo('questionnaire.new');
-    }
-  },
-
   deactivate: function() {
     this.get('currentModel').rollback();
   },

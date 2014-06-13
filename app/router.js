@@ -31,13 +31,13 @@ Router.map(function() {
   });
 
   this.resource('password_reset', function() {
-    this.route('new', {path: '/'});
-    this.route('reset', {path: '/reset/:token'});
+    this.route('new',   { path: '/' } );
+    this.route('reset', { path: '/reset/:token' } );
   });
 
   this.resource('email_confirmation', function() {
-    this.route('new', {path: '/'});
-    this.route('confirm', {path: '/confirm/:token'});
+    this.route('new',     { path: '/' } );
+    this.route('confirm', { path: '/confirm/:token' } );
   });
 
 
@@ -46,17 +46,37 @@ Router.map(function() {
   //////////
 
   this.resource('questionnaire', function() {
-    this.route('new',   {path: '/new'}  );
-    this.route('edit',  {path: '/edit'} );
+    this.route('new',   { path: '/new' } );
+    this.route('edit',  { path: '/edit' } );
   });
 
+  // Not done!
+  this.resource('select_portfolio', function() {
+    this.route('empty', { path: '/' } );
+    this.route('chart', { path: '/chart'} );
+  });
+
+  // Not done!
+  this.resource('retirement_simulation', function() {
+    this.route('expenses',    { path: '/expenses' } );
+    this.route('parameters',  { path: '/parameters' } );
+    this.route('simulate',    { path: '/simulate' } );
+  });
+
+  // Not done!
+  this.resource('track_portfolio', function() {
+    this.route('show', { path: '/' } );
+  });
+
+
+  // Filler for now - delete later
   this.resource('securities', function() {
-    this.route('show', {path: ':security_id'});
+    this.route('show', { path: '/:security_id' } );
   });
 
 
   // LAST!
-  this.route("notFound", { path: "*path"});
+  this.route("notFound", { path: "*path" } );
 });
 
 export default Router;

@@ -2,10 +2,12 @@
 @import "vendor/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
 @import "bootstrap_social";
 
+@import "spinbox";
+
 @import "general";
+@import "utilities";
+@import "forms";
+
 @import "navbar";
 @import "footer";
-@import "forms";
-@import "utilities";
-@import "progress_indicators";
-@import "spinbox";
+@import "progress_steps";

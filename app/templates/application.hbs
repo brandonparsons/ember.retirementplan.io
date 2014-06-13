@@ -1,5 +1,13 @@
 {{partial 'sections/navbar'}}
-{{partial 'sections/main'}}
+
+<div class='container-fluid' id='main'>
+  <div clas='row'>
+    <div class='col-md-12'>
+      {{outlet}}
+    </div>
+  </div>
+</div>
+
 {{partial 'sections/footer'}}
 
 {{outlet bs-tooltip-box}}

@@ -3,19 +3,17 @@ import Ember from 'ember';
 export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
 
   renderTemplate: function() {
-    // Need to render a custom template/outlet for `bootstrap-for-ember` tooltips
-    // and popovers. See:
-    //http://ember-addons.github.io/bootstrap-for-ember/#/show_components/popover
-
     // Render default outlet
     this.render();
 
-    // Render extra outlets
-    var controller = this.controllerFor('tooltip-box');
+    // Need to render a custom template/outlet for `bootstrap-for-ember` tooltips
+    // and popovers. See:
+    //http://ember-addons.github.io/bootstrap-for-ember/#/show_components/popover
+    var tooltipController = this.controllerFor('tooltip-box');
     this.render("bs-tooltip-box", {
-      outlet: "bs-tooltip-box",
-      controller: controller,
-      into: "application"
+      controller: tooltipController,
+      into: "application",
+      outlet: "bs-tooltip-box"
     });
   },
 
@@ -96,7 +94,7 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
           route.transitionTo('user.dashboard');
         }
       });
-    },
+    }
 
   } // actions
 
