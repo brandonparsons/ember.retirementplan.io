@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    baseURL: '/',
+    // baseURL: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -33,9 +33,10 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = true;
 
     /* BKP-Added */
+    ENV.baseURL               = '/';
+    ENV.apiHost               = '/api';
     ENV.LOG_EVENT_TRACKING    = true;
     ENV.debug                 = true;
-    ENV.apiHost               = 'http://localhost:3000';
     ENV.ga_tracking_code      = 'UA-XXX-DEVELOPMENT';
     ENV.ga_domain             = 'retirementplan.io';
     ENV.facebook_app_id       = '649704131751768';
@@ -45,6 +46,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     /* BKP-Added */
+    ENV.baseURL               = '/app';
     ENV.apiHost               = 'https://api.retirementplan.io';
     ENV.ga_tracking_code      = 'UA-49011476-2';
     ENV.ga_domain             = 'retirementplan.io';
