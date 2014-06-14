@@ -62,7 +62,7 @@
         <h5>Enabled Authentication Providers</h5>
         <ul class='list-unstyled'>
           {{#each auth in authentications}}
-            <li><strong>{{fontawesome-icon type=auth.fontawesomeIconClass}} {{titleize auth.provider}}</strong> - <a {{action removeAuth auth}}>{{fontawesome-icon type='times-circle'}} Remove</a></span></li>
+            <li><strong>{{fontawesome-icon type=auth.fontawesomeIconClass}} {{titleize-string auth.provider}}</strong> - <a {{action removeAuth auth}}>{{fontawesome-icon type='times-circle'}} Remove</a></span></li>
           {{/each}}
         </ul>
       </div>
@@ -72,7 +72,7 @@
         {{#if remainingAuthenticationProviders.length}}
           <ul class='list-unstyled'>
             {{#each provider in remainingAuthenticationProviders}}
-              <li><a {{action addOAuthProvider provider}}>Enable {{titleize provider}} login</a></li>
+              <li><a {{action addOAuthProvider provider}}>Enable {{titleize-string provider}} login</a></li>
             {{/each}}
           </ul>
         {{else}}
