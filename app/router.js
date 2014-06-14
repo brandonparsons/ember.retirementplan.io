@@ -50,10 +50,8 @@ Router.map(function() {
     this.route('edit',  { path: '/edit' } );
   });
 
-  // Not done!
   this.resource('select_portfolio', function() {
-    this.route('empty', { path: '/' } );
-    this.route('chart', { path: '/chart'} );
+    this.route('chart', { path: '/' } );
   });
 
   // Not done!
@@ -66,12 +64,6 @@ Router.map(function() {
   // Not done!
   this.resource('track_portfolio', function() {
     this.route('show', { path: '/' } );
-  });
-
-
-  // Filler for now - delete later
-  this.resource('securities', function() {
-    this.route('show', { path: '/:security_id' } );
   });
 
 

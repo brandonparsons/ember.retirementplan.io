@@ -4,7 +4,7 @@
     {{!-- Currently specifying 20% width on .process-step's. If you change the number of elements, need to adjust this. --}}
 
     <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle questionnaireActive:btn-warning:btn-default"}}>
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle questionnaireActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'questionnaire'}}>
         <i class="fa fa-check-square-o fa-2x"></i>
       </button>
       <p>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle portfolioSelectionActive:btn-warning:btn-default"}}>
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle portfolioSelectionActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'select_portfolio'}}>
         <i class="fa fa-tasks fa-2x"></i>
       </button>
       <p>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle retirementSimulationActive:btn-warning:btn-default"}}>
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle retirementSimulationActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'retirement_simulation'}}>
         <i class="fa fa-bar-chart-o fa-2x"></i>
       </button>
       <p>
@@ -43,7 +43,7 @@
     </div>
 
      <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle trackPortfolioActive:btn-warning:btn-default"}}>
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle trackPortfolioActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'track_portfolio'}}>
         <i class="fa fa-cloud-upload fa-2x"></i>
       </button>
       <p>
@@ -73,7 +73,7 @@
   {{#if userIsComplete}}
     <p class='lead'>Looks like you have your portfolio all set up. We are tracking it for you, and will notify you if it gets out of balance.</p>
   {{else}}
-    <p class='lead'>Looks like you haven't got your portfolio set up yet. Next up:</p>
+    <p class='lead'>Looks like you haven't got your portfolio set up yet - next up:</p>
     <p>{{link-to nextStepText nextStepLinkRoute classNames='btn btn-primary btn-lg'}}</p>
   {{/if}}
 </div>

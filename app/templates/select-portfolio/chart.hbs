@@ -1,3 +1,18 @@
-{{!-- TODO: NOT DONE --}}
+{{#if hasPortfolioData}}
 
-<p class='lead'>Your Chart</p>
+  <div class="list-group">
+    {{#each content}}
+      <a class="list-group-item">
+        <h4 class="list-group-item-heading">Portfolio: {{id}}</h4>
+        <p class="list-group-item-text">
+          <p>{{prettyAllocation}}</p>
+          <p>{{prettyStatistics}}</p>
+        </p>
+      </a>
+    {{/each}}
+  </div>
+
+
+{{else}}
+  <p class='lead'>Please pick some allowable asset clases.</p>
+{{/if}}

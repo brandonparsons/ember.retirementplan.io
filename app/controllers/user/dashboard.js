@@ -68,4 +68,25 @@ export default Ember.Controller.extend({
   trackPortfolioActive:   Ember.computed.equal('onStep', 'TRACKED_PORTFOLIO'),
   trackPortfolioEnabled:  Ember.computed.and('questionnaireComplete', 'portfolioSelectionComplete', 'simulationComplete'),
 
+
+  actions: {
+
+    actionBasedTransitionTo: function(route) {
+      // There is an action in application route that will handle this, but we
+      // need to check if it should be enabled at this point (user progress)
+      if (route === 'questionnaire') {
+        return this.get('questionnaireEnabled');
+      } else if (route === 'select_portfolio') {
+        return this.get('portfolioSelectionEnabled');
+      } else if (route === 'retirement_simulation') {
+        return this.get('retirementSimulationEnabled');
+      } else if (route === 'track_portfolio') {
+        return this.get('trackPortfolioEnabled');
+      } else {
+        return false; // Shouldn't get here unless you add additional buttons
+      }
+    }
+
+  }
+
 });
