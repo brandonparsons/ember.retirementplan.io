@@ -41,11 +41,7 @@
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
       ga('create', window.RetirementPlanENV.ga_tracking_code, window.RetirementPlanENV.ga_domain);
-      // Can't add userId here - don't always have it. Trying to do so in application route
-      // ga('create', window.RetirementPlanENV.ga_tracking_code, window.RetirementPlanENV.ga_domain, { 'userId': '12345 });
-
-      // Pulled out sending pageview - automatically handled by ember-google-analytics
-      // ga('send', 'pageview');
+      // ga('send', 'pageview'); // Pulled out sending pageview - automatically handled by ember-google-analytics
     </script>
 
   </head>

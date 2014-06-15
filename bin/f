@@ -1,2 +1,1 @@
-# https://github.com/stefanpenner/ember-cli/issues/974
-ember server --watcher=polling
+ember server --proxy http://rp-rails.dev

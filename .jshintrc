@@ -4,7 +4,6 @@
     "window": true,
     "RetirementPlanENV": true,
     "RetirementPlan": true,
-    "Bootstrap": true,
     "_": true
   },
   "browser" : true,
