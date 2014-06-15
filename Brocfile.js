@@ -72,23 +72,25 @@ if (app.env !== 'production') {
 /* */
 
 
+/* Additional CSS (goes to vendor.css) */
+app.import('vendor/alertify.js/themes/alertify.core.css');
+app.import('vendor/alertify.js/themes/alertify.default.css');
+app.import('vendor/ember-spin-box/dist/ember-spin-box.css');
+app.import('vendor/ember-date-picker/dist/ember-date-picker.css');
+app.import('vendor/font-awesome/css/font-awesome.min.css');
+
 /* Additional Javascript libraries */
+
 app.import('vendor/momentjs/moment.js');
+app.import('vendor/lodash/dist/lodash.min.js');
+app.import('vendor/fastclick/lib/fastclick.js');
 
 app.import('vendor/ember-simple-auth/ember-simple-auth.js');
-
 app.import('vendor/ember-google-analytics/ember-google-analytics.js');
-
 app.import('vendor/ember-validations/index.js');
-
 app.import('vendor/ember-forms/dist/ember_forms.js');
-
 app.import('vendor/ember-spin-box/dist/ember-spin-box.js');
-app.import('vendor/ember-date-picker/dist/ember-date-picker.js');
-
-app.import('vendor/lodash/dist/lodash.min.js');
-
-app.import('vendor/fastclick/lib/fastclick.js');
+app.import('vendor/ember-date-picker/dist/ember-date-picker.js'); // after moment.js
 
 // Standard Bootstrap javascript
 ['transition.js', 'dropdown.js', 'collapse.js', 'modal.js', 'tooltip.js', 'popover.js'].forEach(function (path) {
@@ -96,18 +98,7 @@ app.import('vendor/fastclick/lib/fastclick.js');
   app.import(fullPath);
 });
 
-/* Additional CSS (goes to vendor.css) */
-app.import('vendor/alertify.js/themes/alertify.core.css');
-app.import('vendor/alertify.js/themes/alertify.default.css');
-
-app.import('vendor/ember-spin-box/dist/ember-spin-box.css');
-app.import('vendor/ember-date-picker/dist/ember-date-picker.css');
-
-app.import('vendor/font-awesome/css/font-awesome.min.css');
-/* */
-
-
-/* Import fontawesome fonts */
+/* Import fontawesome */
 var fontawesome = pickFiles('vendor/font-awesome/', {
   srcDir: '/fonts',
   // files: isn't strictly necessary (if left out will load all files), but
@@ -134,7 +125,6 @@ var alertifyJS = pickFiles('vendor/alertify.js', {
 });
 /* */
 
-
 /* Import hello.js (this is an un-named AMD module, just load into the window.) */
 /* In the future, ember-cli may handle un-named modules. */
 var helloJS = pickFiles('vendor/hello', {
@@ -143,7 +133,6 @@ var helloJS = pickFiles('vendor/hello', {
   destDir: '/assets/vendor'
 });
 /* */
-
 
 /* Import headroom.js (no AMD package, just load into the window.) */
 var headroom = pickFiles('vendor/headroom.js', {

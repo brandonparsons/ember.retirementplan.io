@@ -2,11 +2,6 @@ import Ember from 'ember';
 
 // If you want to make these single words (e.g. `titleize`, you have to
 // manually import in app.js.  See: http://iamstef.net/ember-cli/)
-
-// Old implementation:
-// str = String(str).toLowerCase();
-// return str.replace(/(?:^|\s|-)\S/g, function(c){ return c.toUpperCase(); });
-
 export default Ember.Handlebars.makeBoundHelper(function(str, options) {
   if (str == null) { return ''; }
 
