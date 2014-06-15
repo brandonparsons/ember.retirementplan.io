@@ -26,4 +26,11 @@ applicationView = Ember.View.extend
       headroom  = new Headroom(header);
       headroom.init();
 
+      # This nify little bit of code will automatically initialize any bootstap
+      # tooltips added to the DOM.  This is perfect for an Ember environment where
+      # we don't have page loads and instead parts of the page are selectively
+      # rendered and unrendered.
+      $('body').tooltip
+        selector: '[data-toggle=tooltip]'
+
 `export default applicationView`

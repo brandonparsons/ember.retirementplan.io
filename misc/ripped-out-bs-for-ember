@@ -1,0 +1,32 @@
+// Brocfile
+
+// Bootstrap for ember
+// Careful adding additional modules here - some require full handlebars.js, and by default ember-cli only includes runtime in production
+['bs-core.min.js', 'bs-modal.min.js', 'bs-label.min.js', 'bs-button.min.js', 'bs-basic.min.js', 'bs-popover.min.js', 'bs-progressbar.min.js'].forEach(function (path) {
+  var fullPath = 'vendor/ember-addons.bs_for_ember/dist/js/' + path;
+  app.import(fullPath);
+});
+/* */
+
+
+
+// application route
+
+  renderTemplate: function() {
+    // Render default outlet
+    this.render();
+
+    // Need to render a custom template/outlet for `bootstrap-for-ember` tooltips
+    // and popovers. See:
+    //http://ember-addons.github.io/bootstrap-for-ember/#/show_components/popover
+    var tooltipController = this.controllerFor('tooltip-box');
+    this.render("bs-tooltip-box", {
+      controller: tooltipController,
+      into: "application",
+      outlet: "bs-tooltip-box"
+    });
+  },
+
+
+// application.hbs
+{{outlet bs-tooltip-box}}

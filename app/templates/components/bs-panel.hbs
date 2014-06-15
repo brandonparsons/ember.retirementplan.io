@@ -1,0 +1,11 @@
+{{#if heading}}
+  <div class="panel-heading">
+    {{heading}}
+  </div>
+{{/if}}
+
+<div class="panel-body">{{yield}}</div>
+
+{{#if footer}}
+  <div class="panel-footer">{{footer}}</div>
+{{/if}}

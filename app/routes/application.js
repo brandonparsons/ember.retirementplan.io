@@ -2,21 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
 
-  renderTemplate: function() {
-    // Render default outlet
-    this.render();
-
-    // Need to render a custom template/outlet for `bootstrap-for-ember` tooltips
-    // and popovers. See:
-    //http://ember-addons.github.io/bootstrap-for-ember/#/show_components/popover
-    var tooltipController = this.controllerFor('tooltip-box');
-    this.render("bs-tooltip-box", {
-      controller: tooltipController,
-      into: "application",
-      outlet: "bs-tooltip-box"
-    });
-  },
-
   beforeModel: function() {
     // If we are booting up the app already with session info (they reloaded
     // the page while logged in), set the current user controller content to
@@ -67,6 +52,26 @@ export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
 
     cancel: function() {
       this.transitionTo('user.dashboard');
+    },
+
+    // Render the template named "genericModal" into an outlet named "modal"
+    // located in the "application" template.
+    // You can implement this in other routes, with other templates to achieve
+    // shared modals without having to embed in a page's template
+    showSharedModal: function() {
+      this.render('shared/genericModal', {
+        into:   'application',
+        outlet: 'modal'
+      });
+    },
+
+    // This is "undo" for the showRenderedModal action implemented above, and in
+    // other routes. This may be "overriden" in each route as appropriate.
+    destroyModal: function() {
+      this.disconnectOutlet({
+        outlet:     'modal',
+        parentView: 'application'
+      });
     },
     /* */
 

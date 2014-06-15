@@ -96,15 +96,6 @@ app.import('vendor/fastclick/lib/fastclick.js');
   app.import(fullPath);
 });
 
-// Bootstrap for ember
-// Careful adding additional modules here - some require full handlebars.js, and by default ember-cli only includes runtime in production
-['bs-core.min.js', 'bs-modal.min.js', 'bs-label.min.js', 'bs-button.min.js', 'bs-basic.min.js', 'bs-popover.min.js', 'bs-progressbar.min.js'].forEach(function (path) {
-  var fullPath = 'vendor/ember-addons.bs_for_ember/dist/js/' + path;
-  app.import(fullPath);
-});
-/* */
-
-
 /* Additional CSS (goes to vendor.css) */
 app.import('vendor/alertify.js/themes/alertify.core.css');
 app.import('vendor/alertify.js/themes/alertify.default.css');
