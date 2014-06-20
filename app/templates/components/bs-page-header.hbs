@@ -1,6 +1,17 @@
-<h1>
+{{#if titleLevelH3}}
+  <h3>
+{{else}}
+  <h1>
+{{/if}}
+
   {{title}}
+
   {{#if sub}}
     <small>{{sub}}</small>
   {{/if}}
-</h1>
+
+{{#if titleLevelH3}}
+  </h3>
+{{else}}
+  </h1>
+{{/if}}
