@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import errorProcessor from 'retirement-plan/utils/error-processor';
 import SignedOutRoute from 'retirement-plan/mixins/signed-out-route';
 import { request as icAjaxRequest } from 'ic-ajax';
 
@@ -33,9 +32,6 @@ export default Ember.Route.extend(
           identification: controller.get('email'),
           password:       controller.get('password')
         });
-      }, function(errorResponse) {
-        var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong when saving your changes.";
-        RetirementPlan.setFlash('error', errorMessage);
       });
     }
 

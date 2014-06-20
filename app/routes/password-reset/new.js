@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
 
 export default Ember.Route.extend({
@@ -25,9 +24,6 @@ export default Ember.Route.extend({
         RetirementPlan.setFlash('notice', 'Password reset instructions have been sent to ' + email);
         route.transitionTo('sign_in');
         controller.send('reset');
-      }, function(errorResponse) {
-        var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
-        RetirementPlan.setFlash('error', errorMessage);
       });
 
     }

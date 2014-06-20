@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
 
 export default Ember.Route.extend({
@@ -51,9 +50,6 @@ export default Ember.Route.extend({
 
         RetirementPlan.setFlash(messageType, message, sticky);
         route.transitionTo('user.dashboard');
-      }, function(errorResponse) {
-        var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
-        RetirementPlan.setFlash('error', errorMessage);
       });
 
     },
@@ -64,9 +60,6 @@ export default Ember.Route.extend({
         type: 'POST'
       }).then( function(response) {
         RetirementPlan.setFlash('notice', response.message, 10000);
-      }, function(errorResponse) {
-        var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
-        RetirementPlan.setFlash('error', errorMessage);
       });
     }
 

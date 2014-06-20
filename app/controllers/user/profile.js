@@ -2,7 +2,6 @@
 
 import Ember from 'ember';
 import DS from 'ember-data';
-import errorProcessor from 'retirement-plan/utils/error-processor';
 import { request as icAjaxRequest } from 'ic-ajax';
 
 var profileController = Ember.ObjectController.extend(
@@ -91,9 +90,6 @@ var profileController = Ember.ObjectController.extend(
         }).then( function(response) {
           store.pushPayload('authentication', response);
           controller.get('model').reload(); // Reload the user to update the hasMany
-        }, function(errorResponse) {
-          var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
-          RetirementPlan.setFlash('error', errorMessage);
         });
 
       }); // hello.on

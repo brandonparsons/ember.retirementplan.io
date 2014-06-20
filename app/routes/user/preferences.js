@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import errorProcessor from 'retirement-plan/utils/error-processor';
 
 export default Ember.Route.extend({
 
@@ -20,9 +19,6 @@ export default Ember.Route.extend({
       this.get('currentModel').save().then( function() {
         RetirementPlan.setFlash('success', 'Your preferences have been updated.');
         route.transitionTo('user.dashboard');
-      }, function(errorResponse) {
-        var errorMessage = errorProcessor(errorResponse) || "Sorry - something went wrong.  Please try again.";
-        RetirementPlan.setFlash('error', errorMessage);
       });
     }
   }
