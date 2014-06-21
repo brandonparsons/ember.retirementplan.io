@@ -132,6 +132,6 @@ Portfolio.reopenClass({
   allocationFromID: function(id) {
     return idToAllocation(id);
   }
-})
+});
 
 export default Portfolio;
