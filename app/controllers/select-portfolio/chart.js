@@ -157,7 +157,7 @@ export default Ember.ArrayController.extend({
       indexOfSelectedPortfolio  = this.mapBy('id').indexOf(selectedPortfolioID);
 
       // Can't move right from last item, or if item not found (-1)
-      if ( indexOfSelectedPortfolio < 0 || indexOfSelectedPortfolio == (this.get('length') - 1) ) {
+      if ( indexOfSelectedPortfolio < 0 || indexOfSelectedPortfolio === (this.get('length') - 1) ) {
         return null;
       }
 
