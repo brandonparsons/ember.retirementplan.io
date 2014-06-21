@@ -1,0 +1,18 @@
+.asset-class-checkboxes {
+  .checkbox {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  label {font-size: 12px;}
+}
+
+.chart-container {
+  margin-bottom: 30px;
+}
+
+// By default ember-charts leaves the pie chart with a MASSIVE height, pushing
+// the pie down and making it take up way too much room. This appears to fix it.
+.portfolio-scatter-chart {
+  margin-top: -105px;
+  max-height: 25em;
+}

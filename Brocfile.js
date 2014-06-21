@@ -78,6 +78,8 @@ app.import('vendor/alertify.js/themes/alertify.default.css');
 app.import('vendor/ember-spin-box/dist/ember-spin-box.css');
 app.import('vendor/ember-date-picker/dist/ember-date-picker.css');
 app.import('vendor/font-awesome/css/font-awesome.min.css');
+app.import('vendor/ember-charts/dist/ember-charts.css');
+
 
 /* Additional Javascript libraries */
 
@@ -91,6 +93,8 @@ app.import('vendor/ember-validations/index.js');
 app.import('vendor/ember-forms/dist/ember_forms.js');
 app.import('vendor/ember-spin-box/dist/ember-spin-box.js');
 app.import('vendor/ember-date-picker/dist/ember-date-picker.js'); // after moment.js
+app.import('vendor/ember-charts/dependencies/ember-addepar-mixins/resize_handler.js');
+app.import('vendor/ember-charts/dist/ember-charts.js');
 
 // Standard Bootstrap javascript
 ['transition.js', 'dropdown.js', 'collapse.js', 'modal.js', 'tooltip.js', 'popover.js'].forEach(function (path) {
@@ -114,7 +118,14 @@ var fontawesome = pickFiles('vendor/font-awesome/', {
 });
 /* */
 
-
+/* Import d3 onto the window. ember-charts needs it available, and dont know */
+/* how to refernce a global inside that script */
+var d3 = pickFiles('vendor/d3', {
+  srcDir:   '/',
+  files:    ['d3.min.js'],
+  destDir:  '/assets/vendor'
+});
+/* */
 
 /* Import alertify (this is an un-named AMD module, just load into the window.) */
 /* In the future, ember-cli may handle un-named modules. */
@@ -146,9 +157,10 @@ var headroom = pickFiles('vendor/headroom.js', {
 /* */
 module.exports = mergeTrees([
   fontawesome,
+  d3,
   alertifyJS,
   helloJS,
   headroom,
-  app.toTree() // module.exports = app.toTree();
+  app.toTree()
 ]);
 /* */

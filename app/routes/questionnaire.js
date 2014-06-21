@@ -7,7 +7,7 @@ export default Ember.Route.extend(Ember.SimpleAuth.AuthenticatedRouteMixin, {
   },
 
   afterModel: function(model) {
-    if (model.get('isNew')) {
+    if (model === null || typeof(model) === 'undefined' || model.get('isNew')) {
       this.transitionTo('questionnaire.new');
     } else {
       this.transitionTo('questionnaire.edit');

@@ -1,24 +1,26 @@
 <div class='row'>
 
-  <div class='col-md-3'>
+  <div class='col-md-2'>
+    {{bs-page-header title="Portfolio Selection" titleLevelH3=true}}
 
-    <h3>Portfolio Selection</h3>
-    <p><em><small>Please select the asset classes you are comfortable investing in.</small></em></p>
+    <p class='italic text-muted no-bottom-margin'>Please select the asset classes you are comfortable investing in.</p>
 
     <br>
 
-    {{#each security in controller}}
-      <div class="checkbox">
-        <label>
-          {{input type="checkbox" name=security.ticker checked=security.checked}}
-          {{security.assetClass}}
-        </label>
-      </div>
-    {{/each}}
+    <div class='asset-class-checkboxes'>
+      {{#each security in controller}}
+        <div class="checkbox">
+          <label>
+            {{input type="checkbox" name=security.ticker checked=security.checked}}
+            {{security.assetClass}}
+          </label>
+        </div>
+      {{/each}}
+    </div>
 
   </div>
 
-  <div class='col-md-9'>
+  <div class='col-md-10'>
     {{outlet}}
   </div>
 

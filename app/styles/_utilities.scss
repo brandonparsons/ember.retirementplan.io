@@ -1,14 +1,20 @@
+.bold {font-weight: bold;}
+.italic {font-style: italic;}
+.justify {text-align: justify;}
+
+.padded {padding: 15px;}
+
 .space-left {margin-left: 15px;}
 .space-left-large {margin-left: 25px;}
+
+.top-margin {margin-top: 15px;}
+.bottom-margin {margin-bottom: 15px;}
 .no-bottom-margin {margin-bottom: 0px;}
 .no-top-margin {margin-top: 0px;}
-.bottom-margin {margin-bottom: 15px;}
-.justify {text-align: justify;}
+
 .block {display: block;}
 .inline-block {display: inline-block;}
 .inline {display: inline;}
+
 .float-left {float: left;}
 .float-right {float: right;}
-.bold {font-weight: bold;}
-.italic {font-style: italic;}
-.padded {padding: 15px;}

@@ -9,6 +9,8 @@ export default DS.Model.extend({
   email:                      DS.attr('string'),
   name:                       DS.attr('string'),
   image:                      DS.attr('string'),
+  prattArrowLow:              DS.attr('number'),
+  prattArrowHigh:             DS.attr('number'),
   hasPassword:                DS.attr('boolean'),
   confirmed:                  DS.attr('boolean'),
   acceptedTerms:              DS.attr('boolean'),

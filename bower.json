@@ -28,6 +28,8 @@
     "momentjs": "~2.6.0",
     "bootstrap-sass-official": "v3.1.1+2",
     "font-awesome": "~4.1.0",
-    "headroom.js": "~0.6.0"
+    "headroom.js": "~0.6.0",
+    "d3": "~3.4.8",
+    "ember-charts": "*"
   }
 }

@@ -25,7 +25,7 @@ export default Ember.Controller.extend({
     } else {
       return "QUESTIONNAIRE";
     }
-  }.property('questionnaireComplete', 'portfolioSelectionComplete', 'simulationComplete', 'trackedPortfolioComplete'),
+  }.property('trackedPortfolioComplete', 'simulationComplete', 'portfolioSelectionComplete', 'questionnaireComplete'),
   nextStepText: function(){
     var onStep = this.get('onStep');
     if (onStep === 'QUESTIONNAIRE') {
@@ -51,7 +51,7 @@ export default Ember.Controller.extend({
     } else if (onStep === 'TRACKED_PORTFOLIO') {
       return 'track_portfolio';
     } else {
-      return 'dashboard'; // Shouldn't get here user would be `userIsComplete`
+      return 'user.dashboard'; // Shouldn't get here user would be `userIsComplete`
     }
   }.property('onStep'),
 
