@@ -1,0 +1,48 @@
+.simulation-step-tabs {
+  margin-bottom: 15px;
+}
+
+.drop-target {
+  border: 2px solid #ccc;
+  padding-top: 10px;
+}
+
+.drop-add { border-color: #5cb85c; }
+
+.drop-remove { border-color: #d9534f; }
+
+.expense {
+  min-width: 195px;
+  min-height: 90px;
+
+  background-color: #EEEEEE;
+  border: solid 1px #999999;
+  padding: 5px 10px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  position: relative;
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+  &:hover { cursor: move; }
+
+  ul {margin-bottom: 0px;}
+  p {margin-bottom: 5px;}
+
+  .description {
+    text-align: center;
+    font-style: italic;
+    font-size: 16px;
+  }
+
+  .details {
+    color: #666;
+    font-size: 14px;
+  }
+
+  .expense-action-link {
+    float: right;
+    &:hover { text-decoration: none; }
+  }
+
+}

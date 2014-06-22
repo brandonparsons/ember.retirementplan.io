@@ -59,11 +59,14 @@ export default Ember.Route.extend(
     // located in the "application" template.
     // You can implement this in other routes, with other templates to achieve
     // shared modals without having to embed in a page's template
-    showSharedModal: function() {
-      this.render('shared/genericModal', {
-        into:   'application',
-        outlet: 'modal'
-      });
+    // @param: `templateLocation` e.g. 'shared/genericModal'
+    // @param: `controller` e.g. expense
+    showSharedModal: function(templateLocation, controller) {
+      var options = { into: 'application', outlet: 'modal' };
+      if (controller && typeof(controller) !== 'undefined') {
+        options.controller = controller;
+      }
+      this.render(templateLocation, options);
     },
 
     // This is "undo" for the showRenderedModal action implemented above, and in

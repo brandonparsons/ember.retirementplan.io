@@ -1,0 +1,38 @@
+<p class='lead text-center'>Enabled Expenses</p>
+<hr />
+
+{{expense-drop-target dragContext=currentDragItem action='expenseDropped'}}
+
+<br />
+
+<div class="expenses">
+
+  <p><strong>One-time Expenses</strong></p>
+  {{#each addedOnetime}}
+    {{expense-detail expense=this action='displayExpenseEditModal'}}
+  {{else}}
+    <p><small>None present</small></p>
+  {{/each}}
+
+  <p><strong>Annual Expenses</strong></p>
+  {{#each addedAnnual}}
+    {{expense-detail expense=this action='displayExpenseEditModal'}}
+  {{else}}
+    <p><small>None present</small></p>
+  {{/each}}
+
+  <p><strong>Monthly Expenses</strong></p>
+  {{#each addedMonthly}}
+    {{expense-detail expense=this action='displayExpenseEditModal'}}
+  {{else}}
+    <p><small>None present</small></p>
+  {{/each}}
+
+  <p><strong>Weekly Expenses</strong></p>
+  {{#each addedWeekly}}
+    {{expense-detail expense=this action='displayExpenseEditModal'}}
+  {{else}}
+    <p><small>None present</small></p>
+  {{/each}}
+
+</div>

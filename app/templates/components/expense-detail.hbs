@@ -1,0 +1,54 @@
+{{!-- Unbound ID required for the setDragImage function (expense_view) --}}
+<div id="expense-{{unbound expense.id}}" {{bind-attr class=':expense displayingMoreDetails:block:inline-block'}}>
+
+  <div class='row description'>
+
+    <div class='col-xs-7'>
+      {{titleize-string expense.description}}
+    </div>
+
+    <div class='col-xs-5'>
+      <a {{action 'more'}} class='expense-action-link'>
+        {{#if displayingMoreDetails}}
+          {{fontawesome-icon type='compress'}}
+        {{else}}
+          {{fontawesome-icon type='expand'}}
+        {{/if}}
+      </a>
+
+      <a {{action 'editExpense'}} class='expense-action-link'>
+        {{fontawesome-icon type='edit'}}
+      </a>
+    </div>
+
+  </div>
+
+  <div class='row details'>
+    <div class='col-xs-12'>
+
+      <ul class='list-unstyled'>
+
+        <li>Frequency: {{titleize-string frequencyForDisplay}}</li>
+
+        {{#if expense.isOnetime}}
+          <li>Expense occurs: {{expense.onetimeOnMoment}}</li>
+        {{else}}
+          {{#if expense.ends}}
+            <li>Expense ends: {{expense.endsMoment}}</li>
+          {{else}}
+            <li>Expense ends: Never</li>
+          {{/if}}
+        {{/if}}
+
+        <li>Amount: ${{expense.amount}}</li>
+
+        {{#if displayingMoreDetails}}
+          <li>Notes: {{expense.notes}}</li>
+        {{/if}}
+
+      </ul>
+
+    </div>
+  </div>
+
+</div>

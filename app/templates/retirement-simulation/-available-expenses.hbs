@@ -1,0 +1,40 @@
+<p class='lead text-center'>Available Expenses</p>
+<hr />
+
+<div class='well text-center'>
+  <a class='btn btn-primary' {{action 'displayExpenseCreateModal'}}>
+    {{fontawesome-icon type='plus-square'}}Create an expense
+  </a>
+</div>
+
+<div class="expenses">
+
+  <p><strong>One-time Expenses</strong></p>
+  {{#each unAddedOnetime}}
+    {{expense-detail expense=this action='displayExpenseEditModal'}}
+  {{else}}
+    <p><small>None present</small></p>
+  {{/each}}
+
+  <p><strong>Annual Expenses</strong></p>
+  {{#each unAddedAnnual}}
+    {{expense-detail expense=this action='displayExpenseEditModal'}}
+  {{else}}
+    <p><small>None present</small></p>
+  {{/each}}
+
+  <p><strong>Monthly Expenses</strong></p>
+  {{#each unAddedMonthly}}
+    {{expense-detail expense=this action='displayExpenseEditModal'}}
+  {{else}}
+    <p><small>None present</small></p>
+  {{/each}}
+
+  <p><strong>Weekly Expenses</strong></p>
+  {{#each unAddedWeekly}}
+    {{expense-detail expense=this action='displayExpenseEditModal'}}
+  {{else}}
+    <p><small>None present</small></p>
+  {{/each}}
+
+</div>

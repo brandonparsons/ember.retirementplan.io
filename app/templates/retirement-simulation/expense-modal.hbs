@@ -1,0 +1,59 @@
+{{#bs-modal showing=true}}
+
+<div class='modal-dialog'>
+  <div class='modal-content'>
+
+    <div class='modal-header'>
+      <button class='close' type='button' data-dismiss='modal' aria-hidden='true'>
+        {{fontawesome-icon type="times" withForcedSpace=false}}
+      </button>
+      <h4 class='modal-title'>{{title}}</h4>
+    </div>
+
+    <div class='modal-body'>
+
+      {{#em-form model=this form_layout='horizontal' action='submitModal' submit_button=false}}
+
+        {{em-input property="description" type='text' label="Description" placeholder="Food" required=true}}
+
+        {{em-input property="amount" type='number' label="Amount ($)" placeholder="300" required=true}}
+
+        {{em-select property="frequency" label="Frequency" prompt="-select-" content=frequencyOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+        <div {{bind-attr class=':form-group onetimeOnValid:has-success:has-error'}}>
+          {{#if isOnetime}}
+            <label class='control-label col-sm-2' for="expense-occurs-input">Expense Occurs:</label>
+            <div class='col-sm-10'>
+              {{date-picker-input class="form-control" controls="expense-occurs-input" value=onetimeOnMoment dateFormat='MMM-D-YYYY'}}
+              {{date-picker-controls id="expense-occurs-input"}}
+            </div>
+          {{else}}
+            <label class='control-label col-sm-2' for="expense-ends-input">Expense ends:</label>
+            <div class='col-sm-10'>
+              {{date-picker-input class="form-control" controls="expense-ends-input" value=endsMoment dateFormat='MMM-D-YYYY'}}
+              {{date-picker-controls id="expense-ends-input"}}
+            </div>
+          {{/if}}
+        </div>
+
+        {{em-text property="notes" label="Notes" placeholder="Optional notes" rows=3}}
+
+        {{em-checkbox property="isAdded" label="Enabled?"}}
+      {{/em-form}}
+
+    </div>
+
+    <div class='modal-footer'>
+      <div class='pull-right'>
+        <button class='btn btn-default' data-dismiss="modal">Cancel</button>
+        {{#if showDelete}}
+          <button {{action deleteExpense}} class="btn btn-danger space-left">Delete expense</button>
+        {{/if}}
+        <button {{bind-attr class=':btn :btn-success :space-left formValid:enabled:disabled'}} {{action 'submitModal'}}>Save expense</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{{/bs-modal}}

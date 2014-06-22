@@ -1,7 +1,17 @@
-{{!-- TODO: NOT DONE --}}
+{{#unless hasSelectedExpenses}}
+  {{#bs-alert type='warning'}}
+    <p>We have pre-created some expenses for you to get you going. Take a look before proceeding!</p>
+  {{/bs-alert}}
+{{/unless}}
 
-<p class='lead'>Expenses</p>
+<div class='row'>
 
-{{link-to 'Expenses' 'retirement_simulation.expenses'}}
-{{link-to 'Parameters' 'retirement_simulation.parameters'}}
-{{link-to 'Simulate' 'retirement_simulation.simulate'}}
+  <div class='col-md-6 top-margin'>
+    {{partial 'retirement_simulation/available_expenses'}}
+  </div>
+
+  <div class='col-md-6 top-margin'>
+    {{partial 'retirement_simulation/added_expenses'}}
+  </div>
+
+</div>
