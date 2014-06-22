@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
-var preferencesController = Ember.ObjectController.extend(Ember.Validations.Mixin, {
+var preferencesController = Ember.ObjectController.extend(
+  Ember.Validations.Mixin, {
 
   maxContactFrequencyDays: function(key, value) {
     // If value is set, they have updated the output of this in the form. Set

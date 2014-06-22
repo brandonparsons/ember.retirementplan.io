@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
+export default Ember.Route.extend(
+  Ember.SimpleAuth.ApplicationRouteMixin, {
 
   beforeModel: function() {
     // If we are booting up the app already with session info (they reloaded

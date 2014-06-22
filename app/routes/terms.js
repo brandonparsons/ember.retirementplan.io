@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { request as icAjaxRequest } from 'ic-ajax';
 
-export default Ember.Route.extend(Ember.SimpleAuth.AuthenticatedRouteMixin, {
+export default Ember.Route.extend(
+  Ember.SimpleAuth.AuthenticatedRouteMixin, {
+
   actions: {
     acceptTerms: function() {
       var route   = this;
