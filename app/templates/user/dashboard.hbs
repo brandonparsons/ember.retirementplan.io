@@ -5,7 +5,7 @@
 
     <div class="process-step">
       <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle questionnaireActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'questionnaire'}}>
-        <i class="fa fa-check-square-o fa-2x"></i>
+        {{fontawesome-icon type="check-square-o" size='2x' withForcedSpace=false}}
       </button>
       <p>
         {{#if questionnaireEnabled}}
@@ -18,7 +18,7 @@
 
     <div class="process-step">
       <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle portfolioSelectionActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'select_portfolio'}}>
-        <i class="fa fa-tasks fa-2x"></i>
+        {{fontawesome-icon type="tasks" size='2x' withForcedSpace=false}}
       </button>
       <p>
         {{#if portfolioSelectionEnabled}}
@@ -31,7 +31,7 @@
 
     <div class="process-step">
       <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle retirementSimulationActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'retirement_simulation'}}>
-        <i class="fa fa-bar-chart-o fa-2x"></i>
+      {{fontawesome-icon type="bar-chart-o" size='2x' withForcedSpace=false}}
       </button>
       <p>
         {{#if retirementSimulationEnabled}}
@@ -44,7 +44,7 @@
 
      <div class="process-step">
       <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle trackPortfolioActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'track_portfolio'}}>
-        <i class="fa fa-cloud-upload fa-2x"></i>
+        {{fontawesome-icon type="cloud-upload" size='2x' withForcedSpace=false}}
       </button>
       <p>
         {{#if trackPortfolioEnabled}}
@@ -57,7 +57,7 @@
 
      <div class="process-step">
       <button type="button" diabled="disabled" class="btn btn-circle btn-success">
-        <i class="fa fa-flag-checkered fa-2x"></i>
+        {{fontawesome-icon type="flag-checkered" size='2x' withForcedSpace=false}}
       </button>
       <p>Relax!</p>
     </div>
