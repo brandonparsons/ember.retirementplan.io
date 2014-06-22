@@ -97,7 +97,7 @@ app.import('vendor/ember-charts/dependencies/ember-addepar-mixins/resize_handler
 app.import('vendor/ember-charts/dist/ember-charts.js');
 
 // Standard Bootstrap javascript
-['transition.js', 'dropdown.js', 'collapse.js', 'modal.js', 'tooltip.js', 'popover.js'].forEach(function (path) {
+['transition.js', 'dropdown.js', 'collapse.js', 'modal.js', 'tooltip.js', 'popover.js', 'alert.js'].forEach(function (path) {
   var fullPath = 'vendor/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/' + path;
   app.import(fullPath);
 });
