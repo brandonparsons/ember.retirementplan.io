@@ -7,7 +7,7 @@ export default Ember.Route.extend({
   },
 
   deactivate: function() {
-    this.get('currentModel').rollback();
+    this.modelFor(this.routeName).rollback();
   },
 
   renderTemplate: function() {
@@ -17,7 +17,7 @@ export default Ember.Route.extend({
   actions: {
     updateQuestionnaire: function() {
       var route         = this;
-      var questionnaire = this.get('currentModel');
+      var questionnaire = this.modelFor(this.routeName);
 
       questionnaire.save().then( function() {
         RetirementPlan.setFlash('success', 'Your responses have been saved.');

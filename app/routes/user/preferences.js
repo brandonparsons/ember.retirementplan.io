@@ -9,14 +9,15 @@ export default Ember.Route.extend({
   },
 
   deactivate: function() {
-    this.get('currentModel').rollback();
+    this.modelFor(this.routeName).rollback();
   },
 
 
   actions: {
     editPreferences: function() {
       var route = this;
-      this.get('currentModel').save().then( function() {
+      var preferences = this.modelFor(this.routeName);
+      preferences.save().then( function() {
         RetirementPlan.setFlash('success', 'Your preferences have been updated.');
         route.transitionTo('user.dashboard');
       });

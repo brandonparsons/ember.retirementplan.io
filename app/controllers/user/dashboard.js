@@ -26,6 +26,28 @@ export default Ember.Controller.extend({
       return "QUESTIONNAIRE";
     }
   }.property('trackedPortfolioComplete', 'simulationComplete', 'portfolioSelectionComplete', 'questionnaireComplete'),
+
+  // These only to be used if you are specifically on the simulation step
+  hasConfirmedExpenses:       Ember.computed.alias('currentUser.hasSelectedExpenses'),
+  hasNotConfirmedExpenses:    Ember.computed.not('hasConfirmedExpenses'),
+  hasInputParameters:         Ember.computed.alias('currentUser.hasSimulationInput'),
+  hasNotInputParameters:      Ember.computed.not('hasInputParameters'),
+  hasNotCompletedSimulation:  Ember.computed.not('simulationComplete'),
+  onParametersStep:           Ember.computed.and('hasConfirmedExpenses', 'hasNotInputParameters'),
+  onSimulateStep:             Ember.computed.and('hasInputParameters', 'hasNotCompletedSimulation'),
+  nextSimulateStepRoute: function() {
+    if ( this.get('hasNotConfirmedExpenses') ) {
+      return 'retirement_simulation.expenses';
+    } else if ( this.get('onParametersStep') ) {
+      return 'retirement_simulation.parameters';
+    } else if ( this.get('onSimulateStep') ) {
+      return 'retirement_simulation.simulate';
+    } else { // Should not get here
+      throw new Error('Invalid step.');
+    }
+  }.property('hasNotConfirmedExpenses', 'onParametersStep', 'onSimulateStep'),
+
+
   nextStepText: function(){
     var onStep = this.get('onStep');
     if (onStep === 'QUESTIONNAIRE') {
@@ -40,6 +62,7 @@ export default Ember.Controller.extend({
       return "Relax!"; // Shouldn't get here user would be `userIsComplete`
     }
   }.property('onStep'),
+
   nextStepLinkRoute: function() {
     var onStep = this.get('onStep');
     if (onStep === 'QUESTIONNAIRE') {
@@ -47,7 +70,7 @@ export default Ember.Controller.extend({
     } else if (onStep === 'PORTFOLIO_SELECTION') {
       return 'select_portfolio';
     } else if (onStep === 'SIMULATION') {
-      return 'retirement_simulation';
+      return this.get('nextSimulateStepRoute');
     } else if (onStep === 'TRACKED_PORTFOLIO') {
       return 'track_portfolio';
     } else {
@@ -69,6 +92,10 @@ export default Ember.Controller.extend({
   trackPortfolioEnabled:  Ember.computed.and('questionnaireComplete', 'portfolioSelectionComplete', 'simulationComplete'),
 
 
+  /////////////
+  // Actions //
+  /////////////
+
   actions: {
 
     actionBasedTransitionTo: function(route) {
@@ -78,7 +105,7 @@ export default Ember.Controller.extend({
         return this.get('questionnaireEnabled');
       } else if (route === 'select_portfolio') {
         return this.get('portfolioSelectionEnabled');
-      } else if (route === 'retirement_simulation') {
+      } else if ( route.match(/retirement_simulation\..*/i) ) {
         return this.get('retirementSimulationEnabled');
       } else if (route === 'track_portfolio') {
         return this.get('trackPortfolioEnabled');

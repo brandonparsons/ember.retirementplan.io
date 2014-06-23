@@ -13,11 +13,15 @@ export default Ember.Route.extend({
   actions: {
     createQuestionnaire: function() {
       var route         = this;
-      var questionnaire = this.get('currentModel');
+      var questionnaire = this.modelFor(this.routeName);
 
       questionnaire.save().then( function() {
-        RetirementPlan.setFlash('success', 'Your responses have been saved.');
+        // This is their first time submitting (in the `new` route). Update the
+        // user model prior to transitioning so the dashboard representation
+        // is correct.
+        route.controllerFor('user.current').get('model').reload();
         route.transitionTo('user.dashboard');
+        RetirementPlan.setFlash('success', 'Your responses have been saved. Next up - select a portfolio!');
       });
     }
   }

@@ -140,8 +140,12 @@ export default {
           transitionTo('questionnaire');
         } else if (reason === 'portfolio') {
           transitionTo('select_portfolio');
+        } else if (reason === 'expenses') {
+          transitionTo('retirement_simulation.expenses');
+        } else if (reason === 'sim_input') {
+          transitionTo('retirement_simulation.parameters');
         } else if (reason === 'simulation') {
-          transitionTo('retirement_simulation');
+          transitionTo('retirement_simulation.simulate');
         } else {
           // No- op
         }

@@ -1,3 +1,266 @@
-{{!-- TODO: NOT DONE --}}
+<div class='row'>
+  <div class='col-md-offset-2 col-md-8'>
 
-<p class='lead'>Parameters</p>
+    {{#em-form model=this form_layout='horizontal' action='saveInputs' submit_button=false}}
+
+      <fieldset class='fieldset-border'>
+        <legend class='fieldset-border'>Simulation Parameters</legend>
+
+
+        {{!-- ********* --}}
+        {{!-- ********* --}}
+
+        {{form-subtitle text='Personal Information'}}
+
+        {{!-- userIsMale input --}}
+        {{em-select property="userIsMale" label="You are" prompt="-select-" content=userIsMaleOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+        {{!-- married input --}}
+        {{#form-text-block}}
+          Should we include a second person in the simulation?
+        {{/form-text-block}}
+        {{#form-text-block helpBlock=true}}
+          If you are married / common-law etc., answer yes.
+        {{/form-text-block}}
+        {{em-select property="married" label="Include second person" prompt="-select-" content=marriedOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+        {{!-- maleAge input --}}
+        {{#unless hideMaleAge}}
+          {{em-input property="maleAge" type='number' label="Male Age" placeholder="30"}}
+        {{/unless}}
+
+        {{!-- femaleAge input --}}
+        {{#unless hideFemaleAge}}
+          {{em-input property="femaleAge" type='number' label="Female Age" placeholder="32"}}
+        {{/unless}}
+
+        {{!-- userRetired input --}}
+        {{#form-text-block}}
+          Are you (<strong>and</strong> your partner, if relevant) currently retired?
+        {{/form-text-block}}
+        {{em-select property="userRetired" label="Currently retired" prompt="-select-" content=userRetiredOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+
+
+        {{!-- ********* --}}
+        {{!-- ********* --}}
+
+        {{#unless hideRetirementTimingTitle}}
+          {{form-subtitle text='Retirement Timing'}}
+        {{/unless}}
+
+        {{!-- retirementAgeMale input --}}
+        {{#unless hideRetirementAgeMale}}
+          {{#form-text-block}}
+            Enter zero (or any age less than current) if the male is presently retired.
+          {{/form-text-block}}
+          {{em-input property="retirementAgeMale" type='number' label="Male's retirement age" placeholder="65"}}
+        {{/unless}}
+
+        {{!-- retirementAgeFemale input --}}
+        {{#unless hideRetirementAgeFemale}}
+          {{#form-text-block}}
+            Enter zero (or any age less than current) if the female is presently retired.
+          {{/form-text-block}}
+          {{em-input property="retirementAgeFemale" type='number' label="Female's retirement age" placeholder="65"}}
+        {{/unless}}
+
+
+
+        {{!-- ********* --}}
+        {{!-- ********* --}}
+
+        {{form-subtitle text='Financial Info'}}
+
+
+        {{!-- ********* --}}
+
+        {{form-subtitle text='General' levelTwo=true}}
+
+        {{!-- assets input --}}
+        {{#form-text-block}}
+          Sum of your stocks / bonds / GIC's, etc.
+        {{/form-text-block}}
+        {{em-input property="assets" type='number' label="Investable assets" placeholder="100000"}}
+
+        {{!-- expensesInflationIndex input --}}
+        {{#form-text-block}}
+          How do you expect your expenses (now and in retirement) to vary with inflation?
+        {{/form-text-block}}
+        {{#form-text-block helpBlock=true}}
+          Enter 100 (100%) if your expenses will directly follow (i.e. are fully indexed to) inflation.  Higher numbers are more conservative (suggest 100%).
+        {{/form-text-block}}
+        {{em-input property="expensesInflationIndex" type='number' label="Expenses inflation index" placeholder="100"}}
+
+        {{!-- lifeInsurance input --}}
+        {{#form-text-block}}
+          What is the value of your life insurance policy?
+        {{/form-text-block}}
+        {{#form-text-block helpBlock=true}}
+          If not applicable, enter 0.  Enter in today's dollars - we will inflate to the appropriate year.  Assumed paid at end of year.
+        {{/form-text-block}}
+        {{em-input property="lifeInsurance" type='number' label="Life insurance payout" placeholder="150000"}}
+
+
+        {{!-- ********* --}}
+
+        {{#unless allRetiredFromStart}}
+
+          {{form-subtitle text='Pre-Retirement' levelTwo=true}}
+
+          {{!-- income input --}}
+          {{#form-text-block}}
+            What is your annual <strong>pre-tax</strong> income from employment. This is for <strong>both</strong> people in the simulation if completing for two people.
+          {{/form-text-block}}
+          {{em-input property="income" type='number' label="Annual income" placeholder="75000"}}
+
+          {{!-- currentTaxRate input --}}
+          {{#form-text-block}}
+            Estimate your current tax rate (through to retirement).
+          {{/form-text-block}}
+          {{#form-text-block helpBlock=true}}
+            Barring any better guess, 35-45% might be a good value.  Enter as a number (e.g 40 for 40%).
+          {{/form-text-block}}
+          {{em-input property="currentTaxRate" type='number' label="Current tax rate" placeholder="35"}}
+
+          {{!-- salaryIncrease input --}}
+          {{#form-text-block}}
+            Enter the anticipated percentage increase in your (combined) salary each year.
+          {{/form-text-block}}
+          {{#form-text-block helpBlock=true}}
+            Barring any better guess, 3-5% might be a good value.  Enter as a number (e.g. 3 for 3%).
+          {{/form-text-block}}
+          {{em-input property="salaryIncrease" type='number' label="Salary increases" placeholder="2"}}
+
+        {{/unless}}
+
+
+        {{!-- ********* --}}
+
+        {{form-subtitle text='Post-Retirement' levelTwo=true}}
+
+        {{!-- retirementIncome input --}}
+        {{#form-text-block}}
+          What are your expected <strong>annual</strong>, <strong>pre-tax</strong> pension receipts in retirement? (e.g. Pension, CPP, OAS, etc.)
+        {{/form-text-block}}
+        {{#form-text-block helpBlock=true}}
+          Leave as 0 if none.  Enter the expected value for your first year of retirement in today's dollars (i.e. no inflation).  Current benefits from CPP range from $6k/year (average) to $12k/year (maximum).  OAS payments average around $6k/year.  See <a href="http://www.servicecanada.gc.ca/" target='_blank'>Service Canada</a> for more details.
+        {{/form-text-block}}
+        {{em-input property="retirementIncome" type='number' label="Retirement income" placeholder="12000"}}
+
+        {{!-- retirementExpenses input --}}
+        {{#unless allRetiredFromStart}}
+          {{#form-text-block}}
+            What fraction of your current expenses do you expect your retirement expenses will be?
+          {{/form-text-block}}
+          {{#form-text-block helpBlock=true}}
+            If you expect to spend 3/4 (75%) of your current normal expenditures in retirement, enter 75.
+          {{/form-text-block}}
+          {{em-input property="retirementExpenses" type='number' label="Retirement expenses reduction" placeholder="85"}}
+        {{/unless}}
+
+        {{!-- retirementTaxRate input --}}
+        {{#form-text-block}}
+          Estimate your tax rate in retirement.
+        {{/form-text-block}}
+        {{#form-text-block helpBlock=true}}
+          Barring any better guess, 35-40% might be a good value.  Enter as a number (e.g 35 for 35%).
+        {{/form-text-block}}
+        {{em-input property="retirementTaxRate" type='number' label="Retirement tax rate" placeholder="30"}}
+
+        {{!-- incomeInflationIndex input --}}
+        {{#form-text-block}}
+          How do you expect your income in <strong>retirement</strong> (e.g. pension, CPP) to vary with inflation?
+        {{/form-text-block}}
+        {{#form-text-block helpBlock=true}}
+          Enter 100 (100%) if your income will directly follow (i.e. is fully indexed to) inflation.  Lower numbers are more conservative (e.g. 30%).  Enter zero if you have a fixed pension.
+        {{/form-text-block}}
+        {{em-input property="incomeInflationIndex" type='number' label="Income inflation index" placeholder="25"}}
+
+
+
+        {{!-- ********* --}}
+        {{!-- ********* --}}
+
+        {{form-subtitle text='Real Estate Information'}}
+
+        {{!-- includeHome input --}}
+        {{#form-text-block}}
+          Would you like to include the value of your home in the simulation?
+        {{/form-text-block}}
+        {{#form-text-block helpBlock=true}}
+          If you plan to sell your home and downsize, we will use the cash to cover expenses.  Answer <em>no</em> if you plan to stay in your current house, or don't want to take credit for any extra cash as a result of downsizing.
+        {{/form-text-block}}
+        {{em-select property="includeHome" label="Include home in simulation" prompt="-select-" content=includeHomeOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+
+        {{#if includeHome}}
+
+          {{!-- homeValue input --}}
+          {{em-input property="homeValue" type='number' label="Current home value" placeholder="250000"}}
+
+          {{!-- sellHouseIn input --}}
+          {{em-input property="sellHouseIn" type='number' label="Year until downsize" placeholder="20"}}
+
+          {{!-- newHomeRelativeValue input --}}
+          {{#form-text-block}}
+            Estimate the relative percentage value of your downsized home.
+          {{/form-text-block}}
+          {{#form-text-block helpBlock=true}}
+            Enter as a number - e.g. if buying a house 1/2 (50%) the value of your current, enter 50.
+          {{/form-text-block}}
+          {{em-input property="newHomeRelativeValue" type='number' label="New home relative value" placeholder="60"}}
+
+        {{/if}}
+
+
+
+        {{!-- ********* --}}
+        {{!-- ********* --}}
+
+        {{#if showTwoPersonModellingTitle}}
+          {{form-subtitle text='Two-Person Modeling Details'}}
+        {{/if}}
+
+
+        {{!-- expensesMultiplier input --}}
+        {{#if married}}
+          {{#form-text-block}}
+            As a couple, you spend how much more than you would if single? Studies show married couples tend to spend 1.6x what they would if single.
+          {{/form-text-block}}
+          {{#form-text-block helpBlock=true}}
+            This value is used to estimate effect on expenses when one person dies.
+          {{/form-text-block}}
+          {{em-input property="expensesMultiplier" type='number' label="Expenses multiplier" placeholder="1.6"}}
+        {{/if}}
+
+
+        {{!-- fractionForSingleIncome input --}}
+        {{#if showFractionForSingleIncome}}
+          {{#form-text-block}}
+            Given the retirement ages you have provided, there will be a period of time where only one person will be working.  What will be the effect on your currently reported income?
+          {{/form-text-block}}
+          {{#form-text-block helpBlock=true}}
+            Enter as a number (e.g. 50 for 50%). For example, if you will be making 3/4 of your current salary when one person retires, enter 75.
+          {{/form-text-block}}
+          {{em-input property="fractionForSingleIncome" type='number' label="Single salary reduction" placeholder="75"}}
+        {{/if}}
+
+
+
+        {{!-- ********* --}}
+        {{!-- ********* --}}
+
+        <hr />
+
+        <div class='row'>
+          <div class='col-sm-10 col-sm-offset-2'>
+            {{form-submit-button text="Save responses"}}
+            {{form-button action="cancel" text="Cancel"}}
+          </div>
+        </div>
+
+      </fieldset>
+
+    {{/em-form}}
+  </div>
+</div>

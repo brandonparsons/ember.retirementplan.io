@@ -26,19 +26,24 @@ export default Ember.Route.extend(
     }).then( function(responseJSON) {
       var selectedPortfolioID, portfolioTickers, allocation;
 
-      selectedPortfolioID = responseJSON.portfolio.id;
-      allocation          = responseJSON.portfolio.allocation;
-      if (selectedPortfolioID && allocation) {
-        thisController.set('selectedPortfolioID', selectedPortfolioID);
+      if (responseJSON.portfolio) {
+        // If the server did not respond with a portfolio, nothing to do (no
+        // selections to reset to).
 
-        portfolioTickers = Ember.keys(allocation);
-        thisController.filter( function(securityItemController) {
-          return _.include(portfolioTickers, securityItemController.get('ticker') );
-        }).forEach( function(securityToSelect) {
-          // This fires the observers each time it is set, but you are debouncing
-          // the efficientFrontier/graph update.
-          securityToSelect.set('checked', true);
-        });
+        selectedPortfolioID = responseJSON.portfolio.id;
+        allocation          = responseJSON.portfolio.allocation;
+        if (selectedPortfolioID && allocation) {
+          thisController.set('selectedPortfolioID', selectedPortfolioID);
+
+          portfolioTickers = Ember.keys(allocation);
+          thisController.filter( function(securityItemController) {
+            return _.include(portfolioTickers, securityItemController.get('ticker') );
+          }).forEach( function(securityToSelect) {
+            // This fires the observers each time it is set, but you are debouncing
+            // the efficientFrontier/graph update.
+            securityToSelect.set('checked', true);
+          });
+        }
       }
     });
   }

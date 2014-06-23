@@ -2,8 +2,8 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
 
-  hasRetirementSimulationParameters:    Ember.computed.alias('currentUser.hasRetirementSimulationParameters'),
-  hasNotCompletedSimulationParameters:  Ember.computed.not('hasRetirementSimulationParameters'),
+  hasSimulationInput:    Ember.computed.alias('currentUser.hasSimulationInput'),
+  hasNoSimulationInput:  Ember.computed.not('hasSimulationInput'),
 
   needs: ['application'],
   currentRouteName:     Ember.computed.alias('controllers.application.currentRouteName'),
@@ -15,7 +15,7 @@ export default Ember.ObjectController.extend({
   previousDisabled: Ember.computed.or('isOnExpensesRoute'),
 
   // Whether or not the right-chevron arrow in the nav tabs is disabled
-  shouldBeBlockedFromLeavingParameters: Ember.computed.and('isOnParametersRoute', 'hasNotCompletedSimulationParameters'),
+  shouldBeBlockedFromLeavingParameters: Ember.computed.and('isOnParametersRoute', 'hasNoSimulationInput'),
   nextDisabled: Ember.computed.or('isOnSimulateRoute', 'shouldBeBlockedFromLeavingParameters'),
 
 

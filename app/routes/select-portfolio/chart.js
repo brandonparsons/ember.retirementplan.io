@@ -23,7 +23,14 @@ export default Ember.Route.extend({
         type: 'POST',
         data: { allocation: Portfolio.allocationFromID(portfolioID) }
       }).then( function() {
-        RetirementPlan.setFlash('success', 'Your portfolio selection has been saved.');
+        var currentUser = route.controllerFor('user.current').get('model');
+        if (!currentUser.get('hasSelectedPortfolio')) {
+          // This is their first time selecting. Update the user model.
+          currentUser.reload();
+          RetirementPlan.setFlash('success', 'Your portfolio selection has been saved. Next up - set up your retirement expenses!');
+        } else {
+          RetirementPlan.setFlash('success', 'Your portfolio selection has been saved.');
+        }
         route.transitionTo('user.dashboard');
       });
     }
