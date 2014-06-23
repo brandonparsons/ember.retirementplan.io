@@ -21,3 +21,13 @@
 
 .float-left {float: left;}
 .float-right {float: right;}
+
+
+@media only screen and (min-width : 992px) {
+  .right-border {
+    border-right: 1px solid #ccc;
+  }
+  .left-border {
+    border-left: 1px solid #ccc;
+  }
+}

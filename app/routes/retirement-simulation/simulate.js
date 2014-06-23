@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { request as icAjaxRequest } from 'ic-ajax';
 
 export default Ember.Route.extend({
 
@@ -14,13 +15,31 @@ export default Ember.Route.extend({
   },
 
   actions: {
+
     acceptSimulation: function() {
-      console.log("accept simulation.");
-      // Here you should post in to the server that user has completed simulation
-      // if `hasCompletedSimulation` is false.
-      // Redirect to dashboard, with message about tracked portfolio next if you
-      // posted to server.
-    }
+      var route       = this;
+      var currentUser = this.controllerFor('user.current').get('model');
+
+      if ( !currentUser.get('hasCompletedSimulation') ) {
+        // Notify the server that the user has accepted a simulation. Reload the
+        // user to get updated `hasCompletedSimulation`
+        icAjaxRequest({
+          url: window.RetirementPlanENV.apiHost + '/simulation',
+          type: 'POST'
+        }).then(function() {
+          currentUser.reload();
+          route.transitionTo('user.dashboard');
+          RetirementPlan.setFlash('success', "You have accepted this portfolio. Now just set up your portfolio and you're all done!");
+        });
+      } else if ( !currentUser.get('hasTrackedPortfolio') ) {
+        route.transitionTo('user.dashboard');
+        RetirementPlan.setFlash('success', "Set up your portfolio so we can keep it in balance.");
+      } else {
+        route.transitionTo('user.dashboard');
+        RetirementPlan.setFlash('success', "Remember to let us know if you purchase any additional securities.");
+      }
+    },
+
   }
 
 });

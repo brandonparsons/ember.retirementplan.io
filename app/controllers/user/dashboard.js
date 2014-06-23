@@ -42,8 +42,10 @@ export default Ember.Controller.extend({
       return 'retirement_simulation.parameters';
     } else if ( this.get('onSimulateStep') ) {
       return 'retirement_simulation.simulate';
-    } else { // Should not get here
-      throw new Error('Invalid step.');
+    } else {
+      // If they have finished the simulation, makes most sense to link them
+      // back to the simulate page, in case they want to run more simulations.
+      return 'retirement_simulation.simulate';
     }
   }.property('hasNotConfirmedExpenses', 'onParametersStep', 'onSimulateStep'),
 
