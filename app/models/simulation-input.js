@@ -52,7 +52,7 @@ export default DS.Model.extend({
   }.property('married', 'maleAge', 'retirementAgeMale', 'femaleAge', 'retirementAgeFemale'),
 
   allRetiredFromStart: function() {
-    var maleAge, maleRetireAge, femaleAge, femaleRetireAge, invalid;
+    var maleAge, maleRetireAge, femaleAge, femaleRetireAge;
 
     maleAge         = this.get('maleAge');
     maleRetireAge   = this.get('retirementAgeMale');
@@ -72,5 +72,4 @@ export default DS.Model.extend({
     }
   }.property('maleAge', 'retirementAgeMale', 'femaleAge', 'retirementAgeFemale', 'married', 'userIsMale'),
 
-})
-
+});
