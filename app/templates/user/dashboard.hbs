@@ -1,79 +1,20 @@
-<div class="process">
-  <div class="process-row">
-
-    {{!-- Currently specifying 20% width on .process-step's. If you change the number of elements, need to adjust this. --}}
-
-    <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle questionnaireActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'questionnaire'}}>
-        {{fontawesome-icon type="check-square-o" size='2x' withForcedSpace=false}}
-      </button>
-      <p>
-        {{#if questionnaireEnabled}}
-          {{link-to "Risk Questionnaire" "questionnaire"}}
-        {{else}}
-          Risk Questionnaire
-        {{/if}}
-      </p>
-    </div>
-
-    <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle portfolioSelectionActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'select_portfolio'}}>
-        {{fontawesome-icon type="tasks" size='2x' withForcedSpace=false}}
-      </button>
-      <p>
-        {{#if portfolioSelectionEnabled}}
-          {{link-to "Portfolio Selection" "select_portfolio"}}
-        {{else}}
-          Portfolio Selection
-        {{/if}}
-      </p>
-    </div>
-
-    <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle retirementSimulationActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'retirement_simulation'}}>
-      {{fontawesome-icon type="bar-chart-o" size='2x' withForcedSpace=false}}
-      </button>
-      <p>
-        {{#if retirementSimulationEnabled}}
-          {{link-to "Retirement Simulation" "retirement_simulation"}}
-        {{else}}
-          Retirement Simulation
-        {{/if}}
-      </p>
-    </div>
-
-     <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle trackPortfolioActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'track_portfolio'}}>
-        {{fontawesome-icon type="cloud-upload" size='2x' withForcedSpace=false}}
-      </button>
-      <p>
-        {{#if trackPortfolioEnabled}}
-          {{link-to "Track Portfolio" "track_portfolio"}}
-        {{else}}
-          Track Portfolio
-        {{/if}}
-      </p>
-    </div>
-
-     <div class="process-step">
-      <button type="button" diabled="disabled" class="btn btn-circle btn-success">
-        {{fontawesome-icon type="flag-checkered" size='2x' withForcedSpace=false}}
-      </button>
-      <p>Relax!</p>
-    </div>
-
-  </div>
-</div>
+{{partial 'sections/progress-steps'}}
 
 <br>
 <br>
 
 <div class='jumbotron text-center img-rounded'>
   <h2>Welcome to RetirementPlan.io!</h2>
+  <br>
   {{#if userIsComplete}}
     <p class='lead'>Looks like you have your portfolio all set up. We are tracking it for you, and will notify you if it gets out of balance.</p>
   {{else}}
-    <p class='lead'>Looks like you haven't got your portfolio set up yet - next up:</p>
-    <p>{{link-to nextStepText nextStepLinkRoute classNames='btn btn-primary btn-lg'}}</p>
+    <p class='lead'>Looks like you haven't got your portfolio set up yet.</p>
+    <p>
+      {{#link-to nextStepLinkRoute classNames='btn btn-warning btn-lg'}}
+        {{fontawesome-icon type='hand-o-right'}}
+        {{nextStepText}}
+      {{/link-to}}
+    </p>
   {{/if}}
 </div>
