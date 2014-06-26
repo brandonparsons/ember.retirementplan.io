@@ -3,6 +3,8 @@ import Ember from 'ember';
 export default Ember.ArrayController.extend({
   // Model/content: Array of all securities - used in the checkboxes
 
+  // NB: Working with `FrontierPortfolios` not `Portfolios`
+
   itemController: 'selectPortfolio.listItem',
 
   selectedPortfolioID: null,

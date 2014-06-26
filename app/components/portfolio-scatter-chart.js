@@ -10,6 +10,8 @@ export default Ember.Charts.ScatterComponent.extend({
   // Custom Computed Properties //
   ////////////////////////////////
 
+  // NB: These are `FrontierPortfolios` not `Portfolios`
+
   totalPointData: function() {
     var selectedPortfolioID, selectedPortfolio;
 

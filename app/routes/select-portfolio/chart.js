@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Portfolio from 'retirement-plan/models/portfolio';
+import FrontierPortfolio from 'retirement-plan/models/frontier-portfolio';
 import { request as icAjaxRequest } from 'ic-ajax';
 
 export default Ember.Route.extend({
@@ -19,9 +19,9 @@ export default Ember.Route.extend({
     saveSelectedPortfolio: function(portfolioID) {
       var route = this;
       icAjaxRequest({
-        url:  window.RetirementPlanENV.apiHost + '/portfolio',
+        url:  window.RetirementPlanENV.apiHost + '/portfolios',
         type: 'POST',
-        data: { allocation: Portfolio.allocationFromID(portfolioID) }
+        data: { allocation: FrontierPortfolio.allocationFromID(portfolioID) }
       }).then( function() {
         var currentUser = route.controllerFor('user.current').get('model');
         if (!currentUser.get('hasSelectedPortfolio')) {

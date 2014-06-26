@@ -1,10 +1,12 @@
 import Ember from 'ember';
 import { request as icAjaxRequest } from 'ic-ajax';
-import Portfolio from 'retirement-plan/models/portfolio';
+import FrontierPortfolio from 'retirement-plan/models/frontier-portfolio';
 import roundTo from 'retirement-plan/utils/round-to';
 
 export default Ember.ArrayController.extend({
   // Model/content: Array of portfolios from server corresponding to checkboxes
+
+  // NB: Working with `FrontierPortfolios` not `Portfolios`
 
   // They come this way from the server, but just in case that changes....
   sortProperties: ['annualRisk'],
@@ -87,7 +89,7 @@ export default Ember.ArrayController.extend({
   allocation: function() {
     var portfolioID = this.get('selectedPortfolioID');
     if (!portfolioID) { return null; }
-    return Portfolio.allocationFromID(portfolioID);
+    return FrontierPortfolio.allocationFromID(portfolioID);
   }.property('selectedPortfolioID'),
 
   ///// Chart Data /////
@@ -100,7 +102,7 @@ export default Ember.ArrayController.extend({
   }.property('portfolios.@each'),
 
   pieChartData: function() {
-    var allocation    = JSON.parse(this.get('allocation'));
+    var allocation    = this.get('allocation');
     var allSecurities = this.get('allSecurities');
     return _.transform(allocation, function(memo, percentageAllocation, ticker) {
       var percentageFormatted = percentageAllocation * 100;
@@ -199,7 +201,7 @@ export default Ember.ArrayController.extend({
           _.forEach(rawPortfolioData, function(portfolio) {
             portfolio.prattArrowLow   = prattArrowLow;
             portfolio.prattArrowHigh  = prattArrowHigh;
-            portfolios.pushObject(Portfolio.create(portfolio));
+            portfolios.pushObject(FrontierPortfolio.create(portfolio));
           });
           resolve(portfolios);
         }); // icAjaxRequest
