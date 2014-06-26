@@ -1,33 +1,25 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-// Source: http://stackoverflow.com/questions/12168570/how-to-represent-arrays-within-ember-data-models/13884238#13884238
-// Model Usage: DS.attr('array')
-// App Usage:   this.get('model.tickers').pushObject('ABC')
+// Source: http://www.kaspertidemann.com/representing-objects-in-ember-data/
+// Model Usage: DS.attr('object')
+// App Usage:   this.get('model').set('weights', {happy: 'now', goodbye: 'today'})
 
 export default DS.Transform.extend({
 
   deserialize: function(serialized) {
-    if (Ember.typeOf(serialized) === "array") {
-      return serialized;
+    if (Ember.isNone(serialized)) {
+      return {};
     } else {
-      return [];
+      return serialized;
     }
   },
-
   serialize: function(deserialized) {
-    var type = Ember.typeOf(deserialized);
-
-    if (type === 'array') {
-      return deserialized;
-    } else if (type === 'string') {
-      return deserialized.split(',').map(function(item) {
-        return Ember.$.trim(item);
-      });
+    if (Ember.isNone(deserialized)) {
+      return {};
     } else {
-      return [];
+      return deserialized;
     }
   }
-
 
 });
