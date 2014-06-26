@@ -17,63 +17,7 @@
     <div class="collapse navbar-collapse">
 
       <ul class="nav navbar-nav navbar-right">
-
-        {{#if session.isAuthenticated}}
-          {{!-- User is logged in --}}
-
-          <li>
-            {{#link-to 'user.dashboard'}}
-              {{fontawesome-icon type='home'}} Dashboard
-            {{/link-to}}
-          </li>
-
-          <li class="dropdown visible-md visible-lg" style='margin-right: 15px;'> {{!-- Right margin required on this element as the `row` padding is not pushing the button over --}}
-
-            <button class="dropdown-toggle btn btn-default navbar-btn space-left button-with-image" data-toggle="dropdown">
-              <img {{bind-attr src=currentUser.image}} width='28' height='28'>
-              {{currentUser.name}}
-              &nbsp;&nbsp;<b class="caret"></b>
-            </button>
-
-            <ul class="dropdown-menu">
-
-              <li class="dropdown-header">App</li>
-              {{#link-to 'user.preferences' tagName='li'}}<a>{{fontawesome-icon type='cog'}} Preferences</a>{{/link-to}}
-              {{#link-to 'help' tagName='li'}}<a>{{fontawesome-icon type='question-circle'}} Help</a>{{/link-to}}
-
-              <li class="divider"></li>
-
-              <li class="dropdown-header">Account</li>
-              {{#link-to 'user.profile' tagName='li'}}<a>{{fontawesome-icon type='user'}} Edit Profile</a>{{/link-to}}
-              <li><a {{action 'invalidateSession'}}>{{fontawesome-icon type='sign-out'}} Sign out</a></li>
-
-            </ul> {{!-- dropdown-menu --}}
-          </li> {{!-- dropdown --}}
-
-          <li class='visible-xs visible-sm'>
-            {{#link-to 'user.profile'}}
-              {{fontawesome-icon type='user'}} Edit Profile
-            {{/link-to}}
-          </li>
-
-          <li class='visible-xs visible-sm'>
-            <a {{action 'invalidateSession'}}>{{fontawesome-icon type='sign-out'}} Sign out</a>
-          </li>
-
-        {{else}}
-          {{!-- User is logged out --}}
-
-          <li>
-            {{#link-to 'sign_in'}}
-              {{fontawesome-icon type='sign-in'}} Sign in
-            {{/link-to}}
-          </li>
-          <li>
-            <button class="btn btn-success navbar-btn navbar-right-button" {{action transitionToSignUp}}>{{fontawesome-icon type='user'}}Sign up</button>
-          </li>
-
-        {{/if}}
-
+        {{partial 'sections/right-hand-navbar'}}
       </ul>
 
     </div><!--/.nav-collapse -->

@@ -3,7 +3,7 @@ import Ember from 'ember';
 // If you want to make these single words (e.g. `titleize`, you have to
 // manually import in app.js.  See: http://iamstef.net/ember-cli/)
 export default Ember.Handlebars.makeBoundHelper(function(str) {
-  if (str == null) { return ''; }
+  if (str === null) { return ''; }
 
   var escaped, shortWords, strArray;
 

@@ -135,7 +135,7 @@ export default {
           clearSession();
           transitionTo('email_confirmation');
         } else if (reason === 'terms') {
-          transitionTo('terms');
+          transitionTo('accept_terms');
         } else if (reason === 'questionnaire') {
           transitionTo('questionnaire');
         } else if (reason === 'portfolio') {

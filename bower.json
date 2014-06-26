@@ -30,6 +30,7 @@
     "font-awesome": "~4.1.0",
     "headroom.js": "~0.6.0",
     "d3": "~3.4.8",
-    "ember-charts": "*"
+    "ember-charts": "0.1.0",
+    "accounting": "~0.3.2"
   }
 }

@@ -40,7 +40,7 @@
           {{/if}}
         {{/if}}
 
-        <li>Amount: ${{expense.amount}}</li>
+        <li>Amount: {{format-money expense.amount}}</li>
 
         {{#if displayingMoreDetails}}
           <li>Notes: {{expense.notes}}</li>

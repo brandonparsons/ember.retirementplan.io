@@ -2,9 +2,20 @@
 
 <div class='container-fluid' id='main'>
   <div clas='row'>
-    <div class='col-md-12'>
-      {{outlet}}
-    </div>
+
+    {{#if showSidebar}}
+      <div class='col-md-3' style='padding: 0px;'>
+        {{partial 'sections/sidebar'}}
+      </div>
+      <div class='col-md-9'>
+        {{outlet}}
+      </div>
+    {{else}}
+      <div class='col-md-12'>
+        {{outlet}}
+      </div>
+    {{/if}}
+
   </div>
 </div>
 

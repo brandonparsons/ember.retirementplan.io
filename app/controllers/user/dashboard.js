@@ -27,7 +27,7 @@ export default Ember.Controller.extend({
     }
   }.property('trackedPortfolioComplete', 'simulationComplete', 'portfolioSelectionComplete', 'questionnaireComplete'),
 
-  // These only to be used if you are specifically on the simulation step
+  /* These only to be used if you are specifically on the simulation step */
   hasConfirmedExpenses:       Ember.computed.alias('currentUser.hasSelectedExpenses'),
   hasNotConfirmedExpenses:    Ember.computed.not('hasConfirmedExpenses'),
   hasInputParameters:         Ember.computed.alias('currentUser.hasSimulationInput'),
@@ -48,7 +48,20 @@ export default Ember.Controller.extend({
       return 'retirement_simulation.simulate';
     }
   }.property('hasNotConfirmedExpenses', 'onParametersStep', 'onSimulateStep'),
+  /* */
 
+  /* These only to be used if you are specifically on the tracked port step */
+  hasSelectedEtfs: Ember.computed.alias('currentUser.hasSelectedExpenses'),
+  nextTrackedPortfolioStepRoute: function() {
+    if ( this.get('trackedPortfolioComplete') ) {
+      return 'tracked_portfolio.show';
+    } else if ( this.get('hasSelectedEtfs') ) {
+      return 'tracked_portfolio.rebalance';
+    } else {
+      return 'tracked_portfolio.select_etfs';
+    }
+  }.property('trackedPortfolioComplete', 'hasSelectedEtfs'),
+  /* */
 
   nextStepText: function(){
     var onStep = this.get('onStep');
@@ -74,7 +87,7 @@ export default Ember.Controller.extend({
     } else if (onStep === 'SIMULATION') {
       return this.get('nextSimulateStepRoute');
     } else if (onStep === 'TRACKED_PORTFOLIO') {
-      return 'track_portfolio';
+      return this.get('nextTrackedPortfolioStepRoute');
     } else {
       return 'user.dashboard'; // Shouldn't get here user would be `userIsComplete`
     }
@@ -109,7 +122,7 @@ export default Ember.Controller.extend({
         return this.get('portfolioSelectionEnabled');
       } else if ( route.match(/retirement_simulation\..*/i) ) {
         return this.get('retirementSimulationEnabled');
-      } else if (route === 'track_portfolio') {
+      } else if ( route.match(/tracked_portfolio\..*/i) ) {
         return this.get('trackPortfolioEnabled');
       } else {
         return false; // Shouldn't get here unless you add additional buttons

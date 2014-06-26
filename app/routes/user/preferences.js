@@ -14,6 +14,7 @@ export default Ember.Route.extend({
 
 
   actions: {
+
     editPreferences: function() {
       var route = this;
       var preferences = this.modelFor(this.routeName);
@@ -21,7 +22,12 @@ export default Ember.Route.extend({
         RetirementPlan.setFlash('success', 'Your preferences have been updated.');
         route.transitionTo('user.dashboard');
       });
+    },
+
+    transitionToProfile: function() {
+      this.transitionTo('user.profile');
     }
+
   }
 
 });

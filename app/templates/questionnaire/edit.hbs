@@ -1,7 +1,11 @@
-<div class='row'>
-  <div class='col-md-offset-2 col-md-8'>
-    {{#em-form model=this form_layout='horizontal' action='updateQuestionnaire' submit_button=false}}
-      {{partial 'questionnaire/form'}}
-    {{/em-form}}
-  </div>
-</div>
+<p class='lead text-center'>Risk Tolerance Assessment</p>
+
+{{#offset-spaced}}
+  <p>By answering the questions below, your ability and tolerance for taking investment risks can be quantified (to the extent that it is possible to determine your risk tolerance in a mathematical fashion). The questionnaire is based on a dissertation analyzing thousands of responses to U.S. Federal Reserve questionnaire submissions.</p>
+
+  <br>
+
+  {{#em-form model=this form_layout='horizontal' action='updateQuestionnaire' submit_button=false}}
+    {{partial 'questionnaire/form'}}
+  {{/em-form}}
+{{/offset-spaced}}

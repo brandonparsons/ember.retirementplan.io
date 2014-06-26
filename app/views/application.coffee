@@ -32,5 +32,9 @@ applicationView = Ember.View.extend
       # rendered and unrendered.
       $('body').tooltip
         selector: '[data-toggle=tooltip]'
+        html: true
+      $('body').popover
+        selector: '[data-toggle=popover]'
+        html: true
 
 `export default applicationView`

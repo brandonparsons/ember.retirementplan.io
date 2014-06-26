@@ -3,6 +3,11 @@ import Ember from 'ember';
 export default Ember.Route.extend(
   Ember.SimpleAuth.ApplicationRouteMixin, {
 
+
+  ///////////
+  // Hooks //
+  ///////////
+
   beforeModel: function() {
     // If we are booting up the app already with session info (they reloaded
     // the page while logged in), set the current user controller content to
@@ -14,6 +19,11 @@ export default Ember.Route.extend(
       return null;
     }
   },
+
+
+  /////////////////////////
+  // 'Private' Functions //
+  /////////////////////////
 
   _setCurrentUserContent: function(userID) {
     // This must return a promise so that beforeModel will wait for it to
@@ -28,6 +38,11 @@ export default Ember.Route.extend(
       });
     });
   },
+
+
+  /////////////
+  // Actions //
+  /////////////
 
   actions: {
 
@@ -109,6 +124,6 @@ export default Ember.Route.extend(
       });
     }
 
-  } // actions
+  },
 
 });

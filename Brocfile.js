@@ -84,6 +84,7 @@ app.import('vendor/ember-charts/dist/ember-charts.css');
 /* Additional Javascript libraries */
 
 app.import('vendor/momentjs/moment.js');
+app.import('vendor/accounting/accounting.js');
 app.import('vendor/lodash/dist/lodash.min.js');
 app.import('vendor/fastclick/lib/fastclick.js');
 

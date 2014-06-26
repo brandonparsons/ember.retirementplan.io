@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { request as icAjaxRequest } from 'ic-ajax';
 
 export default Ember.Route.extend({
+
   deactivate: function() {
     this.get('controller').send('reset');
   },

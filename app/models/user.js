@@ -19,6 +19,7 @@ export default DS.Model.extend({
   hasSelectedExpenses:          DS.attr('boolean'),
   hasSimulationInput:           DS.attr('boolean'),
   hasCompletedSimulation:       DS.attr('boolean'),
+  hasSelectedEtfs:              DS.attr('boolean'),
   hasTrackedPortfolio:          DS.attr('boolean'),
 
 
@@ -29,6 +30,7 @@ export default DS.Model.extend({
   authentications:  DS.hasMany('authentication', {async: true}),
   questionnaire:    DS.belongsTo('questionnaire', {async: true}),
   simulationInput:  DS.belongsTo('simulationInput', {async: true}),
+  portfolio:        DS.belongsTo('portfolio', {async: true}),
 
 
   /////////////////////////

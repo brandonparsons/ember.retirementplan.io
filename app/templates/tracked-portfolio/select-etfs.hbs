@@ -1,0 +1,96 @@
+<p class='lead text-center'>Select/Confirm ETFs for Purchase</p>
+
+{{#offset-spaced}}
+
+  <p>Now that you have selected an appropriate asset allocation, you need to go and purchase ETFs that will provide the required exposure.  A key philosophy of RetirementPlan.io is that we don't hold your money - you always have acess to your funds and can sell your assets at any time.</p>
+
+  <br>
+
+  <form class='form form-horizontal' {{action 'confirmEtfs' on='submit'}}>
+
+    <fieldset class='fieldset-border'>
+      <legend class='fieldset-border'>ETF Selection</legend>
+
+      <p>RetirementPlan.io provides support for certain ETFs within any particular asset class. Select on you plan to use for each asset class - this is what we will use to track your portfolio and notify you when it is out of balance.</p>
+
+      <div class='table-responsive'>
+        <table class='table table-striped table-bordered'>
+
+          <thead>
+            <tr class='with-aligned-headers'>
+              <th>Asset Class</th>
+              <th>Selected ETF</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each etfGroupsForSelection}}
+              <tr>
+
+                <td class='text-center'>{{security.assetClass}}</td>
+
+                <td {{bind-attr class=':form-group selectedEtf:valid:has-error'}}>
+                  {{view 'etf-select' security=security etfs=etfs selection=selectedEtf  optionValuePath="content.ticker" optionLabelPath="content.description" classNames='form-control' prompt='Please select an ETF'}}
+                </td>
+
+              </tr>
+            {{/each}}
+          </tbody>
+
+        </table>
+      </div>
+
+      {{#if displayHoldingsConfirmation}}
+
+        <p>
+          Please confirm your current share holdings.
+          <span class='italic text-muted'>If you don't have any units of these ETFs, just enter zero.</span>
+        </p>
+        <p><a data-toggle="popover" data-content="<p>In order to determine the correct number of shares to purchase to meet your target allocation, we need to confirm your current holdings. To get started, we've assumed you aren't already holding any of these ETF's. Edit the table below if that's not the case.</p><p>This would be equivalent to what you might see on your brokerage statement.</p>">{{fontawesome-icon type="question-circle"}}Why do we need to know how many units you currently hold?</a></p>
+
+        <div class='table-responsive'>
+          <table class='table table-striped table-bordered'>
+
+            <thead>
+              <tr class='with-aligned-headers'>
+                <th>Asset Class</th>
+                <th>Ticker</th>
+                <th>Description</th>
+                <th>Current Shares</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {{#each etfsForHoldingsConfirmation}}
+                <tr class='text-center'>
+
+                  <td>{{assetClass}}</td>
+                  <td>{{ticker}}</td>
+                  <td>{{description}}</td>
+                  <td>
+                  {{input type='number' value=currentShares class='form-control' placeholder='0' min=0}}
+                  </td>
+
+                </tr>
+              {{/each}}
+            </tbody>
+
+          </table>
+        </div>
+
+      {{/if}}
+
+      <hr>
+
+      <div class='row'>
+        <div class='col-sm-10 col-sm-offset-2'>
+          <button {{bind-attr class=':btn :btn-primary enableSaveButton:enabled:disabled'}} type='submit'>Save and continue</button>
+          <button {{action cancel}} class='btn btn-default space-left'>Cancel</button>
+        </div>
+      </div>
+
+    </fieldset>
+
+  </form>
+
+{{/offset-spaced}}

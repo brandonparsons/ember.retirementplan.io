@@ -17,7 +17,7 @@ Router.map(function() {
   this.route('sign_up');
 
   this.route('help');
-  this.route('terms');
+  this.route('accept_terms');
 
 
   //////////
@@ -46,24 +46,24 @@ Router.map(function() {
   //////////
 
   this.resource('questionnaire', function() {
-    this.route('new',   { path: '/new' } );
-    this.route('edit',  { path: '/edit' } );
+    this.route('new');
+    this.route('edit');
   });
 
   this.resource('select_portfolio', function() {
     this.route('chart', { path: '/' } );
   });
 
-  // Not done!
   this.resource('retirement_simulation', function() {
-    this.route('expenses',    { path: '/expenses' } );
-    this.route('parameters',  { path: '/parameters' } );
-    this.route('simulate',    { path: '/simulate' } );
+    this.route('expenses');
+    this.route('parameters');
+    this.route('simulate');
   });
 
-  // Not done!
-  this.resource('track_portfolio', function() {
+  this.resource('tracked_portfolio', function() {
     this.route('show', { path: '/' } );
+    this.route('select_etfs');
+    this.route('rebalance');
   });
 
 

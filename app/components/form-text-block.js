@@ -2,7 +2,11 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: 'div',
-  classNames: ['row'],
 
+  textColor: 'color-green',
   helpBlock: false, // Bound
+
+  classNames: ['row'],
+  classNameBindings: ['textColor']
+
 });

@@ -1,4 +1,4 @@
-{{partial 'sections/progress-steps'}}
+{{partial 'user/progress-steps'}}
 
 <br>
 <br>
@@ -7,7 +7,7 @@
   <h2>Welcome to RetirementPlan.io!</h2>
   <br>
   {{#if userIsComplete}}
-    <p class='lead'>Looks like you have your portfolio all set up. We are tracking it for you, and will notify you if it gets out of balance.</p>
+    <p class='lead'>Looks like you have your portfolio all set up. {{link-to 'We are tracking it for you' 'tracked_portfolio.show'}}, and will notify you if it gets out of balance.</p>
   {{else}}
     <p class='lead'>Looks like you haven't got your portfolio set up yet.</p>
     <p>

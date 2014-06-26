@@ -24,9 +24,11 @@ export default Ember.Route.extend({
         data: { allocation: FrontierPortfolio.allocationFromID(portfolioID) }
       }).then( function() {
         var currentUser = route.controllerFor('user.current').get('model');
+
+        // Always reload the current user, so that its portfolio_id gets updated if changed portfolio
+        currentUser.reload();
+
         if (!currentUser.get('hasSelectedPortfolio')) {
-          // This is their first time selecting. Update the user model.
-          currentUser.reload();
           RetirementPlan.setFlash('success', 'Your portfolio selection has been saved. Next up - set up your retirement expenses!');
         } else {
           RetirementPlan.setFlash('success', 'Your portfolio selection has been saved.');

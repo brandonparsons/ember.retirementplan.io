@@ -3,7 +3,7 @@
   <div class='col-md-2'>
     <div class='form-group'>
       {{input type="number" value=numberOfSimulationTrials placeholder="1000" min=100 max=1000 classNames='form-control'}}
-      <p class="help-block">A value between 500-1000 is generally appropriate.</p>
+      <p class="help-block small italic">A value between 500-1000 is generally appropriate.</p>
     </div>
 
     <p class='text-center'>
@@ -18,6 +18,9 @@
       <p class='text-center'>
         {{link-to 'Change Portfolio' 'select_portfolio' classNames='btn btn-default'}}
       </p>
+      <p class='text-center'>
+        {{link-to 'Cancel' 'user.dashboard' classNames='btn btn-default'}}
+      </p>
     {{/if}}
   </div>
 
@@ -28,15 +31,20 @@
         {{fontawesome-icon type="spinner" size='3x' spin=true withForcedSpace=false}}
       </p>
     {{else}}
+      {{!-- No longer loading simulation data --}}
 
       {{#if displayChart}}
+        {{!-- Have a chart to display --}}
         {{simulation-timeseries-chart barData=barData lineData=lineData}}
       {{else}}
+        {{!-- No chart to display --}}
+
+        <p class='lead text-center'>Time to run your simulation!</p>
+
         {{#bs-alert type='warning'}}
           <p>Select a number of trials to run, and hit 'Go'!</p>
         {{/bs-alert}}
 
-        <p class='lead text-center'>Time to run your simulation!</p>
         <p>Given the portfolio you selected earlier, we will generate a number of different possibilities for its performance based on its historical statistical properties.</p>
         <p>The calculated performance on your portfolio will be matched against the expenses and information provided earlier. The goal of this calculation is to determine if you have sufficient savings (or low enough expenses) that your retirement savings will generally last through your retirement.</p>
       {{/if}}

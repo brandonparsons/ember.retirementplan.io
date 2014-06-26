@@ -1,0 +1,76 @@
+<p class='lead text-center'>Tracked Portfolio Status</p>
+
+{{#offset-spaced}}
+
+  <h4 class='text-center'>
+    <span class='text-success'>{{fontawesome-icon type='check-square'}}</span>Your portfolio is set up and is being continually monitored.
+  </h4>
+
+  <hr>
+
+  <p>Your target & current allocations are:</p>
+
+  <div class='table-responsive'>
+    <table class='table table-striped table-bordered'>
+      <thead>
+        <tr class='with-aligned-headers'>
+          <th>Asset Class</th>
+          <th>Target Weight</th>
+          <th>Current Weight</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each targetAllocationInformation}}
+          <tr class='text-center'>
+            <td>{{assetClass}}</td>
+            <td>{{targetWeight}}</td>
+            <td>{{currentWeight}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <ul>
+    <li>{{link-to 'Change your portfolio allocations' 'select_portfolio.chart'}}</li>
+    <li>{{link-to 'Re-run your retirement simulation' 'retirement_simulation.simulate'}}</li>
+  </ul>
+
+  <hr>
+
+  <p>Your current weights above are based on the fact that our records show you hold the following securities:</p>
+
+  <div class='table-responsive'>
+    <table class='table table-striped table-bordered'>
+      <thead>
+        <tr class='with-aligned-headers'>
+          <th>Asset Class</th>
+          <th>ETF</th>
+          <th>Ticker</th>
+          <th>Shares Held</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each currentHoldingsInformation}}
+          <tr class='text-center'>
+            <td>{{assetClass}}</td>
+            <td>{{description}}</td>
+            <td>{{ticker}}</td>
+            <td>{{currentShares}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <ul>
+    <li>{{link-to 'Purchase additional securities and/or rebalance' 'tracked_portfolio.rebalance' }}</li>
+    <li>{{link-to 'Correct the number of shares on record' 'tracked_portfolio.select_etfs'}}</li>
+    <li>{{link-to 'Change your selected ETF for a given asset class' 'tracked_portfolio.select_etfs'}}</li>
+  </ul>
+
+  <hr>
+
+{{/offset-spaced}}

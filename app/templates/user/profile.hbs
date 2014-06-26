@@ -1,86 +1,87 @@
-<div class='row'>
-  <div class='col-md-offset-2 col-md-8'>
+<p class='lead text-center'>User Profile</p>
 
-    {{#em-form model=this form_layout='horizontal' action='editProfile' submit_button=false}}
-      <fieldset class='fieldset-border'>
-        <legend class='fieldset-border'>Edit Your Profile</legend>
+{{#offset-spaced}}
 
-        {{#if hasPassword}}
-          {{!-- User has a password - we can allow profile edits --}}
+  {{#em-form model=this form_layout='horizontal' action='editProfile' submit_button=false}}
 
-          {{em-input property="currentPassword" type='password' label="Current Password" placeholder="Your current password is required" required=true}}
+    <fieldset class='fieldset-border'>
+      <legend class='fieldset-border'>Edit Your Profile</legend>
 
-          {{em-input property="name" type='text' label="Name" placeholder="Enter a name..." required=true disabled=currentPasswordMissing}}
-          {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" required=true disabled=currentPasswordMissing}}
+      {{#if hasPassword}}
+        {{!-- User has a password - we can allow profile edits --}}
 
-          <hr>
+        {{em-input property="currentPassword" type='password' label="Current Password" placeholder="Your current password is required" required=true}}
 
-          {{em-input property="password" type='password' label="Password" placeholder="Leave blank to not change" disabled=currentPasswordMissing}}
-          {{em-input property="passwordConfirmation" type='password' label="Password Confirmation" placeholder="Leave blank to not change" disabled=currentPasswordMissing}}
+        {{em-input property="name" type='text' label="Name" placeholder="Enter a name..." required=true disabled=currentPasswordMissing}}
+        {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" required=true disabled=currentPasswordMissing}}
 
-          <div class='row'>
-            <div class='col-sm-10 col-sm-offset-2'>
-              {{form-submit-button text="Update your profile"}}
-              {{form-button action="cancel" text="Cancel"}}
-            </div>
+        <hr>
+
+        {{em-input property="password" type='password' label="Password" placeholder="Leave blank to not change" disabled=currentPasswordMissing}}
+        {{em-input property="passwordConfirmation" type='password' label="Password Confirmation" placeholder="Leave blank to not change" disabled=currentPasswordMissing}}
+
+        <div class='row'>
+          <div class='col-sm-10 col-sm-offset-2'>
+            {{form-submit-button text="Update your profile"}}
+            {{#form-button action="transitionToPreferences" text=null}}
+              {{fontawesome-icon type='cog'}} Edit my preferences
+            {{/form-button}}
+            {{form-button action="cancel" text="Cancel" spaceType='space-left'}}
           </div>
+        </div>
 
-        {{else}}
-          {{!-- User is strictly from OAuth. They need to set a password before we allow profile edits --}}
+      {{else}}
+        {{!-- User is strictly from OAuth. They need to set a password before we allow profile edits --}}
 
-          {{em-input property="name" type='text' label="Name" placeholder="Enter a name..." required=true disabled=true}}
-          {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" required=true disabled=true}}
+        {{em-input property="name" type='text' label="Name" placeholder="Enter a name..." required=true disabled=true}}
+        {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" required=true disabled=true}}
 
-          <div class='row'>
-            <div class='col-sm-10 col-sm-offset-2'>
-              {{#bs-panel heading="Name/Email Changes" type="warning"}}
-                <p>You originally signed up for this site using an external provider.  For security purposes, we can't allow changes to your profile, unless you set a password on your account.</p>
-
-                <p>
-                  <a class='btn btn-default' {{action setPasswordOnOauthAccount}}>Set a password</a>
-                </p>
-              {{/bs-panel}}
-            </div>
+        <div class='row'>
+          <div class='col-sm-10 col-sm-offset-2'>
+            {{#bs-panel heading="Name/Email Changes" type="warning"}}
+              <p>You originally signed up for this site using an external provider.  For security purposes, we can't allow changes to your profile, unless you set a password on your account.</p>
+              <p><a class='btn btn-default' {{action setPasswordOnOauthAccount}}>Set a password</a></p>
+            {{/bs-panel}}
           </div>
+        </div>
 
-        {{/if}}
+      {{/if}}
 
-      </fieldset>
-    {{/em-form}}
+    </fieldset>
+  {{/em-form}}
 
-    <p>
-      {{#link-to 'user.preferences'}}{{fontawesome-icon type='cog'}} Edit my preferences{{/link-to}}
-    </p>
 
-    <div class='row'>
+  <form>
+    <fieldset class='fieldset-border'>
+      <legend class='fieldset-border'>Enable Third-Party Authentications</legend>
 
-      <hr>
+      <div class='row'>
 
-      <h4 class='text-center'>Enable Third-Party Authentications</h4>
-
-      <div class='col-md-6 text-center'>
-        <h5>Enabled Authentication Providers</h5>
-        <ul class='list-unstyled'>
-          {{#each auth in authentications}}
-            <li><strong>{{fontawesome-icon type=auth.fontawesomeIconClass}} {{titleize-string auth.provider}}</strong> - <a {{action removeAuth auth}}>{{fontawesome-icon type='times-circle'}} Remove</a></span></li>
-          {{/each}}
-        </ul>
-      </div>
-
-      <div class='col-md-6 text-center'>
-        <h5>Available Authentication Providers</h5>
-        {{#if remainingAuthenticationProviders.length}}
+        <div class='col-md-6 text-center'>
+          <h5>Enabled Authentication Providers</h5>
           <ul class='list-unstyled'>
-            {{#each provider in remainingAuthenticationProviders}}
-              <li><a {{action addOAuthProvider provider}}>Enable {{titleize-string provider}} login</a></li>
+            {{#each auth in authentications}}
+              <li><strong>{{fontawesome-icon type=auth.fontawesomeIconClass}} {{titleize-string auth.provider}}</strong> - <a {{action removeAuth auth}}>{{fontawesome-icon type='times-circle'}} Remove</a></span></li>
             {{/each}}
           </ul>
-        {{else}}
-          <p class='italic text-muted'>You have already added all available providers.</p>
-        {{/if}}
+        </div>
+
+        <div class='col-md-6 text-center'>
+          <h5>Available Authentication Providers</h5>
+          {{#if remainingAuthenticationProviders.length}}
+            <ul class='list-unstyled'>
+              {{#each provider in remainingAuthenticationProviders}}
+                <li><a {{action addOAuthProvider provider}}>Enable {{titleize-string provider}} login</a></li>
+              {{/each}}
+            </ul>
+          {{else}}
+            <p class='italic text-muted'>You have already added all available providers.</p>
+          {{/if}}
+        </div>
+
       </div>
 
-    </div>
+    </fieldset>
+  </form>
 
-  </div>
-</div>
+{{/offset-spaced}}

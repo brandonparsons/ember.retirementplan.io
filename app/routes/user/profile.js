@@ -61,7 +61,11 @@ export default Ember.Route.extend({
       }).then( function(response) {
         RetirementPlan.setFlash('notice', response.message, 10000);
       });
-    }
+    },
+
+    transitionToPreferences: function() {
+      this.transitionTo('user.preferences');
+    },
 
   }
 

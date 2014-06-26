@@ -1,0 +1,32 @@
+<div class='list-group'>
+
+  {{#link-to 'user.dashboard' classNames='list-group-item'}}
+    <h5 class='list-group-item-heading'>{{fontawesome-icon type='home'}}Dashboard</h5>
+  {{/link-to}}
+
+  {{#link-to 'tracked_portfolio.rebalance' classNames='list-group-item'}}
+    <h5 class='list-group-item-heading'>{{fontawesome-icon type='exchange'}}Invest funds / rebalance</h5>
+    <p class="list-group-item-text text-muted italic small">Invest additional funds, or rebalance your portfolio in a cost-neutral fashion.</p>
+  {{/link-to}}
+
+  {{#link-to 'tracked_portfolio.select_etfs' classNames='list-group-item'}}
+    <h5 class='list-group-item-heading'>{{fontawesome-icon type='edit'}}Change ETFs / shares on record</h5>
+    <p class="list-group-item-text text-muted italic small">Select a different ETF for a given asset class, and/or update your current holdings on file.</p>
+  {{/link-to}}
+
+  {{#link-to 'select_portfolio.chart' classNames='list-group-item'}}
+    <h5 class='list-group-item-heading'>{{fontawesome-icon type='tasks'}}Change portfolio allocations</h5>
+    <p class="list-group-item-text text-muted italic small">Select a different portfolio, changing your asset allocations.</p>
+  {{/link-to}}
+
+  {{#link-to 'retirement_simulation.simulate' classNames='list-group-item'}}
+    <h5 class='list-group-item-heading'>{{fontawesome-icon type='bar-chart-o'}}New retirement simulation</h5>
+    <p class="list-group-item-text text-muted italic small">Re-run your simulation with existing or new information.</p>
+  {{/link-to}}
+
+  {{#link-to 'tracked_portfolio.show' classNames='list-group-item'}}
+    <h5 class='list-group-item-heading'>{{fontawesome-icon type='signal'}}Tracked portfolio status</h5>
+    <p class="list-group-item-text text-muted italic small">View/confirm the status of your tracked portfolio.</p>
+  {{/link-to}}
+
+</div>

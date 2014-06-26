@@ -44,12 +44,12 @@
     </div>
 
      <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle trackPortfolioActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'track_portfolio'}}>
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle trackPortfolioActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo nextTrackedPortfolioStepRoute}}>
         {{fontawesome-icon type="cloud-upload" size='2x' withForcedSpace=false}}
       </button>
       <p>
         {{#if trackPortfolioEnabled}}
-          {{link-to "Track Portfolio" "track_portfolio"}}
+          {{link-to "Track Portfolio" nextTrackedPortfolioStepRoute}}
         {{else}}
           Track Portfolio
         {{/if}}
