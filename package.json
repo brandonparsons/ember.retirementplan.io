@@ -29,6 +29,12 @@
     "ember-cli-pretender": "0.0.5",
     "express": "^4.1.1",
     "glob": "^3.2.9",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-gitinfo": "^0.1.6",
+    "grunt-redis": "^0.1.1",
+    "grunt-redis-manifest": "^0.1.3",
+    "grunt-s3": "^0.2.0-alpha.3",
     "originate": "0.1.5"
   }
 }
