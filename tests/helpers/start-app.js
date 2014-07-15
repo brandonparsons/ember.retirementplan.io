@@ -2,6 +2,7 @@
 
 var Application = require('retirement-plan/app')['default'];
 var Router = require('retirement-plan/router')['default'];
+import Ember from 'ember';
 
 export default function startApp(attrs) {
   var App;

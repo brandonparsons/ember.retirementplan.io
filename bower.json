@@ -5,16 +5,11 @@
     "jquery": "^1.11.1",
     "qunit": "~1.12.0",
     "ember-qunit": "~0.1.5",
-    "ember": "1.5.1",
-    "ember-data": "1.0.0-beta.8",
+    "ember": "1.5.0",
     "ember-resolver": "~0.1.1",
-    "ic-ajax": "~1.x",
     "loader": "stefanpenner/loader.js#1.0.0",
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.2",
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.2",
-    "ember-qunit-notifications": "^0.0.1",
-    "ember-cli-test-loader": "rjackson/ember-cli-test-loader#0.0.2",
-    "pretender": "~0.0.5",
     "fastclick": "~1.0.1",
     "ember-simple-auth": "~0.4.0",
     "alertify.js": "~0.3.11",
@@ -31,6 +26,8 @@
     "headroom.js": "~0.6.0",
     "d3": "~3.4.8",
     "ember-charts": "0.1.0",
-    "accounting": "~0.3.2"
+    "accounting": "~0.3.2",
+    "ember-qunit-notifications": "^0.0.3",
+    "ember-cli-test-loader": "rjackson/ember-cli-test-loader#0.0.2"
   }
 }

@@ -53,11 +53,6 @@ export default Ember.Route.extend(
       return true;
     },
 
-    /* Bubble from various locations */
-    actionBasedTransitionTo: function(route) {
-      this.transitionTo(route);
-    },
-
     transitionToSignUp: function() {
       this.transitionTo('sign_up');
     },

@@ -2,6 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
+  needs: ['user/current'],
+  currentUser: Ember.computed.alias('controllers.user/current'),
+
   ////////////////////////////////////
   // Properties for user's progress //
   ////////////////////////////////////
@@ -114,18 +117,26 @@ export default Ember.Controller.extend({
   actions: {
 
     actionBasedTransitionTo: function(route) {
-      // There is an action in application route that will handle this, but we
-      // need to check if it should be enabled at this point (user progress)
+      // Check if it should be enabled at this point (user progress) prior to
+      // transitioning.
+      var doTransition;
+
       if (route === 'questionnaire') {
-        return this.get('questionnaireEnabled');
+        doTransition = this.get('questionnaireEnabled');
       } else if (route === 'select_portfolio') {
-        return this.get('portfolioSelectionEnabled');
+        doTransition = this.get('portfolioSelectionEnabled');
       } else if ( route.match(/retirement_simulation\..*/i) ) {
-        return this.get('retirementSimulationEnabled');
+        doTransition = this.get('retirementSimulationEnabled');
       } else if ( route.match(/tracked_portfolio\..*/i) ) {
-        return this.get('trackPortfolioEnabled');
+        doTransition = this.get('trackPortfolioEnabled');
       } else {
-        return false; // Shouldn't get here unless you add additional buttons
+        throw new Error('Invalid route name'); // Shouldn't get here unless you add additional buttons
+      }
+
+      if (doTransition) {
+        this.transitionToRoute(route);
+      } else {
+        return false;
       }
     }
 

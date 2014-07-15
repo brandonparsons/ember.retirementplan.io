@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import startApp from 'retirement-plan/tests/helpers/start-app';
 
 var App;

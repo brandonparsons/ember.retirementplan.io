@@ -2,10 +2,12 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
 
+  needs: ['application', 'user/current'],
+  currentUser: Ember.computed.alias('controllers.user/current'),
+
   hasSimulationInput:    Ember.computed.alias('currentUser.hasSimulationInput'),
   hasNoSimulationInput:  Ember.computed.not('hasSimulationInput'),
 
-  needs: ['application'],
   currentRouteName:     Ember.computed.alias('controllers.application.currentRouteName'),
   isOnExpensesRoute:    Ember.computed.equal('currentRouteName', 'retirement_simulation.expenses'),
   isOnParametersRoute:  Ember.computed.equal('currentRouteName', 'retirement_simulation.parameters'),

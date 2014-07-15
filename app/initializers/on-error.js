@@ -1,8 +1,7 @@
 import Ember from 'ember';
 
 export default {
-  name:   'on-error',
-  after:  'flash-functions',
+  name: 'on-error',
   initialize: function(container, application) {
 
     ///////////

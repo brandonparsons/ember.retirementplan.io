@@ -6,13 +6,14 @@ import roundTo from 'retirement-plan/utils/round-to';
 export default Ember.ArrayController.extend({
   // Model/content: Array of portfolios from server corresponding to checkboxes
 
-  // NB: Working with `FrontierPortfolios` not `Portfolios`
-
   // They come this way from the server, but just in case that changes....
   sortProperties: ['annualRisk'],
   sortAscending: true,
 
-  needs: ['selectPortfolio'],
+  needs: ['selectPortfolio', 'user/current'],
+  currentUser: Ember.computed.alias('controllers.user/current'),
+
+  // NB: Working with `FrontierPortfolios` not `Portfolios`
 
 
   //////////////////////
