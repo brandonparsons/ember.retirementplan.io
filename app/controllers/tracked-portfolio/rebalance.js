@@ -26,9 +26,9 @@ export default Ember.ObjectController.extend({
 
     var prices = this.get('prices');
     var etfs = this.get('etfs');
-    var targetSecurityWeights = this.get('portfolio.weights');
+    var targetAssetWeights = this.get('portfolio.weights');
 
-    // selectedEtfs is normally { securityTicker => etfTicker }
+    // selectedEtfs is normally { assetId => etfTicker }
     // Invert and grab keys to get list of selected etf tickers
     var selectedEtfs = Ember.keys(_.invert(this.get('portfolio.selectedEtfs')));
 
@@ -53,28 +53,28 @@ export default Ember.ObjectController.extend({
     // Prices keys contain all ETFs (ones with current shares, and all in
     // desired allocation).
     var rebalanceInfo = Ember.keys(prices).reduce( function(result, etfTicker) {
-      var etf, security, sharesOfEtf, priceOfEtf, isSelected,
-        targetSecurityWeight, requiredEndDollars, dollarsShort, sharesToBuy;
+      var etf, asset, sharesOfEtf, priceOfEtf, isSelected,
+        targetAssetWeight, requiredEndDollars, dollarsShort, sharesToBuy;
 
-      etf       = etfs.findBy('ticker', etfTicker);
-      security  = etf.get('security');
+      etf    = etfs.findBy('ticker', etfTicker);
+      asset  = etf.get('asset');
 
       sharesOfEtf = currentShares[etfTicker];
       priceOfEtf  = prices[etfTicker];
       isSelected  = selectedEtfs.contains(etfTicker);
 
       if (isSelected) {
-        targetSecurityWeight = targetSecurityWeights[security.get('ticker')];
+        targetAssetWeight = targetAssetWeights[asset.get('id')];
       } else {
-        targetSecurityWeight = 0.0;
+        targetAssetWeight = 0.0;
       }
 
-      requiredEndDollars  = targetSecurityWeight * finalPortfolioValue;
+      requiredEndDollars  = targetAssetWeight * finalPortfolioValue;
       dollarsShort        = requiredEndDollars - (sharesOfEtf * priceOfEtf);
       sharesToBuy         = roundTo( (dollarsShort / priceOfEtf), 0);
 
       result.pushObject(Ember.Object.create({
-        assetClass:     security.get('assetClass'),
+        assetClass:     asset.get('assetClass'),
         description:    etf.get('description'),
         ticker:         etf.get('ticker'),
         currentShares:  sharesOfEtf,
@@ -90,6 +90,19 @@ export default Ember.ObjectController.extend({
     return rebalanceInfo;
   }.property('amount', 'prices', 'etfs', 'portfolio', 'portfolio.weights',
     'portfolio.selectedEtfs', 'portfolio.currentShares'),
+
+  emailInformation: function() {
+    return this.get('rebalanceInformation').reduce( function(result, rebalanceRow) {
+      var ticker  = rebalanceRow.get('ticker');
+      result[ticker] = {
+        "asset_class":     rebalanceRow.get('assetClass'),
+        "description":    rebalanceRow.get('description'),
+        "current_shares":  window.parseFloat(rebalanceRow.get('currentShares')),
+        "shares_to_buy":    window.parseFloat(rebalanceRow.get('sharesToBuy')),
+      };
+      return result;
+    }, {} );
+  }.property('rebalanceInformation.@each.sharesToBuy'),
 
   purchasedUnits: function() {
     return this.get('rebalanceInformation').reduce( function(result, rebalanceRow) {

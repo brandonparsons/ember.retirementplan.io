@@ -5,7 +5,7 @@ import { request as icAjaxRequest } from 'ic-ajax';
 export default Ember.Route.extend({
 
   // Need to set the model to an empty array on boot, otherwise ember appears
-  // to fill it with the securities (from the parent route, not what we want.)
+  // to fill it with the assets (from the parent route, not what we want.)
   model: function() { return []; },
 
   activate: function() {
@@ -24,16 +24,15 @@ export default Ember.Route.extend({
         data: { allocation: FrontierPortfolio.allocationFromID(portfolioID) }
       }).then( function() {
         var currentUser = route.controllerFor('user.current').get('model');
-
         // Always reload the current user, so that its portfolio_id gets updated if changed portfolio
-        currentUser.reload();
-
-        if (!currentUser.get('hasSelectedPortfolio')) {
-          RetirementPlan.setFlash('success', 'Your portfolio selection has been saved. Next up - set up your retirement expenses!');
-        } else {
-          RetirementPlan.setFlash('success', 'Your portfolio selection has been saved.');
-        }
-        route.transitionTo('user.dashboard');
+        currentUser.reload().then(function() {
+          if (!currentUser.get('hasSelectedPortfolio')) {
+            RetirementPlan.setFlash('success', 'Your portfolio selection has been saved. Next up - set up your retirement expenses!');
+          } else {
+            RetirementPlan.setFlash('success', 'Your portfolio selection has been saved.');
+          }
+          route.transitionTo('user.dashboard');
+        });
       });
     }
 

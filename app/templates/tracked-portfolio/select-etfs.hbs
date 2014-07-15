@@ -27,10 +27,10 @@
             {{#each etfGroupsForSelection}}
               <tr>
 
-                <td class='text-center'>{{security.assetClass}}</td>
+                <td class='text-center'>{{asset.assetClass}}</td>
 
                 <td {{bind-attr class=':form-group selectedEtf:valid:has-error'}}>
-                  {{view 'etf-select' security=security etfs=etfs selection=selectedEtf  optionValuePath="content.ticker" optionLabelPath="content.description" classNames='form-control' prompt='Please select an ETF'}}
+                  {{view 'etf-select' asset=asset etfs=etfs selection=selectedEtf classNames='form-control' prompt='Please select an ETF'}}
                 </td>
 
               </tr>

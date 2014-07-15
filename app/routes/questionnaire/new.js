@@ -19,9 +19,10 @@ export default Ember.Route.extend({
         // This is their first time submitting (in the `new` route). Update the
         // user model prior to transitioning so the dashboard representation
         // is correct.
-        route.controllerFor('user.current').get('model').reload();
-        route.transitionTo('user.dashboard');
-        RetirementPlan.setFlash('success', 'Your responses have been saved. Next up - select a portfolio!');
+        route.controllerFor('user.current').get('model').reload().then(function() {
+          route.transitionTo('user.dashboard');
+          RetirementPlan.setFlash('success', 'Your responses have been saved. Next up - select a portfolio!');
+        });
       });
     }
   }

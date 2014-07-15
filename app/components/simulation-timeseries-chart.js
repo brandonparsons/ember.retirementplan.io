@@ -13,6 +13,11 @@ export default Ember.Charts.TimeSeriesComponent.extend({
   yAxisFromZero: true,
   selectedInterval: 'M', // 'W' weeks 'M' months 'Q' quarters 'Y' years
 
+  formatValue:      window.d3.format('.1%'),
+  formatValueLong:  window.d3.format('.1%'),
+  // formatValue:      d3.format('.2s'),
+  // formatValueLong:  d3.format(',.r'),
+
   selectedSeedColor: chartColor('green'),
 
 });

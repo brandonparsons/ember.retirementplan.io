@@ -37,9 +37,10 @@ export default Ember.Route.extend({
         var currentUser = route.controllerFor('user.current').get('model');
         if (!currentUser.get('hasSimulationInput')) {
           // This is their first time submitting. Update the user model.
-          currentUser.reload();
-          route.transitionTo('retirement_simulation.simulate');
-          RetirementPlan.setFlash('success', 'Your simulation parameters have been saved. Time to run your retirement simulations.');
+          currentUser.reload().then(function() {
+            route.transitionTo('retirement_simulation.simulate');
+            RetirementPlan.setFlash('success', 'Your simulation parameters have been saved. Time to run your retirement simulations.');
+          });
         } else {
           route.transitionTo('user.dashboard');
           RetirementPlan.setFlash('success', 'Your responses have been saved. If you have made significant changes you may want to re-run your simulations.');

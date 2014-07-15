@@ -11,7 +11,7 @@ export default Ember.ObjectController.extend({
   lineData: null,
   loading: false,
 
-  numberOfSimulationTrials: 1000,
+  numberOfSimulationTrials: 500,
 
 
   /////////////////////////
@@ -41,32 +41,77 @@ export default Ember.ObjectController.extend({
         type: 'GET',
         data: { number_of_simulation_trials: numberOfSimulationTrials }
       }).then(function(simulationData) {
-        // Need to replace all the times (e.g. 2013-08-15) with d3 times prior
-        // to use.
-        var formatDate, transformObject, reduceFunction, barData, lineData;
+        // Need to munge data into graph format prior to use.
+        var timeSteps = simulationData.simulations;
+        var barData     = [];
+        var lineData    = [];
 
-        formatDate = function(dateString) {
-          return window.d3.time.format('%Y-%m-%d').parse(dateString);
-        };
-        transformObject = function(object) {
-          var newObject = {};
-          _.forEach(object, function(value, key) {
-            if (key === 'time') {
-              newObject[key] = formatDate(value);
-            } else {
-              newObject[key] = value;
-            }
+        var numberOfGraphElements = 500; // Closure - used in functions below
+
+        var resampleArray = function(arr, desiredLength) {
+          var chunked, itemsPerBucket;
+          if (desiredLength > arr.length) {
+            return arr;
+          }
+          itemsPerBucket = parseInt(arr.length / desiredLength);
+          chunked = [];
+          while (arr.length) {
+            chunked.push(arr.splice(0, itemsPerBucket));
+          }
+          return _.map(chunked, function(chunk) {
+            var total;
+            total = _.reduce(chunk, function(sum, val) {
+              return sum += val;
+            }, 0.0);
+            return total / chunk.length;
           });
-          return newObject;
-        };
-        reduceFunction = function(ary, entryObject) {
-          var transformed = transformObject(entryObject);
-          ary.pushObject(transformed);
-          return ary;
         };
 
-        barData   = _.reduce(simulationData.bar_data, reduceFunction, []);
-        lineData  = _.reduce(simulationData.line_data, reduceFunction, []);
+        var asRelativeValues = function(arr) {
+          var max, min, spread;
+          max     = _.max(arr);
+          min     = _.min(arr);
+          spread  = max - min;
+          if (spread === 0.0) {
+            // If is always zero (spread == 0), divides by zero and blows up.
+            // Just return the original array as it is (probably?) always a pile
+            // of zeroes in this case.
+            return arr;
+          } else {
+            return _.map(arr, function(el) {
+              return (el - min) / spread; // Not dividing by 100 - already taken care of by d3
+            });
+          }
+        };
+
+        var dates = _.map(_.pluck(timeSteps, 'date'), function(dateInt) {
+          // Change dates to unix milliseconds so work in Javascript
+          return dateInt * 1000; // Unix milliseconds
+        });
+
+        var resampledDates = _.map(resampleArray(dates, numberOfGraphElements), function(millis) {
+          return new Date(millis);
+        });
+
+        var pushGraphData = function(sourceObject, key, target, title) {
+          // Even pushing the _.pluck into this function, so we don't have to
+          // create 6+ fully loaded arrays
+          var array = _.pluck(sourceObject, key);
+          _.forEach(asRelativeValues(resampleArray(array, numberOfGraphElements)), function(el, index) {
+            target.pushObject({
+              "label": title,
+              "time": resampledDates[index],
+              "value": el
+            });
+          });
+        };
+
+        pushGraphData(timeSteps, 'assets_mean', lineData, "Assets (Mean)");
+        pushGraphData(timeSteps, 'assets_ci_high', lineData, "Assets (95% Confidence Low)");
+        pushGraphData(timeSteps, 'assets_ci_low', lineData, "Assets (95% Confidence High)");
+        pushGraphData(timeSteps, 'income_mean', lineData, "Income (Mean)");
+        pushGraphData(timeSteps, 'expenses_mean', lineData, "Expenses (Mean)");
+        pushGraphData(timeSteps, 'out_of_money_percentage', barData, "Out of Money Occurences (% of Trials)");
 
         controller.set('barData', barData);
         controller.set('lineData', lineData);

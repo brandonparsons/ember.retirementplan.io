@@ -21,15 +21,15 @@ export default Ember.Route.extend({
       var currentUser = this.controllerFor('user.current').get('model');
 
       if ( !currentUser.get('hasCompletedSimulation') ) {
-        // Notify the server that the user has accepted a simulation. Reload the
-        // user to get updated `hasCompletedSimulation`
+        // Notify the server that the user has accepted a simulation.
         icAjaxRequest({
           url: window.RetirementPlanENV.apiHost + '/simulation',
           type: 'POST'
         }).then(function() {
-          currentUser.reload();
-          route.transitionTo('user.dashboard');
-          RetirementPlan.setFlash('success', "You have accepted this portfolio. Now just set up your portfolio and you're all done!");
+          currentUser.reload().then(function() { // Reload the user to get updated `hasCompletedSimulation`
+            route.transitionTo('user.dashboard');
+            RetirementPlan.setFlash('success', "You have accepted this portfolio. Now just set up your portfolio and you're all done!");
+          });
         });
       } else if ( !currentUser.get('hasTrackedPortfolio') ) {
         route.transitionTo('user.dashboard');

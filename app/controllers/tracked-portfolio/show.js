@@ -20,15 +20,15 @@ export default Ember.ObjectController.extend({
       return result;
     }, 0);
 
-    return Ember.keys(weights).map( function(securityTicker) {
-      var representativeEtfTicker = selectedEtfs[securityTicker];
+    return Ember.keys(weights).map( function(assetId) {
+      var representativeEtfTicker = selectedEtfs[assetId];
       var representativeEtf       = etfs.findBy('ticker', representativeEtfTicker);
 
-      var targetWeight  = weights[securityTicker];
+      var targetWeight  = weights[assetId];
       var currentWeight = (currentShares[representativeEtfTicker] * prices[representativeEtfTicker]) / currentMarketValue;
 
       return Ember.Object.create({
-        assetClass:     representativeEtf.get('security.assetClass'),
+        assetClass:     representativeEtf.get('asset.assetClass'),
         targetWeight:   '' + roundTo(targetWeight*100, 1) + '%',
         currentWeight:  '' + roundTo(currentWeight*100, 1) + '%',
       });
@@ -44,7 +44,7 @@ export default Ember.ObjectController.extend({
       var etf = etfs.findBy('ticker', etfTicker);
 
       return Ember.Object.create({
-        assetClass: etf.get('security.assetClass'),
+        assetClass: etf.get('asset.assetClass'),
         description: etf.get('description'),
         ticker: etf.get('ticker'),
         currentShares: currentShares[etfTicker],

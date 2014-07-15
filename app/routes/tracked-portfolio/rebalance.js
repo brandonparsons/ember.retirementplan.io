@@ -41,22 +41,22 @@ export default Ember.Route.extend({
         type: 'POST',
         data: { purchased_units: purchasedUnits }
       }).then( function() {
-        currentUser.reload(); // So that tracked status is updated
-        route.transitionTo('user.dashboard');
-        RetirementPlan.setFlash('success', 'Your portfolio is set up and is being tracked!');
+        currentUser.reload().then(function() { // So that tracked status is updated
+          route.transitionTo('user.dashboard');
+          RetirementPlan.setFlash('success', 'Your portfolio is set up and is being tracked!');
+        });
       });
     },
 
     emailInstructions: function() {
-      var purchasedUnits  = this.controller.get('purchasedUnits');
-      var amount          = this.controller.get('amount');
-
+      var emailInformation  = this.controller.get('emailInformation');
+      var amount            = this.controller.get('amount');
       icAjaxRequest({
         url: window.RetirementPlanENV.apiHost + '/tracked_portfolios/email_instructions',
         type: 'POST',
         data: {
-          amount:           amount,
-          purchased_units:  purchasedUnits
+          amount:             amount,
+          email_information:  emailInformation
         }
       }).then( function() {
         RetirementPlan.setFlash('success', 'E-mail is on its way!');

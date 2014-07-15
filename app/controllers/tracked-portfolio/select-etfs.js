@@ -10,32 +10,33 @@ export default Ember.ObjectController.extend({
   // Computed Properties //
   /////////////////////////
 
-  etfs:                   Ember.computed.alias('controllers.etfs'),
-  etfsGroupedBySecurity:  Ember.computed.alias('etfs.groupedBySecurity'),
+  etfs:                Ember.computed.alias('controllers.etfs'),
+  etfsGroupedByAsset:  Ember.computed.alias('etfs.groupedByAsset'),
 
 
   /* Display properties */
 
   etfGroupsForSelection: function() {
-    // Filter the security groups down to only those in the proposed portfolio
+    // Filter the asset groups down to only those in the proposed portfolio
     // allocation.
-
     var etfs            = this.get('etfs');
     var selectedEtfs    = this.get('selectedEtfs');
-    var weightsTickers  = Ember.keys(this.get('weights'));
-    var securityGroups  = this.get('etfsGroupedBySecurity');
+    var assetIds        = Ember.keys(this.get('weights'));
+    var assetGroups     = this.get('etfsGroupedByAsset');
 
-    var relevantSecurityGroups = securityGroups.filter( function(securityGroup) {
-      var securityGroupTicker = securityGroup.get('security.ticker');
-      return weightsTickers.contains(securityGroupTicker);
+    var relevantAssetGroups = assetGroups.filter( function(assetGroup) {
+      var assetGroupTicker = assetGroup.get('asset.id');
+      return assetIds.contains(assetGroupTicker);
     });
 
-    return relevantSecurityGroups.map( function(group) {
-      var security, securityTicker, selectedEtfTicker, selectedEtf;
+    // If they have already selected some ETFs (not first visit) then populate
+    // the group with the selected value.
+    return relevantAssetGroups.map( function(group) {
+      var asset, assetTicker, selectedEtfTicker, selectedEtf;
 
-      security          = group.get('security');
-      securityTicker    = security.get('ticker');
-      selectedEtfTicker = selectedEtfs[securityTicker];
+      asset             = group.get('asset');
+      assetTicker       = asset.get('id');
+      selectedEtfTicker = selectedEtfs[assetTicker];
 
       if (selectedEtfTicker) {
         selectedEtf = etfs.findBy('ticker', selectedEtfTicker);
@@ -44,12 +45,12 @@ export default Ember.ObjectController.extend({
       }
 
       return Ember.Object.create({
-        security: security,
+        asset: asset,
         etfs: group.get('contents'),
         selectedEtf: selectedEtf,
       });
     });
-  }.property('etfsGroupedBySecurity.[]', 'weights'),
+  }.property('etfsGroupedByAsset.[]', 'weights'),
 
   etfsForHoldingsConfirmation: function() {
     // Need to confirm holdings for etfs where current shares are greater
@@ -77,7 +78,7 @@ export default Ember.ObjectController.extend({
 
     return relevantEtfs.map( function(etf) {
       return Ember.Object.create({
-        assetClass: etf.get('security.assetClass'),
+        assetClass: etf.get('asset.assetClass'),
         ticker: etf.get('ticker'),
         description: etf.get('description'),
         currentShares: currentShares[etf.get('ticker')]
@@ -97,7 +98,7 @@ export default Ember.ObjectController.extend({
     etfGroups.forEach( function(group) {
       var selectedEtf = group.get('selectedEtf');
       if (!Ember.isNone(selectedEtf)) {
-        selectedEtfs[group.get('security.ticker')] = selectedEtf.get('ticker');
+        selectedEtfs[group.get('asset.id')] = selectedEtf.get('ticker');
       }
     });
 

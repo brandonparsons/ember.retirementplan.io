@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-  // Model/content: Array of all securities - used in the checkboxes
+  // Model/content: Array of all assets - used in the checkboxes
 
   // NB: Working with `FrontierPortfolios` not `Portfolios`
 
@@ -9,19 +9,19 @@ export default Ember.ArrayController.extend({
 
   selectedPortfolioID: null,
 
-  selectedSecurities: function() {
+  selectedAssets: function() {
     return this.filterProperty('checked', true);
   }.property('@each.checked'),
 
-  selectedTickers: function() {
-    var tickerArray, selectedSecurities;
-    selectedSecurities = this.get('selectedSecurities');
-    if (selectedSecurities && selectedSecurities.length > 0) {
-      tickerArray = selectedSecurities.mapBy('ticker');
+  selectedAssetIds: function() {
+    var assetIdArray, selectedAssets;
+    selectedAssets = this.get('selectedAssets');
+    if (selectedAssets && selectedAssets.length > 0) {
+      assetIdArray = selectedAssets.mapBy('id');
     } else {
-      tickerArray = [];
+      assetIdArray = [];
     }
-    return tickerArray;
-  }.property('selectedSecurities')
+    return assetIdArray;
+  }.property('selectedAssets')
 
 });

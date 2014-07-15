@@ -13,8 +13,9 @@ export default Ember.Route.extend(
       }).then( function() {
         // Reload the current user model so that confirmation gets reflected
         var user = route.controllerFor('user.current').get('model');
-        user.reload();
-        route.transitionTo('user.dashboard');
+        user.reload().then(function() {
+          route.transitionTo('user.dashboard');
+        });
       });
     }
   }

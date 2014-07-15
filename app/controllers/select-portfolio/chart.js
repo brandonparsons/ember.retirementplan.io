@@ -25,14 +25,14 @@ export default Ember.ArrayController.extend({
 
   hasSelectedPortfolio: Ember.computed.notEmpty('selectedPortfolioID'),
 
-  selectedTickers: Ember.computed.alias('controllers.selectPortfolio.selectedTickers'),
+  selectedAssetIds: Ember.computed.alias('controllers.selectPortfolio.selectedAssetIds'),
 
   ensureGraphRendered: function() {
     // This runs every time the route is accessed (including the first time).
-    // Manually fire the `selectedTickers` observer. We don't "get" this property
+    // Manually fire the `selectedAssetIds` observer. We don't "get" this property
     // in the template, therefore the observer doesn't fire unless we notify,
     // or over-ride the `init` function on the controller.
-    this.notifyPropertyChange('selectedTickers');
+    this.notifyPropertyChange('selectedAssetIds');
   },
 
   leftArrowDisabled: function() {
@@ -52,15 +52,14 @@ export default Ember.ArrayController.extend({
 
   portfolios: Ember.computed.alias('content'),
 
-  allSecurities: Ember.computed.alias('controllers.selectPortfolio.content'),
+  allAssets: Ember.computed.alias('controllers.selectPortfolio.content'),
 
-  selectedTickersCount: function() {
-    return this.get('selectedTickers').length || 0;
-  }.property('selectedTickers.@each'),
+  selectedAssetIdsCount: function() {
+    return this.get('selectedAssetIds').length || 0;
+  }.property('selectedAssetIds.@each'),
 
-  selectedAnyTickers: Ember.computed.gt('selectedTickersCount', 0),
-
-  selectedEnoughTickers: Ember.computed.gte('selectedTickersCount', 2),
+  selectedAnyAssets: Ember.computed.gt('selectedAssetIdsCount', 0),
+  selectedEnoughAssets: Ember.computed.gte('selectedAssetIdsCount', 3),
 
   selectedPortfolio: function() {
     var portfolioID = this.get('selectedPortfolioID');
@@ -102,12 +101,12 @@ export default Ember.ArrayController.extend({
   }.property('portfolios.@each'),
 
   pieChartData: function() {
-    var allocation    = this.get('allocation');
-    var allSecurities = this.get('allSecurities');
-    return _.transform(allocation, function(memo, percentageAllocation, ticker) {
+    var allocation  = this.get('allocation');
+    var allAssets   = this.get('allAssets');
+    return _.transform(allocation, function(memo, percentageAllocation, id) {
       var percentageFormatted = percentageAllocation * 100;
-      var tickerDescription   = allSecurities.findBy('ticker', ticker).get('assetClass');
-      memo.push({ "label": tickerDescription, "value": percentageFormatted });
+      var description = allAssets.findBy('id', id).get('assetClass');
+      memo.push({ "label": description, "value": percentageFormatted });
       return true;
     }, []);
   }.property('allocation'),
@@ -118,15 +117,15 @@ export default Ember.ArrayController.extend({
   // Observers //
   ///////////////
 
-  selectedTickersChanged: function() {
+  selectedAssetIdsChanged: function() {
     // User selected different assets classes. Get the new efficient frontier (
     // which updates the graph).
-    var tickerArray = this.get('selectedTickers');
+    var assetIdArray = this.get('selectedAssetIds');
 
     // Debounce this function - it gets called multiple times on the original
     // route load, and is expensive to calculate efficient frontiers on the server
-    Ember.run.debounce(this, this._updateGraph, tickerArray, 100);
-  }.observes('selectedTickers'),
+    Ember.run.debounce(this, this._updateGraph, assetIdArray, 100);
+  }.observes('selectedAssetIds'),
 
 
   /////////////
@@ -174,33 +173,37 @@ export default Ember.ArrayController.extend({
   // 'Private' functions //
   /////////////////////////
 
-  _updateGraph: function(tickerArray) {
-    if (!tickerArray || tickerArray.length < 1) { return null; }
+  _updateGraph: function(assetIdArray) {
+    if (!assetIdArray || assetIdArray.length < 1) { return null; }
     var controller = this;
     controller.set('loadingFrontier', true);
-    controller._getEfficientFrontier(tickerArray).then( function(portfolios) {
+    controller._getEfficientFrontier(assetIdArray).then( function(portfolios) {
       controller.set('content', portfolios);
       controller.set('loadingFrontier', false);
     });
   },
 
-  _getEfficientFrontier: function(tickerArray) {
+  _getEfficientFrontier: function(assetIdArray) {
     var controller = this;
 
     return new Ember.RSVP.Promise(function(resolve) {
-      if (tickerArray.length > 1) { // Not allowing single-asset portfolios
+      if (assetIdArray.length > 2) { // Not allowing single or two-asset portfolios
         icAjaxRequest({
           url:  window.RetirementPlanENV.apiHost + '/efficient_frontier',
           type: 'GET',
-          data: { tickers: tickerArray }
+          data: { asset_ids: assetIdArray }
         }).then( function(efficientFrontierData) {
           var prattArrowLow     = controller.get('currentUser.prattArrowLow');
           var prattArrowHigh    = controller.get('currentUser.prattArrowHigh');
           var portfolios        = [];
           var rawPortfolioData  = efficientFrontierData.efficient_frontier;
           _.forEach(rawPortfolioData, function(portfolio) {
+            // Set pratt arrow on the portfolio - it will allow utility calcs
+            // inside the object.
             portfolio.prattArrowLow   = prattArrowLow;
             portfolio.prattArrowHigh  = prattArrowHigh;
+
+            // Push to main collection
             portfolios.pushObject(FrontierPortfolio.create(portfolio));
           });
           resolve(portfolios);

@@ -44,26 +44,26 @@ var FrontierPortfolio = Ember.Object.extend({
   }.property('annualReturn', 'annualRisk'),
 
   warnings: function() {
-    var warningConditions, allocation, allocationIncludes, allocationOfTickerAtLeast;
+    var warningConditions, allocation, allocationIncludes, allocationofAssetAtLeast;
 
     warningConditions   = [];
     allocation          = this.get('allocation');
-    allocationIncludes  = function(ticker) {
-      return _.include( Ember.keys(allocation), ticker );
+    allocationIncludes  = function(assetId) {
+      return _.include( Ember.keys(allocation), assetId );
     };
-    allocationOfTickerAtLeast  = function(ticker, cutoff) {
-      return allocationIncludes(ticker) && allocation[ticker] >= cutoff;
+    allocationofAssetAtLeast  = function(assetId, cutoff) {
+      return allocationIncludes(assetId) && allocation[assetId] >= cutoff;
     };
 
-    if ( allocationOfTickerAtLeast("NAESX", 0.4) ) {
+    if ( allocationofAssetAtLeast("US-SMCAP-STOCK", 0.4) ) {
       warningConditions.push("This portfolio contains a significant fraction of small cap stocks.  These can be quite volatile - ensure they are acceptable give your risk tolerance.");
     }
 
-    if ( allocationOfTickerAtLeast("EEM", 0.4) ) {
+    if ( allocationofAssetAtLeast("EMERG-STOCK", 0.4) ) {
       warningConditions.push("This portfolio contains a significant fraction of emerging markets stocks.  These can be quite volatile - ensure they are acceptable give your risk tolerance.");
     }
 
-    if (Ember.keys(allocation).any( function(ticker) { return allocation[ticker] >= 0.90; } )) {
+    if (Ember.keys(allocation).any( function(assetId) { return allocation[assetId] >= 0.90; } )) {
       warningConditions.push("The portfolio you selected has greater than 90% weight in a single asset.  You may select this if you wish, but we suggest that you choose a portfolio with additional diversification.");
     }
 

@@ -2,23 +2,23 @@ import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
 
-  groupedBySecurity: function() {
+  groupedByAsset: function() {
     var result = [];
 
     this.forEach( function(etf) {
-      var securityBucket = result.findBy('security', etf.get('security'));
+      var assetBucket = result.findBy('asset', etf.get('asset'));
 
       // If the bucket doesn't exist, create it
-      if(!securityBucket) {
-        securityBucket = Ember.Object.create({
-          security: etf.get('security'),
+      if(!assetBucket) {
+        assetBucket = Ember.Object.create({
+          asset: etf.get('asset'),
           contents: []
         });
-        result.pushObject(securityBucket);
+        result.pushObject(assetBucket);
       }
 
       // Push into the bucket
-      securityBucket.get('contents').pushObject(etf);
+      assetBucket.get('contents').pushObject(etf);
     });
 
     return result;

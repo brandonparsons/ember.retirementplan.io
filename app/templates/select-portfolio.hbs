@@ -8,11 +8,11 @@
     <br>
 
     <div class='asset-class-checkboxes'>
-      {{#each security in controller}}
+      {{#each asset in controller}}
         <div class="checkbox">
           <label>
-            {{input type="checkbox" name=security.ticker checked=security.checked}}
-            {{security.assetClass}}
+            {{input type="checkbox" name=asset.id checked=asset.checked}}
+            {{asset.assetClass}}
           </label>
         </div>
       {{/each}}

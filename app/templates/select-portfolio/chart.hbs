@@ -3,11 +3,11 @@
     {{fontawesome-icon type="spinner" size='3x' spin=true withForcedSpace=false}}
   </p>
 {{else}}
-  {{#if selectedAnyTickers}}
-    {{#if selectedEnoughTickers}}
+  {{#if selectedAnyAssets}}
+    {{#if selectedEnoughAssets}}
       {{partial 'select-portfolio/chart-section'}}
     {{else}}
-      <p class='lead text-center top-margin'>Please pick at least two asset classes.</p>
+      <p class='lead text-center top-margin'>Please pick at least three asset classes.</p>
     {{/if}}
   {{else}}
     <p class='lead text-center top-margin'>Please pick some allowable asset classes at left.</p>
