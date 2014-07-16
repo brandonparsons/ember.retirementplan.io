@@ -117,6 +117,29 @@ export default Ember.Route.extend(
           route.transitionTo('user.dashboard');
         }
       });
+    },
+
+    actionBasedTransitionTo: function(route) {
+      // Check if it should be enabled at this point (user progress) prior to
+      // transitioning.
+      // Keep this in the application route otherwise it does odd things....
+      var doTransition;
+
+      if (route === 'questionnaire') {
+        doTransition = this.controllerFor('user.dashboard').get('questionnaireEnabled');
+      } else if (route === 'select_portfolio') {
+        doTransition = this.controllerFor('user.dashboard').get('portfolioSelectionEnabled');
+      } else if ( route.match(/retirement_simulation\..*/i) ) {
+        doTransition = this.controllerFor('user.dashboard').get('retirementSimulationEnabled');
+      } else if ( route.match(/tracked_portfolio\..*/i) ) {
+        doTransition = this.controllerFor('user.dashboard').get('trackPortfolioEnabled');
+      } else {
+        throw new Error('Invalid route name'); // Shouldn't get here unless you add additional buttons
+      }
+
+      if (doTransition) {
+        this.transitionTo(route);
+      }
     }
 
   },
