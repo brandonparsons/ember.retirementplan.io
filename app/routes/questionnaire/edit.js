@@ -10,10 +10,6 @@ export default Ember.Route.extend({
     this.modelFor(this.routeName).rollback();
   },
 
-  renderTemplate: function() {
-    this.render({controller: 'questionnaire'});
-  },
-
   actions: {
     updateQuestionnaire: function() {
       var route         = this;

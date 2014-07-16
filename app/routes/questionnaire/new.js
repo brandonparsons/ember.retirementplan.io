@@ -6,10 +6,6 @@ export default Ember.Route.extend({
     return this.modelFor('questionnaire');
   },
 
-  renderTemplate: function() {
-    this.render({controller: 'questionnaire'});
-  },
-
   actions: {
     createQuestionnaire: function() {
       var route         = this;
