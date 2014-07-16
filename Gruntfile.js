@@ -54,7 +54,7 @@ module.exports = function(grunt) {
   });
   grunt.loadNpmTasks('grunt-gitinfo');
   grunt.loadNpmTasks('grunt-s3');
-  grunt.loadNpmTasks('grunt-redis');
+  grunt.loadNpmTasks('grunt-redis-manifest');
 
   grunt.registerTask('release', ['gitinfo', 'redis:release']);
   grunt.registerTask('canary', ['gitinfo', 'redis:canary']);
