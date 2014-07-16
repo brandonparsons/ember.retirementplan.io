@@ -15,7 +15,6 @@ export default {
       if (error.jqXHR && error.jqXHR.responseJSON) {
         errorObject.responseJSON = error.jqXHR.responseJSON;
       }
-      Ember.warn("Reporting error to API endpoint.");
       Ember.$.ajax({
         url: window.RetirementPlanENV.apiHost + '/js_error',
         type: 'POST',
@@ -108,11 +107,14 @@ export default {
     ///////////
 
     var handleGenericError = function(error) {
-      // This was showing generic ember errors as a error flash - dont do that for now.
       var errorMessage  = determineErrorMessage(error, false);
+      var sticky        = error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.sticky || false;
+
       Ember.warn(errorMessage);
       window.console.log(JSON.stringify(error));
-      var sticky        = error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.sticky || false;
+
+      postErrorToLoggingService(error);
+
       application.setFlash('error', errorMessage, sticky);
     };
 
@@ -174,8 +176,6 @@ export default {
         }
         Ember.warn(JSON.stringify(error));
       }
-
-      postErrorToLoggingService(error);
 
       if (error.errorThrown) {
         if (error.errorThrown === 'Unauthorized' || error.jqXHR.status === 401) {

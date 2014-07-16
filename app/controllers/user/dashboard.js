@@ -134,7 +134,7 @@ export default Ember.Controller.extend({
       }
 
       if (doTransition) {
-        this.transitionToRoute(route);
+        return true; // Let this bubble up to the route. It was causing odd transition errors from the controller.
       } else {
         return false;
       }
