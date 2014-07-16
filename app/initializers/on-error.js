@@ -7,16 +7,13 @@ export default {
     ///////////
 
     var postErrorToLoggingService = function(error) {
-      if (window.RetirementPlanENV.debug) {
-        Ember.warn("Have not set up logging service.");
-        return error;
-      }
-      // FIXME: Need to post to airbrake service
-      // Em.$.ajax('/somewhere/error-notification', 'POST', {
-      //   stack: error.stack,
-      //   responseJSON: error.jqXHR.responseJSON,
-      //   message: errorMessage
-      // });
+      var errorMessage  = determineErrorMessage(error, false);
+      Ember.warn("Reporting error to API endpoint.");
+      Ember.$.ajax(window.RetirementPlanENV.apiHost + '/js_error', 'POST', {
+        stack: error.stack,
+        responseJSON: error.jqXHR.responseJSON,
+        message: errorMessage
+      });
     };
 
     ///////////
