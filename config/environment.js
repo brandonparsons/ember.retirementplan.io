@@ -46,7 +46,7 @@ module.exports = function(environment) {
   if (environment === 'production') {
     /* BKP-Added */
     ENV.baseURL               = '/app';
-    ENV.apiHost               = 'https://api.retirementplan.io';
+    ENV.apiHost               = '/api';
     ENV.ga_tracking_code      = 'UA-49011476-2';
     ENV.ga_domain             = 'retirementplan.io';
     ENV.facebook_app_id       = '234609303319737';
