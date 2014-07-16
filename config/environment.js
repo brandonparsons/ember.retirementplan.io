@@ -27,7 +27,7 @@ module.exports = function(environment) {
 
     /* BKP-Added */
     ENV.baseURL               = '/';
-    ENV.apiHost               = '/api';
+    ENV.apiHost               = 'http://rp-rails.dev/api';
     ENV.LOG_EVENT_TRACKING    = true;
     ENV.debug                 = true;
     ENV.ga_tracking_code      = 'UA-XXX-DEVELOPMENT';
@@ -46,7 +46,7 @@ module.exports = function(environment) {
   if (environment === 'production') {
     /* BKP-Added */
     ENV.baseURL               = '/app';
-    ENV.apiHost               = '/api';
+    ENV.apiHost               = 'https://api.retirementplan.io/api';
     ENV.ga_tracking_code      = 'UA-49011476-2';
     ENV.ga_domain             = 'retirementplan.io';
     ENV.facebook_app_id       = '234609303319737';
