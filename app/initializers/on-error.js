@@ -8,15 +8,18 @@ export default {
 
     var postErrorToLoggingService = function(error) {
       var errorMessage  = determineErrorMessage(error, false);
+      var errorObject = {
+        stack: error.stack,
+        message: errorMessage
+      };
+      if (error.jqXHR && error.jqXHR.responseJSON) {
+        errorObject.responseJSON = error.jqXHR.responseJSON;
+      }
       Ember.warn("Reporting error to API endpoint.");
       Ember.$.ajax({
         url: window.RetirementPlanENV.apiHost + '/js_error',
         type: 'POST',
-        data: {
-          stack: error.stack,
-          responseJSON: error.jqXHR.responseJSON,
-          message: errorMessage
-        }
+        data: errorObject
       });
     };
 

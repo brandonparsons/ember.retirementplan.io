@@ -3,7 +3,23 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
   model: function() {
-    return this.modelFor('questionnaire');
+    var route = this;
+    var store = this.store;
+
+    return new Ember.RSVP.Promise( function(resolve) {
+      var questionnaire = route.controllerFor('user.current').get('questionnaire');
+      if (questionnaire === null || typeof(questionnaire) === 'undefined' || questionnaire.get('isNew')) {
+        resolve(store.createRecord('questionnaire'));
+      } else {
+        resolve(questionnaire);
+      }
+    });
+  },
+
+  afterModel: function(model) {
+    if (!model.get('isNew')) {
+      this.transitionTo('questionnaire.edit');
+    }
   },
 
   actions: {

@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
   grunt.initConfig({
-    env: grunt.file.readJSON('.env'),
+    env: grunt.file.readJSON('grunt.env'),
     s3: {
       options: {
         key: '<%= env.AWS_ACCESS_KEY_ID %>',
