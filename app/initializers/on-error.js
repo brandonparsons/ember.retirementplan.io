@@ -104,10 +104,13 @@ export default {
     ///////////
 
     var handleGenericError = function(error) {
-      // Just grab the error message and display it.
+      // This was showing generic ember errors as a error flash - dont do that for now.
       var errorMessage  = determineErrorMessage(error, false);
-      var sticky        = error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.sticky || false;
-      application.setFlash('error', errorMessage, sticky);
+      Ember.warn(errorMessage);
+      window.console.log(error.stack);
+      window.console.log(JSON.stringify(error));
+      // var sticky        = error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.sticky || false;
+      // application.setFlash('error', errorMessage, sticky);
     };
 
     var handleUnauthorizedError = function() {
