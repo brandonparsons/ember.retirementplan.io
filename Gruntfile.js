@@ -15,7 +15,7 @@ module.exports = function(grunt) {
       dev: {
         upload: [
           {
-            src: 'dist/assets/**/*',
+            src: 'dist/**/*',
             dest: 'assets/',
             rel: 'dist/assets',
             options: { verify: true }
