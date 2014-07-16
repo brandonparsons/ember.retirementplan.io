@@ -221,13 +221,15 @@ export default {
 
     Ember.SimpleAuth.setup(container, application, {
       authorizerFactory: 'authorizer:custom',
-      // // Not needed anymore with the change to /api
-      // crossOriginWhitelist: [
-      //   'http://api.retirementplan.io',
-      //   'https://api.retirementplan.io',
-      //   'http://localhost:3000',
-      //   'https://localhost:3000'
-      // ],
+      // Not needed anymore with the change to /api
+      // CORS for now - do need!
+      crossOriginWhitelist: [
+        'http://api.retirementplan.io',
+        'https://api.retirementplan.io',
+        'http://localhost:3000',
+        'https://localhost:3000',
+        'http://rp-rails.dev'
+      ],
       authenticationRoute: 'sign_in'
     });
 
