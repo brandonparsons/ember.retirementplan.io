@@ -4,10 +4,6 @@ export default Ember.Route.extend(
   Ember.SimpleAuth.ApplicationRouteMixin, {
 
 
-  ///////////
-  // Hooks //
-  ///////////
-
   beforeModel: function() {
     // If we are booting up the app already with session info (they reloaded
     // the page while logged in), set the current user controller content to
