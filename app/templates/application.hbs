@@ -7,14 +7,10 @@
       <div class='col-md-3' style='padding: 0px;'>
         {{partial 'sections/sidebar'}}
       </div>
-      <div class='col-md-9'>
-        {{outlet}}
-      </div>
-    {{else}}
-      <div class='col-md-12'>
-        {{outlet}}
-      </div>
     {{/if}}
+    <div {{bind-attr class="showSidebar:col-md-9:col-md-12"}}>
+      {{outlet}}
+    </div>
 
   </div>
 </div>
