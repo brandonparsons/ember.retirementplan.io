@@ -1,56 +1,69 @@
 <div class='row'>
+  <div class='col-md-12'>
 
-  <div class='col-md-2'>
-    <div class='form-group'>
-      {{input type="number" value=numberOfSimulationTrials placeholder="1000" min=100 max=1000 classNames='form-control'}}
-      <p class="help-block small italic">A value between 500-1000 is generally appropriate.</p>
-    </div>
-
-    <p class='text-center'>
-      <button {{action runSimulations}} class='btn btn-primary'>Go!</button>
-    </p>
-
-    {{#if displayChart}}
-      <hr>
-      <p class='text-center'>
-        <button {{action acceptSimulation}} class='btn btn-success'>Accept Simulation</button>
-      </p>
-      <p class='text-center'>
-        {{link-to 'Change Portfolio' 'select_portfolio' classNames='btn btn-default'}}
-      </p>
-      <p class='text-center'>
-        {{link-to 'Cancel' 'user.dashboard' classNames='btn btn-default'}}
-      </p>
-    {{/if}}
-  </div>
-
-  <div class='col-md-10 left-border'>
-
-    {{#if loading}}
+    {{#if loading}} {{!-- Loading simulation data --}}
       <p class='lead text-center'>
         {{fontawesome-icon type="spinner" size='3x' spin=true withForcedSpace=false}}
       </p>
-    {{else}}
-      {{!-- No longer loading simulation data --}}
+    {{else}} {{!-- Not loading simulation data --}}
 
-      {{#if displayChart}}
-        {{!-- Have a chart to display --}}
+      {{#if displayChart}} {{!-- Have a chart to display --}}
+
+        <a href="#" class='text-muted' data-toggle="tooltip" data-placement="auto" title="<p>Mean: The average value of your assets in each given time period, compared across all simulation trials.</p><p>95% Confidence High: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be lower than this 95% of the time.</p><p>95% Confidence Low: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be higher than this 95% of the time.</p><p>Out of Money Occurences: The percentage of times in a given month that you had ran out of money.</p>">{{fontawesome-icon type='question-circle'}}What are these values?</a>
+
         {{simulation-timeseries-chart barData=barData lineData=lineData}}
-      {{else}}
-        {{!-- No chart to display --}}
 
-        <p class='lead text-center'>Time to run your simulation!</p>
+        <hr>
+        <p class='text-center'>
+          <button {{action acceptSimulation}} class='btn btn-success'>Accept Simulation</button>
+          {{link-to 'Change Portfolio' 'select_portfolio' classNames='btn btn-default space-left'}}
+          {{link-to 'Cancel' 'user.dashboard' classNames='btn btn-default space-left'}}
+        </p>
+
+        {{bs-page-header title="Simulation Outcomes" titleLevelH3=true}}
+
+        {{#bs-panel heading="Overview" type=writtenContentData.summaryClass}}
+          <p>{{writtenContentData.summaryMessage}}</p>
+        {{/bs-panel}}
+
+        <ul>
+          <li>{{writtenContentData.assets}}</li>
+          <li>
+            For each simulated month, there was a range of outcomes for your assets. They can be summarized as follows:
+            <ul>
+              {{#each message in writtenContentData.outOfMoney}}
+                <li>{{message}}</li>
+              {{/each}}
+              <li><a href="#" class='text-muted' data-toggle="tooltip" title="We classify 'certain' as being true more than 99% of the time, likely as being true more than 90% of the time, and unlikely as being true less than 10% of the time.">{{fontawesome-icon type='question-circle'}}How are the confidence levels defined?</a></li>
+            </ul>
+          </li>
+        </ul>
+
+      {{else}} {{!-- No chart to display --}}
 
         {{#bs-alert type='warning'}}
           <p>Select a number of trials to run, and hit 'Go'!</p>
         {{/bs-alert}}
 
+        <p class='lead text-center'>Time to run your simulation!</p>
+
+        <div class='form-group row'>
+          <div class='col-sm-6 col-sm-offset-3'>
+            {{input type="number" value=numberOfSimulationTrials placeholder="1000" min=100 max=1000 classNames='form-control'}}
+            <p class="help-block small italic">A value between 500-1000 is generally appropriate.</p>
+          </div>
+        </div>
+
+        <p class='text-center'>
+          <button {{action runSimulations}} {{bind-attr class=":btn :btn-primary loading:disabled"}}>Go!</button>
+        </p>
+
         <p>Given the portfolio you selected earlier, we will generate a number of different possibilities for its performance based on its historical statistical properties.</p>
         <p>The calculated performance on your portfolio will be matched against the expenses and information provided earlier. The goal of this calculation is to determine if you have sufficient savings (or low enough expenses) that your retirement savings will generally last through your retirement.</p>
+
       {{/if}}
 
     {{/if}}
 
   </div>
-
 </div>
