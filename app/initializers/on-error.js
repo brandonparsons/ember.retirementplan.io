@@ -40,7 +40,7 @@ export default {
           }
         });
 
-        Rollbar.error("[JS Error]: " + errorMessage, error)
+        Rollbar.error("[JS Error]: " + errorMessage, error);
       }
     };
 
