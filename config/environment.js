@@ -22,10 +22,6 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    // LOG_MODULE_RESOLVER is needed for pre-1.6.0
-    ENV.LOG_MODULE_RESOLVER = true;
-
-    /* BKP-Added */
     ENV.baseURL               = '/';
     ENV.apiHost               = 'http://rp-rails.dev/api';
     ENV.LOG_EVENT_TRACKING    = true;
@@ -34,17 +30,20 @@ module.exports = function(environment) {
     ENV.ga_domain             = 'retirementplan.io';
     ENV.facebook_app_id       = '649704131751768';
     ENV.google_client_id      = '473904766177-cataubhq5mhaqadd9j3gjil8i02omft3.apps.googleusercontent.com';
-    /* */
-    ENV.APP.LOG_RESOLVER = false;
-    ENV.APP.LOG_ACTIVE_GENERATION = false;
-    ENV.APP.LOG_MODULE_RESOLVER = false;
+
+    ENV.APP.LOG_ACTIVE_GENERATION = true;
+    ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.LOG_MODULE_RESOLVER = true; // False in ember-cli, but haven't upgraded to ember 1.6 yet, so can't turn off
+    // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-    ENV.APP.LOG_VIEW_LOOKUPS = true;
+  }
+
+  if (environment === 'test') {
+
   }
 
   if (environment === 'production') {
-    /* BKP-Added */
     ENV.baseURL               = '/app';
     ENV.apiHost               = 'https://api.retirementplan.io/api';
     ENV.ga_tracking_code      = 'UA-49011476-2';
@@ -52,7 +51,7 @@ module.exports = function(environment) {
     ENV.facebook_app_id       = '234609303319737';
     ENV.google_client_id      = '397821256171-gjvb503eta4573q3affeprdfr9abf8gs.apps.googleusercontent.com';
     ENV.rollbar_client_token  = 'ccfdfb146e8b41e588820021e3a7a572';
-    /* */
+
   }
 
   return ENV;
