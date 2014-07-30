@@ -14,19 +14,34 @@ export default {
       var email         = sessionData.user_email;
       var id            = sessionData.user_id;
 
-      // FIXME: Configuring person data every time there is an error right now.
-      // Is there a better way?
-      Rollbar.configure({
-        payload: {
-          person: {
-            id: id,
-            username: null,
-            email: email
-          }
+      if (Rollbar.notifier === null) { // They have blocked the Rollbar javascript!
+        var errorObject = {
+          stack: error.stack,
+          message: errorMessage
+        };
+        if (error.jqXHR && error.jqXHR.responseJSON) {
+          errorObject.responseJSON = error.jqXHR.responseJSON;
         }
-      });
+        Ember.$.ajax({
+          url: window.RetirementPlanENV.apiHost + '/js_error',
+          type: 'POST',
+          data: errorObject
+        });
+      } else { // Rollbar javascript not blocked
+        // FIXME: Configuring person data every time there is an error right now.
+        // Is there a better way?
+        Rollbar.configure({
+          payload: {
+            person: {
+              id: id,
+              username: null,
+              email: email
+            }
+          }
+        });
 
-      Rollbar.error("[JS Error]: " + errorMessage, error)
+        Rollbar.error("[JS Error]: " + errorMessage, error)
+      }
     };
 
     ///////////
