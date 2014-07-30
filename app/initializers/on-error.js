@@ -1,3 +1,5 @@
+/* global Rollbar */
+
 import Ember from 'ember';
 
 export default {
@@ -8,18 +10,23 @@ export default {
 
     var postErrorToLoggingService = function(error) {
       var errorMessage  = determineErrorMessage(error, false);
-      var errorObject = {
-        stack: error.stack,
-        message: errorMessage
-      };
-      if (error.jqXHR && error.jqXHR.responseJSON) {
-        errorObject.responseJSON = error.jqXHR.responseJSON;
-      }
-      Ember.$.ajax({
-        url: window.RetirementPlanENV.apiHost + '/js_error',
-        type: 'POST',
-        data: errorObject
+      var sessionData   = container.lookup('controller:application').get('session.content');
+      var email         = sessionData.user_email;
+      var id            = sessionData.user_id;
+
+      // FIXME: Configuring person data every time there is an error right now.
+      // Is there a better way?
+      Rollbar.configure({
+        payload: {
+          person: {
+            id: id,
+            username: null,
+            email: email
+          }
+        }
       });
+
+      Rollbar.error("[JS Error]: " + errorMessage, error)
     };
 
     ///////////

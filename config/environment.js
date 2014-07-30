@@ -51,6 +51,7 @@ module.exports = function(environment) {
     ENV.ga_domain             = 'retirementplan.io';
     ENV.facebook_app_id       = '234609303319737';
     ENV.google_client_id      = '397821256171-gjvb503eta4573q3affeprdfr9abf8gs.apps.googleusercontent.com';
+    ENV.rollbar_client_token  = 'ccfdfb146e8b41e588820021e3a7a572';
     /* */
   }
 
