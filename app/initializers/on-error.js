@@ -64,13 +64,21 @@ export default {
       var message = "There was a problem with your request.";
       _.forOwn(errors, function(value, key) {
         var joinedMessage;
+        var errorMessageValid = true;
         if (value !== null) { // Can come with null values
           if (value instanceof Array) {
-            joinedMessage = value.join(',');
-          } else {
+            if (value.length === 0) { // No array content - no error
+              errorMessageValid = false;
+            } else {
+              joinedMessage = value.join(', ');
+            }
+          } else { // Not an array
             joinedMessage = value;
           }
-          message += " " + Ember.String.capitalize(key) + ": " + joinedMessage + '.';
+
+          if (errorMessageValid) { // Only add to the message if is valid
+            message += " " + Ember.String.capitalize(key) + ": " + joinedMessage + '.';
+          }
         }
       });
       return message;
@@ -117,8 +125,10 @@ export default {
       var errorMessage  = determineErrorMessage(error, false);
       var sticky        = error && error.jqXHR && error.jqXHR.responseJSON && error.jqXHR.responseJSON.sticky || false;
 
-      Ember.warn(errorMessage);
-      window.console.log(JSON.stringify(error));
+      if (window.RetirementPlanENV.debug) {
+        Ember.warn(errorMessage);
+        window.console.log(JSON.stringify(error));
+      }
 
       postErrorToLoggingService(error);
 
