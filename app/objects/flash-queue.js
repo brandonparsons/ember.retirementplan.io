@@ -1,45 +1,48 @@
-/* global alertify */
-
 import Ember from 'ember';
+import Notify from 'ember-notify';
+
+Notify.useBootstrap();
 
 var FlashQueue = Ember.ArrayProxy.create({
 
   content: [],
 
   add: function(type, message, sticky) {
-    var log, messageTiming;
+    var notification, messageTiming;
 
     if (typeof sticky !== "undefined" && sticky !== null && !!sticky) {
       if ( !isNaN(parseFloat(sticky)) && isFinite(sticky) ) {
-        // Sticky is a number - we want to leave it up for a specified period of
-        // time.
+        // Sticky is a number - we want to leave it up for a specified period of time.
         messageTiming = sticky;
       } else {
         // Sticky is `true` - leave it up there
-        messageTiming = 0;
+        messageTiming = null;
       }
     } else {
       messageTiming = 3500;
     }
 
     if (type === 'success') {
-      log = alertify.log(message, 'success', messageTiming);
+      notification = Notify.success(message, {closeAfter: messageTiming});
     } else if (type === 'notice' || type === 'info') {
-      log = alertify.log(message, '', messageTiming);
+      notification = Notify.info(message, {closeAfter: messageTiming});
     } else {
-      log = alertify.log(message, 'error', messageTiming);
+      notification = Notify.warning(message, {closeAfter: messageTiming});
     }
 
     if (sticky) {
-      this.pushObject(log);
+      this.pushObject(notification);
     }
 
     return null;
   },
 
   empty: function() {
-    Ember.$(".alertify-log").click();
-    this.set('content', []);
+    var stickyMessages = this.get('content');
+    stickyMessages.forEach(function(notification) {
+      notification.send('close');
+    });
+    this.set('stickyMessages', []);
     return null;
   }
 

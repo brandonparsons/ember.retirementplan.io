@@ -29,36 +29,36 @@ var pickFiles   = require('ember-cli/node_modules/broccoli-static-compiler');
 var mergeTrees  = require('ember-cli/node_modules/broccoli-merge-trees');
 var concatFiles = require('ember-cli/node_modules/broccoli-concat');
 
-/* These are only compiled in development */
-if (app.env !== 'production') {
-
+if (app.env === 'test') { // ONLY TEST
   // Used for faking responses in tests
   app.import('vendor/route-recognizer/dist/route-recognizer.js');
   app.import('vendor/FakeXMLHttpRequest/fake_xml_http_request.js');
   app.import('vendor/pretender/pretender.js');
-
-  // https://github.com/aexmachina/ember-debug
-  app.import('vendor/ember-debug/ember-debug.js');
 }
-/* */
 
+if (app.env === 'development') { // ONLY DEVELOPMENT
+  app.import('vendor/ember-debug/ember-debug.js'); // https://github.com/aexmachina/ember-debug
+}
 
 /* Additional CSS (goes to vendor.css) */
-app.import('vendor/alertify.js/themes/alertify.core.css');
-app.import('vendor/alertify.js/themes/alertify.default.css');
+app.import('vendor/ember-notify/dist/ember-notify.css');
 app.import('vendor/ember-spin-box/dist/ember-spin-box.css');
 app.import('vendor/ember-date-picker/dist/ember-date-picker.css');
 app.import('vendor/font-awesome/css/font-awesome.min.css');
 app.import('vendor/ember-charts/dist/ember-charts.css');
 
 
-/* Additional Javascript libraries */
-
+/* General purpose Javascript libraries */
 app.import('vendor/momentjs/moment.js');
 app.import('vendor/accounting/accounting.js');
 app.import('vendor/lodash/dist/lodash.min.js');
 app.import('vendor/fastclick/lib/fastclick.js');
+app.import('vendor/headroom.js/dist/headroom.js');
 
+/* Ember-specific Javascript libraries */
+app.import('vendor/ember-notify/dist/named-amd/main.js', {
+  exports: { 'ember-notify': ['default'] }
+});
 app.import('vendor/ember-simple-auth/ember-simple-auth.js');
 app.import('vendor/ember-google-analytics/ember-google-analytics.js');
 app.import('vendor/ember-validations/index.js');
@@ -69,24 +69,17 @@ app.import('vendor/ember-charts/dependencies/ember-addepar-mixins/resize_handler
 app.import('vendor/ember-charts/dist/ember-charts.js');
 
 // Standard Bootstrap javascript
-['transition.js', 'dropdown.js', 'collapse.js', 'modal.js', 'tooltip.js', 'popover.js', 'alert.js'].forEach(function (path) {
+['transition.js', 'dropdown.js', 'collapse.js', 'modal.js', 'tooltip.js', 'popover.js', 'alert.js'].forEach(function(path) {
   var fullPath = 'vendor/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/' + path;
   app.import(fullPath);
 });
 
 /* Import fontawesome */
-var fontawesome = pickFiles('vendor/font-awesome/', {
-  srcDir: '/fonts',
-  // files: isn't strictly necessary (if left out will load all files), but
-  // leaving in to be explicit.
-  files: [
-    'fontawesome-webfont.ttf',
-    'fontawesome-webfont.woff',
-    'fontawesome-webfont.eot',
-    'FontAwesome.otf',
-    'fontawesome-webfont.svg'
-  ],
-  destDir: '/fonts'
+['fontawesome-webfont.ttf', 'fontawesome-webfont.woff', 'fontawesome-webfont.eot', 'FontAwesome.otf', 'fontawesome-webfont.svg'].forEach(function(path) {
+  var fullPath = 'vendor/font-awesome/fonts/' + path;
+  app.import(fullPath, {
+    destDir: '/fonts'
+  });
 });
 /* */
 
@@ -95,15 +88,6 @@ var fontawesome = pickFiles('vendor/font-awesome/', {
 var d3 = pickFiles('vendor/d3', {
   srcDir:   '/',
   files:    ['d3.min.js'],
-  destDir:  '/assets/vendor'
-});
-/* */
-
-/* Import alertify (this is an un-named AMD module, just load into the window.) */
-/* In the future, ember-cli may handle un-named modules. */
-var alertifyJS = pickFiles('vendor/alertify.js', {
-  srcDir:   '/lib',
-  files:    ['alertify.min.js'],
   destDir:  '/assets/vendor'
 });
 /* */
@@ -117,22 +101,11 @@ var helloJS = pickFiles('vendor/hello', {
 });
 /* */
 
-/* Import headroom.js (no AMD package, just load into the window.) */
-var headroom = pickFiles('vendor/headroom.js', {
-  srcDir:   '/dist',
-  files:    ['headroom.min.js'],
-  destDir: '/assets/vendor'
-});
-/* */
-
 
 /* */
 module.exports = mergeTrees([
-  fontawesome,
   d3,
-  alertifyJS,
   helloJS,
-  headroom,
   app.toTree()
 ]);
 /* */
