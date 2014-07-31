@@ -14,7 +14,19 @@ export default {
       var email         = sessionData.user_email;
       var id            = sessionData.user_id;
 
-      if (Rollbar.notifier === null) { // They have blocked the Rollbar javascript!
+      if ( typeof(Rollbar) !== 'undefined' && Rollbar.notifier !== null) { // Rollbar javascript not blocked
+        // FIXME: Configuring person data every time there is an error right now. Is there a better way?
+        Rollbar.configure({
+          payload: {
+            person: {
+              id: id,
+              username: null,
+              email: email
+            }
+          }
+        });
+        Rollbar.error("[JS Error]: " + errorMessage, error);
+      } else { // They have blocked the Rollbar javascript!
         var errorObject = {
           stack: error.stack,
           message: errorMessage
@@ -27,20 +39,6 @@ export default {
           type: 'POST',
           data: errorObject
         });
-      } else { // Rollbar javascript not blocked
-        // FIXME: Configuring person data every time there is an error right now.
-        // Is there a better way?
-        Rollbar.configure({
-          payload: {
-            person: {
-              id: id,
-              username: null,
-              email: email
-            }
-          }
-        });
-
-        Rollbar.error("[JS Error]: " + errorMessage, error);
       }
     };
 
