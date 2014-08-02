@@ -4,6 +4,13 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 var app = new EmberApp({
   fingerprint: {
+    exclude: [
+      'js/google_analytics.v1.js',
+      'js/hello.all.v1.min.js',
+      'js/rollbar_setup.v1.js',
+      'favicon.ico',
+      'apple-touch-icon-precomposed.png'
+    ],
     prepend: 'https://assets.retirementplan.io/'
   },
 });
@@ -25,10 +32,6 @@ var app = new EmberApp({
 BKP Adds
 */
 
-var pickFiles   = require('ember-cli/node_modules/broccoli-static-compiler');
-var mergeTrees  = require('ember-cli/node_modules/broccoli-merge-trees');
-var concatFiles = require('ember-cli/node_modules/broccoli-concat');
-
 if (app.env === 'test') { // ONLY TEST
   // Used for faking responses in tests
   app.import('vendor/route-recognizer/dist/route-recognizer.js');
@@ -45,8 +48,7 @@ app.import('vendor/ember-notify/dist/ember-notify.css');
 app.import('vendor/ember-spin-box/dist/ember-spin-box.css');
 app.import('vendor/ember-date-picker/dist/ember-date-picker.css');
 app.import('vendor/font-awesome/css/font-awesome.min.css');
-app.import('vendor/ember-charts/dist/ember-charts.css');
-
+app.import('vendor/c3/c3.css');
 
 /* General purpose Javascript libraries */
 app.import('vendor/momentjs/moment.js');
@@ -54,6 +56,8 @@ app.import('vendor/accounting/accounting.js');
 app.import('vendor/lodash/dist/lodash.min.js');
 app.import('vendor/fastclick/lib/fastclick.js');
 app.import('vendor/headroom.js/dist/headroom.js');
+app.import('vendor/d3/d3.js');
+app.import('vendor/c3/c3.js');
 
 /* Ember-specific Javascript libraries */
 app.import('vendor/ember-notify/dist/named-amd/main.js', {
@@ -65,8 +69,6 @@ app.import('vendor/ember-validations/index.js');
 app.import('vendor/ember-forms/dist/ember_forms.js');
 app.import('vendor/ember-spin-box/dist/ember-spin-box.js');
 app.import('vendor/ember-date-picker/dist/ember-date-picker.js'); // after moment.js
-app.import('vendor/ember-charts/dependencies/ember-addepar-mixins/resize_handler.js');
-app.import('vendor/ember-charts/dist/ember-charts.js');
 
 // Standard Bootstrap javascript
 ['transition.js', 'dropdown.js', 'collapse.js', 'modal.js', 'tooltip.js', 'popover.js', 'alert.js'].forEach(function(path) {
@@ -83,29 +85,7 @@ app.import('vendor/ember-charts/dist/ember-charts.js');
 });
 /* */
 
-/* Import d3 onto the window. ember-charts needs it available, and dont know */
-/* how to refernce a global inside that script */
-var d3 = pickFiles('vendor/d3', {
-  srcDir:   '/',
-  files:    ['d3.min.js'],
-  destDir:  '/assets/vendor'
-});
-/* */
-
-/* Import hello.js (this is an un-named AMD module, just load into the window.) */
-/* In the future, ember-cli may handle un-named modules. */
-var helloJS = pickFiles('vendor/hello', {
-  srcDir:   '/dist',
-  files:    ['hello.all.min.js'],
-  destDir: '/assets/vendor'
-});
-/* */
-
 
 /* */
-module.exports = mergeTrees([
-  d3,
-  helloJS,
-  app.toTree()
-]);
+module.exports = app.toTree();
 /* */

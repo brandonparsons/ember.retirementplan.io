@@ -1,0 +1,13 @@
+<div class='BOUND-portfolio-scatter-chart'></div>
+
+<br>
+
+{{!-- Action buttons --}}
+<div class='row'>
+  <div class='col-md-12 text-center'>
+    <a {{bind-attr class=':btn :btn-default leftArrowDisabled:disabled'}} {{action selectPortfolioLeft}}>{{fontawesome-icon type="chevron-left" withForcedSpace=false}}</a>
+    <a {{bind-attr class=':btn :btn-success :space-left hasSelectedPortfolio:enabled:disabled'}} {{action saveSelectedPortfolio selectedPortfolioID}}>Save selection</a>
+    <a class="btn btn-default space-left" {{action cancel}}>Cancel</a>
+    <a {{bind-attr class=':btn :btn-default :space-left rightArrowDisabled:disabled'}} {{action selectPortfolioRight}}>{{fontawesome-icon type="chevron-right" withForcedSpace=false}}</a>
+  </div>
+</div>

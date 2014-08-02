@@ -1,97 +1,284 @@
+/* global c3 */
+
 import Ember from 'ember';
-import chartColor from 'retirement-plan/utils/chart-color';
+import roundTo from 'retirement-plan/utils/round-to';
 
-export default Ember.Charts.ScatterComponent.extend({
+export default Ember.Component.extend({
 
-  selectedPortfolioID: null,  // Bound
-
-
+  //////////////////////////////////
+  // Bound & Computed Properties //
   /////////////////////////////////
-  // Custom Computed Properties //
-  ////////////////////////////////
 
-  // NB: These are `FrontierPortfolios` not `Portfolios`
+  selectedPortfolioID:  null, // Bound
+  portfolios:           null, // Bound
 
-  totalPointData: function() {
-    var selectedPortfolioID, selectedPortfolio;
+  hasSelectedPortfolio: Ember.computed.notEmpty('selectedPortfolioID'),
 
-    selectedPortfolioID = this.get('selectedPortfolioID');
-    if (Ember.isNone(selectedPortfolioID)) {return null;}
+  leftArrowDisabled: function() {
+    var indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(this.get('selectedPortfolioID'));
+    return indexOfSelectedPortfolio <= 0;
+  }.property('selectedPortfolioID'),
 
-    selectedPortfolio = this.get('data').findBy('id', selectedPortfolioID);
-    // if (Ember.isNone(selectedPortfolio)) {return null;}
-    return _.merge(_.cloneDeep(selectedPortfolio), {group: 'Selected Portfolio'});
-  }.property('selectedPortfolioID', 'data'),
-
-  isShowingTotal: function() {
-    return !Ember.isNone(this.get('totalPointData'));
-  }.property('totalPointData'),
+  rightArrowDisabled: function() {
+    var indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(this.get('selectedPortfolioID'));
+    return indexOfSelectedPortfolio === this.get('portfolios').get('length') - 1;
+  }.property('selectedPortfolioID'),
 
 
-  ///////////////////////////////////////
-  // Ember Charts Component Over-Rides //
-  ///////////////////////////////////////
+  ////////////////////////
+  // C3 Graph Specifics //
+  ////////////////////////
 
-  xValueDisplayName: "Risk (Annual Standard Deviation)",
-  yValueDisplayName: "Return (Annual Expected Return)",
+  chart: null, // Holds reference to the c3 graph
 
-  hasLegend: true,
+  data: null,
+  grid: null,
 
-  selectedSeedColor: chartColor('green'),
+  legend: {
+    show: false
+  },
 
-  formatXValue: window.d3.format('.1%'),
-  formatYValue: window.d3.format('.1%'),
+  axis: {
+    x: {
+      tick: {
+        fit: false,
+        format: function(val) {
+          var percentage = val * 100.0;
+          return roundTo(percentage, 1);
+        }
+      },
+      label: {
+        text: 'Annual Expected Risk (Standard Deviation - %)',
+        position: 'outer-middle'
+      }
+    },
+    y: {
+      tick: {
+        fit: false,
+        format: function(val) {
+          var percentage = val * 100.0;
+          return roundTo(percentage, 1);
+        }
+      },
+      label: {
+        text: 'Annual Expected Return (%)',
+        position: 'outer-middle'
+      }
+    }
+  },
 
-  getGroupColor: Ember.computed(function() {
-    // The original function from ember-charts doesn't appear to work properly
-    var _this = this;
-    return function(d) {
-      var groupIndex = _this.get('groupNames').indexOf(d.group);
-      if (groupIndex === 0) { // Low
-        return chartColor('gray');
-        // return _this.get('colorScale')(0.6);
-      } else if (groupIndex === 1) { // Suggested
-        return chartColor('green');
-      } else if (groupIndex === 2) { // High
-        return chartColor('yellow');
-      } else { // Selected Portfolio
-        return chartColor('red');
+  tooltip: {
+    format: {
+      title: function (d) { return 'Risk (Annual Std. Deviation): ' + roundTo(d*100, 1) + '%'; },
+      value: function (value) {
+        return roundTo(value*100, 1) + '%';
+      }
+    }
+  },
+
+
+  ///////////////
+  // Observers //
+  ///////////////
+
+  portfoliosChanged: function() {
+    var component, portfolios, portfolioSelected, optimalRiskUtilityLow,
+      optimalRiskUtilityHigh, data, grid, chart;
+
+    component   = this;
+    portfolios  = this.get('portfolios');
+
+    if (Ember.isEmpty(portfolios)) { return; }
+
+
+    /* Munge graph data into format ember-c3 expects */
+
+    portfolioSelected = function(selectedPointData) {
+      var portfolio = portfolios[selectedPointData.index];
+      component.set('selectedPortfolioID', portfolio.get('id'));
+    };
+
+    optimalRiskUtilityLow = _.max(portfolios, function(portfolio) {
+      return portfolio.get('utilityLow');
+    }).get('annualRisk');
+
+    optimalRiskUtilityHigh = _.max(portfolios, function(portfolio) {
+      return portfolio.get('utilityHigh');
+    }).get('annualRisk');
+
+    data = {
+      x: "Risk (Std Deviation)",
+      json: {
+        "Risk (Std Deviation)":   portfolios.mapBy('annualRisk'),
+        "Expected Annual Return": portfolios.mapBy('annualReturn'),
+      },
+      type: 'scatter',
+      selection: {
+        enabled: true,
+        multiple: false,
+      },
+      onselected: portfolioSelected,
+    };
+
+    grid = {
+      x: {
+        lines: [
+          { value: optimalRiskUtilityLow,  text: 'Low Risk Region' },
+          { value: optimalRiskUtilityHigh, text: 'Suggested Risk Region' },
+        ]
       }
     };
-  }),
+
+    component.set('data', data);
+    component.set('grid', grid);
+
+    // This will (hopefully) update the chart if it already exists (as opposed
+    // to on init). This doesn't get called at the moment as the controller
+    // currently tears everything down when the asset classes change.
+    chart = component.get('chart');
+    if (chart) {
+      chart.load({
+        data: data,
+        grid: grid
+      });
+    }
+
+    /* */
+
+  }.observes('portfolios.@each').on('init'), // Do on init so graph values set prior to didinsertElement
 
 
   //////////////////////
   // Component Hooks //
   /////////////////////
 
-  click: function(e) {
-    var objectClickedOn, typeOfDOMNode, dotData;
+  didInsertElement: function() {
+    var component, data, grid, chart, selectedPortfolioID;
 
-    objectClickedOn = e.target;
-    typeOfDOMNode = Ember.$(objectClickedOn).prop("tagName").toLowerCase();
-    if (typeOfDOMNode === 'path') { // They clicked on a datapoint
-      dotData = window.d3.select(objectClickedOn).datum();
-      this._elementSelected(dotData);
-    } else if (typeOfDOMNode === 'svg') { // They clicked on the empty graph
-      this._deSelectElement();
-    } else {  // They clicked on the axis / axis labels
-      this._deSelectElement();
+    component = this;
+
+    data = component.get('data') || {
+      x: "Risk (Std Deviation)",
+      json: {
+        "Risk (Std Deviation)":     [],
+        "Expected Annual Return":   [],
+      }
+    };
+
+    grid = component.get('grid') || {};
+
+    chart = c3.generate({
+      bindto:   '.BOUND-portfolio-scatter-chart',
+      data:     data,
+      grid:     grid,
+      axis:     component.get('axis'),
+      legend:   component.get('legend'),
+      tooltip:  component.get('tooltip'),
+    });
+
+    component.set('chart', chart);
+
+    // If they have selected a portfolio, make sure it is highlighted on entering the route
+    selectedPortfolioID = component.get('selectedPortfolioID');
+    if (!Ember.isNone(selectedPortfolioID)) {
+      chart.select(['Expected Annual Return'], [component.get('portfolios').mapBy('id').indexOf(selectedPortfolioID)], true);
     }
   },
 
+  /////////////
+  // Actions //
+  /////////////
 
-  /////////////////////////
-  // 'Private' Functions //
-  /////////////////////////
+  actions: {
 
-  _elementSelected: function(dotData) {
-    this.set('selectedPortfolioID', dotData.id);
-    // Also have xValue/yValue on dotData, but not required
+    selectPortfolioLeft: function() {
+      var selectedPortfolioID, portfolios, portfolioIds, indexOfSelectedPortfolio,
+        desiredSelectedID, chart;
+
+      portfolios          = this.get('portfolios');
+      portfolioIds        = portfolios.mapBy('id');
+      selectedPortfolioID = this.get('selectedPortfolioID');
+      if (!selectedPortfolioID) { return null; }
+
+      indexOfSelectedPortfolio = portfolioIds.indexOf(selectedPortfolioID);
+
+      // Can't move left from 0, or if item not found (-1)
+      if (indexOfSelectedPortfolio <= 0) { return null; }
+
+      desiredSelectedID = portfolioIds[indexOfSelectedPortfolio - 1];
+      this.set('selectedPortfolioID', desiredSelectedID);
+
+      // Move the "selected bubble" on the graph
+      chart = this.get('chart');
+      chart.select(['Expected Annual Return'], [portfolioIds.indexOf(desiredSelectedID)], true);
+    },
+
+    selectPortfolioRight: function() {
+      var selectedPortfolioID, portfolios, portfolioIds, indexOfSelectedPortfolio,
+      desiredSelectedID, chart;
+
+      portfolios          = this.get('portfolios');
+      portfolioIds        = portfolios.mapBy('id');
+      selectedPortfolioID = this.get('selectedPortfolioID');
+      if (!selectedPortfolioID) { return null; }
+
+      indexOfSelectedPortfolio  = portfolioIds.indexOf(selectedPortfolioID);
+
+      // Can't move right from last item, or if item not found (-1)
+      if ( indexOfSelectedPortfolio < 0 || indexOfSelectedPortfolio === (portfolios.get('length') - 1) ) {
+        return null;
+      }
+
+      desiredSelectedID = portfolioIds[indexOfSelectedPortfolio + 1];
+      this.set('selectedPortfolioID', desiredSelectedID);
+
+      // Move the "selected bubble" on the graph
+      chart = this.get('chart');
+      chart.select(['Expected Annual Return'], [portfolioIds.indexOf(desiredSelectedID)], true);
+    },
+
+    saveSelectedPortfolio: function(selectedPortfolioID) {
+      this.sendAction('action', selectedPortfolioID);
+    }
+
   },
 
-  _deSelectElement: function() {
-    this.set('selectedPortfolioID', null);
-  }
-
 });
+
+
+// /* Group portfolios by risk */
+// // NOT USING RIGHT NOW: Just adding a vertical gridline to separate sets.
+// // If you want to split into separate data sets by risk, this is how -
+// // C3's selection functionality doesn't seem to work with mult. data sets though
+
+// var optimalRiskUtilityLow = _.max(portfolios, function(portfolio) {
+//   return portfolio.get('utilityLow');
+// }).get('annualRisk');
+
+// var optimalRiskUtilityHigh = _.max(portfolios, function(portfolio) {
+//   return portfolio.get('utilityHigh');
+// }).get('annualRisk');
+
+// var groupedPortfolios = portfolios.map( function(portfolio) {
+//   var thisPortfoliosRisk, riskBucket;
+
+//   thisPortfoliosRisk = portfolio.get('annualRisk');
+//   // riskBucket string values depended on elsewhere (at time of writing), be
+//   // careful if changing (can search for them)
+//   if (thisPortfoliosRisk < optimalRiskUtilityLow) {
+//     riskBucket = "Low Risk Level";
+//   } else if (thisPortfoliosRisk > optimalRiskUtilityHigh) {
+//     riskBucket = "High Risk Level";
+//   } else {
+//     riskBucket = "Suggested Risk Level";
+//   }
+
+//   return {
+//     id:     portfolio.get('id'), // base64-encoded allocation
+//     group:  riskBucket,
+//     xValue: portfolio.get('annualRisk'),
+//     yValue: portfolio.get('annualReturn'),
+//   };
+// });
+
+// /* */

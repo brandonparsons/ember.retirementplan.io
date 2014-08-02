@@ -8,11 +8,26 @@
 
 .chart-container {
   margin-bottom: 30px;
-}
 
-// By default ember-charts leaves the pie chart with a MASSIVE height, pushing
-// the pie down and making it take up way too much room. This appears to fix it.
-.portfolio-scatter-chart {
-  margin-top: -105px;
-  max-height: 25em;
+  // Generic size increase
+  text {font-size: 12px;}
+
+  // Increase x-grid label sizes
+  .c3-xgrid-lines text {
+    font-size: 15px;
+  }
+
+  // .c3-circle {
+  //   stroke-width: 4px;
+  // }
+
+  // .c3-circle._expanded_ {
+  //   stroke-width: 2px;
+  //   stroke: white;
+  // }
+  // .c3-selected-circle {
+  //   fill: white;
+  //   stroke-width: 4px;
+  // }
+
 }

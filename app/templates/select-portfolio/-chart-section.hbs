@@ -1,44 +1,43 @@
 <div class="row chart-container">
 
-  <div class='col-md-8'>
+  <div class='col-md-9'>
 
-    {{!-- Scatter hart of portfolios--}}
-    {{portfolio-scatter-chart data=scatterChartData selectedPortfolioID=selectedPortfolioID}}
-
-    <br>
-
-    {{!-- Warnings on allocation --}}
-    {{#if selectedPortfolio.warnings}}
-      {{#bs-panel heading="Portfolio Warnings" type="warning"}}
-        <p>Please note the following concerns with this portfolio:</p>
-        <ul>
-          {{#each selectedPortfolio.warnings}}
-            <li>{{this}}</li>
-          {{/each}}
-        </ul>
-      {{/bs-panel}}
+    {{#if havePortfolios}}
+      {{!-- If chart data is not present, we get errors when trying to render --}}
+      {{!-- Scatter chart of portfolios--}}
+      {{portfolio-scatter-chart
+        selectedPortfolioID=selectedPortfolioID
+        portfolios=portfolios
+        action="saveSelectedPortfolio"
+      }}
     {{/if}}
-
-    {{!-- Action buttons --}}
-    <div class='row'>
-      <div class='col-md-12 text-center'>
-        <a {{bind-attr class=':btn :btn-default leftArrowDisabled:disabled'}} {{action selectPortfolioLeft}}>{{fontawesome-icon type="chevron-left" withForcedSpace=false}}</a>
-        <a {{bind-attr class=':btn :btn-success :space-left hasSelectedPortfolio:enabled:disabled'}} {{action saveSelectedPortfolio selectedPortfolioID}}>Save selection</a>
-        <a class="btn btn-default space-left" {{action cancel}}>Cancel</a>
-        <a {{bind-attr class=':btn :btn-default :space-left rightArrowDisabled:disabled'}} {{action selectPortfolioRight}}>{{fontawesome-icon type="chevron-right" withForcedSpace=false}}</a>
-      </div>
-    </div>
 
   </div>
 
-  <div class='col-md-4'>
+  <div class='col-md-3'>
 
     {{#if hasSelectedPortfolio}}
       <h4 class='text-center'>Portfolio Details</h4>
+
+      {{!-- Warnings on allocation --}}
+      {{#if selectedPortfolio.warnings}}
+        {{#bs-panel heading="Portfolio Warnings" type="warning"}}
+          <p>Please note the following concerns with this portfolio:</p>
+          <ul>
+            {{#each selectedPortfolio.warnings}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        {{/bs-panel}}
+      {{/if}}
+
       <p class='italic text-muted'>The portfolio you selected in the chart has the following properties:</p>
 
       {{!-- Pie chart of portfolio allocation --}}
-      <div class='portfolio-scatter-chart'>{{portfolio-pie-chart data=pieChartData}}</div>
+      {{portfolio-pie-chart
+        allocation=allocation
+        assetClasses=allAssets
+      }}
 
       {{!-- Portfolio statistics --}}
       <p>
