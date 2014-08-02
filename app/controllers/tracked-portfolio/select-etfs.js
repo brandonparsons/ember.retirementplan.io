@@ -81,7 +81,7 @@ export default Ember.ObjectController.extend({
         assetClass: etf.get('asset.assetClass'),
         ticker: etf.get('ticker'),
         description: etf.get('description'),
-        currentShares: currentShares[etf.get('ticker')]
+        currentShares: currentShares[etf.get('ticker')] || 0,
       });
     });
   }.property('etfs.[]', 'currentShares', 'selectedEtfsData'),

@@ -237,8 +237,12 @@ export default Ember.Component.extend({
     },
 
     saveSelectedPortfolio: function(selectedPortfolioID) {
-      this.sendAction('action', selectedPortfolioID);
-    }
+      this.sendAction('save', selectedPortfolioID);
+    },
+
+    cancel: function() {
+      this.sendAction('cancel');
+    },
 
   },
 

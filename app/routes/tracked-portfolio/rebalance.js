@@ -17,15 +17,37 @@ export default Ember.Route.extend({
     });
   },
 
-  // To come to the rebalance route, must have selected ETFs.
+  // To come to the rebalance route, must have selected ETFs and selections must
+  // be up to date with the current portfolio allocations.
   afterModel: function(model) {
-    var route           = this;
-    var selectedEtfs    = model.get('portfolio.selectedEtfs');
-    var hasSelectedEtfs = !Ember.isEmpty(Ember.keys(selectedEtfs));
+    var route, selectedEtfs, hasSelectedEtfs, selected, required;
 
-    if ( !hasSelectedEtfs ) {
+    route           = this;
+    selectedEtfs    = model.get('portfolio.selectedEtfs');
+    hasSelectedEtfs = !Ember.isEmpty(Ember.keys(selectedEtfs));
+
+    if ( !hasSelectedEtfs ) { // They haven't selected their ETF's at all
       route.transitionTo('tracked_portfolio.select_etfs');
-      RetirementPlan.setFlash('notice', 'You have not completed all steps required to rebalance your portfolio.');
+      RetirementPlan.setFlash('notice', 'You need to select ETFs for each asset class.');
+    } else {
+      // If they have changed their portfolio, the selected ETF's may have gotten
+      // out of sync with the portfolio asset classes. If so, send them back to
+      // select new ETFs.
+      selected = new Ember.Set(Ember.keys(selectedEtfs));
+      required = new Ember.Set(Ember.keys(model.get('portfolio.weights')));
+
+      if (selected.length !== required.length) {
+        // If the length is different to begin with, obviously has changed
+        route.transitionTo('tracked_portfolio.select_etfs');
+        RetirementPlan.setFlash('notice', 'Looks like you have added/removed one or more asset classes. Please confirm your ETF selections.');
+      } else {
+        // Lengths are the same, but could have swapped one for another.
+        selected.forEach( el => required.remove(el) );
+        if (required.length !== 0) {
+          route.transitionTo('tracked_portfolio.select_etfs');
+          RetirementPlan.setFlash('notice', 'Looks like your asset class selections have changed. Please confirm your ETF selections.');
+        }
+      }
     }
   },
 

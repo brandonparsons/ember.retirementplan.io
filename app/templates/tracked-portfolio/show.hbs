@@ -3,7 +3,16 @@
 {{#offset-spaced}}
 
   <h4 class='text-center'>
-    <span class='text-success'>{{fontawesome-icon type='check-square'}}</span>Your portfolio is set up and is being continually monitored.
+    <p>
+      <span class='text-success'>{{fontawesome-icon type='check-square'}}</span>Your portfolio is set up and is being continually monitored.
+    </p>
+    <p>
+      {{#if portfolioInBalance}}
+        <span class='text-success'>{{fontawesome-icon type='check-square'}}</span>Your portfolio is in balance.
+      {{else}}
+        <span class='text-warning'>{{fontawesome-icon type='exclamation-triangle'}}Your portfolio is out of balance - {{link-to 'rebalance now' 'tracked_portfolio.rebalance'}}.</span>
+      {{/if}}
+    </p>
   </h4>
 
   <hr>
@@ -33,8 +42,9 @@
   </div>
 
   <ul>
-    <li>{{link-to 'Change your portfolio allocations' 'select_portfolio.chart'}}</li>
-    <li>{{link-to 'Re-run your retirement simulation' 'retirement_simulation.simulate'}}</li>
+    <li>{{link-to 'Change your portfolio allocations'           'select_portfolio.chart'}}</li>
+    <li>{{link-to 'Change allowable out-of-balance percentages' 'user.preferences'}}</li>
+    <li>{{link-to 'Re-run your retirement simulation'           'retirement_simulation.simulate'}}</li>
   </ul>
 
   <hr>

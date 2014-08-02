@@ -20,7 +20,10 @@ export default Ember.Route.extend({
       prices:     icAjaxRequest({
         url: window.RetirementPlanENV.apiHost + '/tracked_portfolios/quotes',
         type: 'GET'
-      })
+      }),
+      allowableDrift: this.store.find('userPreference').then(function(array) {
+        return array.get('firstObject.allowableDrift');
+      }),
     }).then( function(hash) {
       return Ember.Object.create(hash);
     });

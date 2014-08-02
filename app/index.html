@@ -27,8 +27,9 @@
     <![endif]-->
 
     <!--
-    - Needs to be above hello.init so that we have access to OAuth configs set on window.RetirementPlanENV
-    - Needs to be above google analytics so we have access to the tracking code & domain
+    Moved environment script higher in <head>:
+      - Needs to be above hello.init so that we have access to OAuth configs set on window.RetirementPlanENV
+      - Needs to be above google analytics so we have access to the tracking code & domain
     -->
     <script>
       window.RetirementPlanENV = {{ENV}};
@@ -36,8 +37,8 @@
 
     <!-- START ROLLBAR
     Must exist:
-    - window.RetirementPlanENV.environment
-    - window.RetirementPlanENV.rollbar_client_token
+      - window.RetirementPlanENV.environment
+      - window.RetirementPlanENV.rollbar_client_token
     IF UPDATING VERSION: Update in brocfile.js as well
     -->
     <script type="text/javascript" src="js/rollbar_setup.v1.js"></script>
@@ -45,8 +46,8 @@
 
     <!-- START GOOGLE ANALYTICS
     Must exist:
-    - window.RetirementPlanENV.ga_tracking_code
-    - window.RetirementPlanENV.ga_domain
+      - window.RetirementPlanENV.ga_tracking_code
+      - window.RetirementPlanENV.ga_domain
     IF UPDATING VERSION: Update in brocfile.js as well
     -->
     <script type="text/javascript" src="js/google_analytics.v1.js"></script>
@@ -68,8 +69,7 @@
     <div id='ember-application'></div>
 
     <!--
-    Not rolled into the build process as this is an anonymous AMD module - not
-    currently supported by ember-cli
+    Not rolled into the build process as this is an anonymous AMD module - not currently supported by ember-cli
     IF UPDATING VERSION: Update in brocfile.js as well
     -->
     <script type="text/javascript" src="js/hello.all.v1.min.js"></script>
@@ -81,7 +81,7 @@
       }, {
         redirect_uri: window.RetirementPlanENV.baseURL
         // You will need this if you try to use Twitter or other OAuth1.0 provider
-        //oauth_proxy:'https://retirementplan-oauth-shim.herokuapp.com/proxy'
+        // oauth_proxy:'https://oauth-shim.com/proxy'
       });
     </script>
 

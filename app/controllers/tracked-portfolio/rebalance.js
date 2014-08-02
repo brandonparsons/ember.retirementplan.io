@@ -33,11 +33,14 @@ export default Ember.ObjectController.extend({
     var selectedEtfs = Ember.keys(_.invert(this.get('portfolio.selectedEtfs')));
 
     var currentShares = this.get('portfolio.currentShares');
+    var currentSharesOf = function(ticker) {
+      return currentShares[ticker] || 0.0;
+    };
 
     var amount = window.parseFloat(this.get('amount'));
 
     var currentMarketValue = Ember.keys(prices).reduce( function(result, etfTicker) {
-      var numberOfShares = currentShares[etfTicker];
+      var numberOfShares = currentSharesOf(etfTicker);
       var priceOfEtf = prices[etfTicker];
       result += numberOfShares * priceOfEtf;
       return result;
@@ -59,7 +62,7 @@ export default Ember.ObjectController.extend({
       etf    = etfs.findBy('ticker', etfTicker);
       asset  = etf.get('asset');
 
-      sharesOfEtf = currentShares[etfTicker];
+      sharesOfEtf = currentSharesOf(etfTicker);
       priceOfEtf  = prices[etfTicker];
       isSelected  = selectedEtfs.contains(etfTicker);
 
