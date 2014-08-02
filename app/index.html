@@ -41,7 +41,7 @@
       - window.RetirementPlanENV.rollbar_client_token
     IF UPDATING VERSION: Update in brocfile.js as well
     -->
-    <script type="text/javascript" src="js/rollbar_setup.v1.js"></script>
+    <script type="text/javascript" src="/js/rollbar_setup.v1.js"></script>
     <!-- END ROLLBAR -->
 
     <!-- START GOOGLE ANALYTICS
@@ -50,7 +50,7 @@
       - window.RetirementPlanENV.ga_domain
     IF UPDATING VERSION: Update in brocfile.js as well
     -->
-    <script type="text/javascript" src="js/google_analytics.v1.js"></script>
+    <script type="text/javascript" src="/js/google_analytics.v1.js"></script>
     <!-- END GOOGLE ANALYTICS -->
   </head>
   <body>
@@ -72,7 +72,7 @@
     Not rolled into the build process as this is an anonymous AMD module - not currently supported by ember-cli
     IF UPDATING VERSION: Update in brocfile.js as well
     -->
-    <script type="text/javascript" src="js/hello.all.v1.min.js"></script>
+    <script type="text/javascript" src="/js/hello.all.v1.min.js"></script>
     <script>
       hello.init({
         facebook : window.RetirementPlanENV.facebook_app_id,
