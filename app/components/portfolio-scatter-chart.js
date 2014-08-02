@@ -11,6 +11,7 @@ export default Ember.Component.extend({
 
   selectedPortfolioID:  null, // Bound
   portfolios:           null, // Bound
+  chart:                null, // Holds reference to the c3 graph
 
   hasSelectedPortfolio: Ember.computed.notEmpty('selectedPortfolioID'),
 
@@ -28,8 +29,6 @@ export default Ember.Component.extend({
   ////////////////////////
   // C3 Graph Specifics //
   ////////////////////////
-
-  chart: null, // Holds reference to the c3 graph
 
   data: null,
   grid: null,

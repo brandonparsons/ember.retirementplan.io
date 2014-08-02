@@ -15,13 +15,12 @@ export default Ember.Component.extend({
 
   allocation:   null, // Bound
   assetClasses: null, // Bound
+  chart: null,        // Holds reference to the c3 graph
 
 
   ////////////////////////
   // C3 Graph Specifics //
   ////////////////////////
-
-  chart: null, // Holds reference to the c3 graph
 
   data: function() {
     var allocation    = this.get('allocation');

@@ -7,16 +7,19 @@
       </p>
     {{else}} {{!-- Not loading simulation data --}}
 
-      {{#if displayChart}} {{!-- Have a chart to display --}}
+      {{#if haveChartToDisplay}} {{!-- Have a chart to display --}}
 
-        <a href="#" class='text-muted' data-toggle="tooltip" data-placement="auto" title="<p>Mean: The average value of your assets in each given time period, compared across all simulation trials.</p><p>95% Confidence High: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be lower than this 95% of the time.</p><p>95% Confidence Low: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be higher than this 95% of the time.</p><p>Out of Money Occurences: The percentage of times in a given month that you had ran out of money.</p>">{{fontawesome-icon type='question-circle'}}What are these values?</a>
+        <p>
+          <a href="#" class='text-muted' data-toggle="tooltip" data-placement="auto" title="<p>Mean: The average value of your assets in each given time period, compared across all simulation trials.</p><p>95% Confidence High: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be lower than this 95% of the time.</p><p>95% Confidence Low: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be higher than this 95% of the time.</p><p>Out of Money Occurences: The percentage of times in a given month that you had ran out of money.</p>">{{fontawesome-icon type='question-circle'}}What are these values?</a>
+        </p>
 
-        {{simulation-timeseries-chart barData=barData lineData=lineData}}
+        {{simulation-timeseries-chart timeSteps=timeStepResults}}
 
         <hr>
         <p class='text-center'>
           <button {{action acceptSimulation}} class='btn btn-success'>Accept Simulation</button>
           {{link-to 'Change Portfolio' 'select_portfolio' classNames='btn btn-default space-left'}}
+          <button {{action rerunSimulation}} class='btn btn-default space-left'>Re-run Simulation</button>
           {{link-to 'Cancel' 'user.dashboard' classNames='btn btn-default space-left'}}
         </p>
 
