@@ -4,15 +4,12 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 var app = new EmberApp({
   fingerprint: {
-    exclude: [
-      'js/google_analytics.v1.js',
-      'js/hello.all.v1.min.js',
-      'js/rollbar_setup.v1.js',
-      'favicon.ico',
-      'apple-touch-icon-precomposed.png'
-    ],
     prepend: 'https://assets.retirementplan.io/'
   },
+  exclude: [
+    'favicon.ico',
+    'apple-touch-icon-precomposed.png'
+  ],
 });
 
 // Use `app.import` to add additional libraries to the generated
