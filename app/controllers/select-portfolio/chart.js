@@ -94,7 +94,7 @@ export default Ember.ArrayController.extend({
 
     // Debounce this function - it gets called multiple times on the original
     // route load, and is expensive to calculate efficient frontiers on the server
-    Ember.run.debounce(this, this._updateGraph, assetIdArray, 100);
+    Ember.run.debounce(this, this._updateGraph, assetIdArray, 500);
   }.observes('selectedAssetIds'),
 
 

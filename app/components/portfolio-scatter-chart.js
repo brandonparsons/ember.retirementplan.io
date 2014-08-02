@@ -16,14 +16,24 @@ export default Ember.Component.extend({
   hasSelectedPortfolio: Ember.computed.notEmpty('selectedPortfolioID'),
 
   leftArrowDisabled: function() {
-    var indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(this.get('selectedPortfolioID'));
+    var selectedPortfolioID, indexOfSelectedPortfolio;
+
+    selectedPortfolioID = this.get('selectedPortfolioID');
+    if (!selectedPortfolioID) { return true; }
+
+    indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(selectedPortfolioID);
     return indexOfSelectedPortfolio <= 0;
-  }.property('selectedPortfolioID'),
+  }.property('selectedPortfolioID', 'portfolios.@each.id'),
 
   rightArrowDisabled: function() {
-    var indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(this.get('selectedPortfolioID'));
+    var selectedPortfolioID, indexOfSelectedPortfolio;
+
+    selectedPortfolioID = this.get('selectedPortfolioID');
+    if (!selectedPortfolioID) { return true; }
+
+    indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(selectedPortfolioID);
     return indexOfSelectedPortfolio === this.get('portfolios').get('length') - 1;
-  }.property('selectedPortfolioID'),
+  }.property('selectedPortfolioID', 'portfolios.@each.id'),
 
 
   ////////////////////////
@@ -82,13 +92,14 @@ export default Ember.Component.extend({
 
   portfoliosChanged: function() {
     var component, portfolios, portfolioSelected, optimalRiskUtilityLow,
-      optimalRiskUtilityHigh, data, grid, chart;
+      optimalRiskUtilityHigh, data, grid, chart, selectedPortfolioID;
 
     component   = this;
     portfolios  = this.get('portfolios');
 
     if (Ember.isEmpty(portfolios)) { return; }
 
+    chart = component.get('chart');
 
     /* Munge graph data into format ember-c3 expects */
 
@@ -131,18 +142,17 @@ export default Ember.Component.extend({
     component.set('data', data);
     component.set('grid', grid);
 
-    // This will (hopefully) update the chart if it already exists (as opposed
-    // to on init). This doesn't get called at the moment as the controller
-    // currently tears everything down when the asset classes change.
-    chart = component.get('chart');
-    if (chart) {
-      chart.load({
-        data: data,
-        grid: grid
-      });
-    }
-
     /* */
+
+    // If the selected portfolio ID is not present in the current suite of
+    // portfolios (i.e. they've picked one prevoiusly and then changed the
+    // assets), erase it to avoid phantom behaviour.  However, save it away in
+    // case they come back to this set of portfolios.
+    selectedPortfolioID = this.get('selectedPortfolioID');
+    if ( selectedPortfolioID && portfolios.mapBy('id').indexOf(selectedPortfolioID) < 0 ) {
+      window.__SAVED_PORTFOLIO_ID__ = selectedPortfolioID;
+      this.set('selectedPortfolioID', null);
+    }
 
   }.observes('portfolios.@each').on('init'), // Do on init so graph values set prior to didinsertElement
 
@@ -152,7 +162,7 @@ export default Ember.Component.extend({
   /////////////////////
 
   didInsertElement: function() {
-    var component, data, grid, chart, selectedPortfolioID;
+    var component, data, grid, chart, selectedPortfolioID, indexOfSaved;
 
     component = this;
 
@@ -181,6 +191,11 @@ export default Ember.Component.extend({
     selectedPortfolioID = component.get('selectedPortfolioID');
     if (!Ember.isNone(selectedPortfolioID)) {
       chart.select(['Expected Annual Return'], [component.get('portfolios').mapBy('id').indexOf(selectedPortfolioID)], true);
+    } else if (window.__SAVED_PORTFOLIO_ID__) {
+      indexOfSaved = component.get('portfolios').mapBy('id').indexOf(window.__SAVED_PORTFOLIO_ID__);
+      if (indexOfSaved > 0) {
+        chart.select(['Expected Annual Return'], [indexOfSaved], true);
+      }
     }
   },
 
