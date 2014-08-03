@@ -16,8 +16,7 @@ export default Ember.View.extend({
     });
 
     // FastClick.js
-    // Removing for now, see if it helps graphs work on mobile....
-    // FastClick.attach(document.body);
+    FastClick.attach(document.body);
 
     // Navbar hover fix
     $('.dropdown-toggle').click(function() {
