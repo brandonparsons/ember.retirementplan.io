@@ -129,11 +129,9 @@ export default Ember.ArrayController.extend({
 
   actions: {
     toggleTableView: function() {
-      if (mobileCheck()) {
-        // Mobile browser
-        window.alert("Portfolio graph functionality is not currently available in mobile browsers. Please return using your desktop!");
-      } else {
-        // Not a mobile browser
+      if (mobileCheck()) { // Mobile browser
+        window.alert("Using the graphical view for portfolio selection is not currently available in mobile browsers. Please return using your desktop!");
+      } else { // Not a mobile browser
         this.toggleProperty('tableView');
       }
     },

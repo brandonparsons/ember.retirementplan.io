@@ -14,7 +14,6 @@ export default Ember.Component.extend({
   ///////////////
 
   portfoliosChanged: function() {
-    window.console.log("Portfolios changed");
     this._updateGraphData();
     this.get('chart').load({
       data: this.get('data'),
