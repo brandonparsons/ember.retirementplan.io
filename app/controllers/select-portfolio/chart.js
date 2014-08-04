@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { request as icAjaxRequest } from 'ic-ajax';
 import FrontierPortfolio from 'retirement-plan/models/frontier-portfolio';
 import roundTo from 'retirement-plan/utils/round-to';
+import mobileCheck from 'retirement-plan/utils/mobile-check';
 
 export default Ember.ArrayController.extend({
   // Model/content: Array of portfolios from server corresponding to checkboxes
@@ -74,7 +75,7 @@ export default Ember.ArrayController.extend({
 
   portfoliosForDisplay: function() {
     var selectedPortfolioID = this.get('selectedPortfolioID');
-    return this.get('portfolios').map(function(portfolio, index) {
+    return this.get('portfolios').map(function(portfolio) {
       portfolio.set('selected', (portfolio.get('id') === selectedPortfolioID));
       return portfolio;
     });
@@ -128,7 +129,13 @@ export default Ember.ArrayController.extend({
 
   actions: {
     toggleTableView: function() {
-      this.toggleProperty('tableView');
+      if (mobileCheck()) {
+        // Mobile browser
+        window.alert("Portfolio graph functionality is not currently available in mobile browsers. Please return using your desktop!");
+      } else {
+        // Not a mobile browser
+        this.toggleProperty('tableView');
+      }
     },
     selectPortfolio: function(portfolio) {
       this.set('selectedPortfolioID', portfolio.get('id'));
