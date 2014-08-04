@@ -21,11 +21,33 @@ export default Ember.ArrayController.extend({
 
   loadingFrontier: false,
 
+  tableView: true,
+
   selectedPortfolioID: Ember.computed.alias('controllers.selectPortfolio.selectedPortfolioID'),
 
-  hasSelectedPortfolio: Ember.computed.notEmpty('selectedPortfolioID'),
-
   selectedAssetIds: Ember.computed.alias('controllers.selectPortfolio.selectedAssetIds'),
+
+  leftArrowDisabled: function() {
+    var selectedPortfolioID, indexOfSelectedPortfolio;
+    if (!this.get('hasSelectedPortfolio')) { return true; }
+
+    selectedPortfolioID = this.get('selectedPortfolioID');
+    if (!selectedPortfolioID) { return true; }
+
+    indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(selectedPortfolioID);
+    return indexOfSelectedPortfolio <= 0;
+  }.property('selectedPortfolioID', 'portfolios.@each.id'),
+
+  rightArrowDisabled: function() {
+    var selectedPortfolioID, indexOfSelectedPortfolio;
+    if (!this.get('hasSelectedPortfolio')) { return true; }
+
+    selectedPortfolioID = this.get('selectedPortfolioID');
+    if (!selectedPortfolioID) { return true; }
+
+    indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(selectedPortfolioID);
+    return indexOfSelectedPortfolio === this.get('portfolios').get('length') - 1;
+  }.property('selectedPortfolioID', 'portfolios.@each.id'),
 
   ensureGraphRendered: function() {
     // This runs every time the route is accessed (including the first time).
@@ -40,23 +62,30 @@ export default Ember.ArrayController.extend({
   // Controller Data //
   /////////////////////
 
-  portfolios:     Ember.computed.alias('content'),
-  havePortfolios: Ember.computed.notEmpty('portfolios'),
-
-  allAssets: Ember.computed.alias('controllers.selectPortfolio.content'),
+  portfolios: Ember.computed.alias('content'),
+  allAssets:  Ember.computed.alias('controllers.selectPortfolio.content'),
 
   selectedAssetIdsCount: function() {
     return this.get('selectedAssetIds').length || 0;
   }.property('selectedAssetIds.@each'),
 
-  selectedAnyAssets: Ember.computed.gt('selectedAssetIdsCount', 0),
+  selectedAnyAssets:    Ember.computed.gt('selectedAssetIdsCount', 0),
   selectedEnoughAssets: Ember.computed.gte('selectedAssetIdsCount', 3),
+
+  portfoliosForDisplay: function() {
+    var selectedPortfolioID = this.get('selectedPortfolioID');
+    return this.get('portfolios').map(function(portfolio, index) {
+      portfolio.set('selected', (portfolio.get('id') === selectedPortfolioID));
+      return portfolio;
+    });
+  }.property('portfolios.@each', 'selectedPortfolioID'),
 
   selectedPortfolio: function() {
     var portfolioID = this.get('selectedPortfolioID');
     if (!portfolioID) { return null; }
     return this.get('portfolios').findBy('id', portfolioID);
   }.property('selectedPortfolioID', 'portfolios'),
+  hasSelectedPortfolio: Ember.computed.notEmpty('selectedPortfolio'),
 
   selectedPortfolioReturn: function() {
     var asDecimal = roundTo(this.get('selectedPortfolio.annualReturn') * 100, 1);
@@ -68,13 +97,8 @@ export default Ember.ArrayController.extend({
     return asDecimal + "%";
   }.property('selectedPortfolio.annualRisk'),
 
-  monthlyReturnTenThousand: function() {
-    return this.get('selectedPortfolio.tenThousandMonthlyReturn');
-  }.property('selectedPortfolio'),
-
-  monthlyVARTenThousand: function() {
-    return this.get('selectedPortfolio.tenThousandValueAtRisk');
-  }.property('selectedPortfolio'),
+  monthlyReturnTenThousand: Ember.computed.alias('selectedPortfolio.tenThousandMonthlyReturn'),
+  monthlyVARTenThousand:    Ember.computed.alias('selectedPortfolio.tenThousandValueAtRisk'),
 
   allocation: function() {
     var portfolioID = this.get('selectedPortfolioID');
@@ -94,8 +118,61 @@ export default Ember.ArrayController.extend({
 
     // Debounce this function - it gets called multiple times on the original
     // route load, and is expensive to calculate efficient frontiers on the server
-    Ember.run.debounce(this, this._updateGraph, assetIdArray, 500);
+    Ember.run.debounce(this, this._updateGraph, assetIdArray, 300);
   }.observes('selectedAssetIds'),
+
+
+  /////////////
+  // Actions //
+  /////////////
+
+  actions: {
+    toggleTableView: function() {
+      this.toggleProperty('tableView');
+    },
+    selectPortfolio: function(portfolio) {
+      this.set('selectedPortfolioID', portfolio.get('id'));
+    },
+
+    selectPortfolioLeft: function() {
+      var selectedPortfolioID, portfolios, portfolioIds, indexOfSelectedPortfolio,
+        desiredSelectedID;
+
+      portfolios          = this.get('portfolios');
+      portfolioIds        = portfolios.mapBy('id');
+      selectedPortfolioID = this.get('selectedPortfolioID');
+      if (!selectedPortfolioID) { return null; }
+
+      indexOfSelectedPortfolio = portfolioIds.indexOf(selectedPortfolioID);
+
+      // Can't move left from 0, or if item not found (-1)
+      if (indexOfSelectedPortfolio <= 0) { return null; }
+
+      desiredSelectedID = portfolioIds[indexOfSelectedPortfolio - 1];
+      this.set('selectedPortfolioID', desiredSelectedID);
+    },
+
+    selectPortfolioRight: function() {
+      var selectedPortfolioID, portfolios, portfolioIds, indexOfSelectedPortfolio,
+      desiredSelectedID;
+
+      portfolios          = this.get('portfolios');
+      portfolioIds        = portfolios.mapBy('id');
+      selectedPortfolioID = this.get('selectedPortfolioID');
+      if (!selectedPortfolioID) { return null; }
+
+      indexOfSelectedPortfolio  = portfolioIds.indexOf(selectedPortfolioID);
+
+      // Can't move right from last item, or if item not found (-1)
+      if ( indexOfSelectedPortfolio < 0 || indexOfSelectedPortfolio === (portfolios.get('length') - 1) ) {
+        return null;
+      }
+
+      desiredSelectedID = portfolioIds[indexOfSelectedPortfolio + 1];
+      this.set('selectedPortfolioID', desiredSelectedID);
+    },
+
+  },
 
 
   /////////////////////////

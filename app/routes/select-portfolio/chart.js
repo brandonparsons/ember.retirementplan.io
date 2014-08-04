@@ -14,10 +14,6 @@ export default Ember.Route.extend({
     this.controllerFor('select_portfolio.chart').ensureGraphRendered();
   },
 
-  deactivate: function() {
-    window.__SAVED_PORTFOLIO_ID__ = null;
-  },
-
   actions: {
 
     saveSelectedPortfolio: function(portfolioID) {

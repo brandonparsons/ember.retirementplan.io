@@ -1,16 +1,40 @@
-<div class="row chart-container needsclick">
+<div class="row chart-container">
 
   <div class='col-md-9'>
 
-    {{#if havePortfolios}}
-      {{!-- If chart data is not present, we get errors when trying to render --}}
-      {{!-- Scatter chart of portfolios--}}
-      {{portfolio-scatter-chart
-        selectedPortfolioID=selectedPortfolioID
-        portfolios=portfolios
-        save="saveSelectedPortfolio"
-        cancel="cancel"
-      }}
+    {{#if portfoliosForDisplay}}
+
+      <h4 class='text-center'>Portfolio Options</h4>
+
+      {{#if tableView}}
+        <p class='text-center'>Select one of the portfolios (<strong>by clicking a table row below</strong>) to proceed.</p>
+        {{portfolio-selection-table
+            portfolios=portfoliosForDisplay
+            selectPortfolio='selectPortfolio'}}
+        <p class='text-muted italic'>Portfolios with risks levels below your "optimal" (as determined by the risk tolerance questionnaire) are highlighted yellow. Similarly, those above your "optimal" risk level are highlighted red.</p>
+      {{else}}
+        <p class='text-center'>Select one of the portfolios (<strong>by clicking a graph element below</strong>) to proceed.</p>
+        {{portfolio-scatter-chart
+          portfolios=portfoliosForDisplay
+          selectPortfolio='selectPortfolio'}}
+        <p class='text-muted italic'>Portfolios with risks levels below your "optimal" (as determined by the risk tolerance questionnaire) are shown left of the "Low Risk Region" line. Similarly, those above your "optimal" are shown right of the "Suggested Risk Region" line.</p>
+      {{/if}}
+
+      <br>
+
+      {{!-- Action buttons --}}
+      <div class='row'>
+        <div class='col-md-12 text-center'>
+          <a {{bind-attr class=':btn :btn-default leftArrowDisabled:disabled'}} {{action selectPortfolioLeft}}>{{fontawesome-icon type="chevron-left" withForcedSpace=false}}</a>
+          <a {{bind-attr class=':btn :btn-success :space-left hasSelectedPortfolio:enabled:disabled'}} {{action saveSelectedPortfolio selectedPortfolioID}}>Save selection</a>
+          <a {{action toggleTableView}} class='btn btn-info space-left'>
+            {{#if tableView}}View as Graph{{else}}View as Table{{/if}}
+          </a>
+          <a class="btn btn-default space-left" {{action cancel}}>Cancel</a>
+          <a {{bind-attr class=':btn :btn-default :space-left rightArrowDisabled:disabled'}} {{action selectPortfolioRight}}>{{fontawesome-icon type="chevron-right" withForcedSpace=false}}</a>
+        </div>
+      </div>
+
     {{/if}}
 
   </div>
@@ -32,13 +56,14 @@
         {{/bs-panel}}
       {{/if}}
 
-      <p class='italic text-muted'>The portfolio you selected in the chart has the following properties:</p>
+      <p class='italic text-muted'>The portfolio you selected has the following properties:</p>
 
       {{!-- Pie chart of portfolio allocation --}}
-      {{portfolio-pie-chart
-        allocation=allocation
-        assetClasses=allAssets
-      }}
+      {{#if allocation}}
+        {{portfolio-pie-chart
+          allocation=allocation
+          assetClasses=allAssets}}
+      {{/if}}
 
       {{!-- Portfolio statistics --}}
       <p>
@@ -54,7 +79,6 @@
           </li>
         </ul>
       </p>
-
       <p class='italic text-muted'><small>Keep in mind that this return is not guaranteed, and only an expected value based on historical observed results.  Risk of loss exists in all portfolios.</small></p>
 
     {{else}}
