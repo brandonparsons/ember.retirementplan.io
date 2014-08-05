@@ -12,12 +12,12 @@ export default function() {
   })(navigator.userAgent||navigator.vendor||window.opera);
 
   //Detect iPhone
-  if (navigator.platform.indexOf("iPhone") != -1) {
+  if (navigator.platform.indexOf("iPhone") !== -1) {
     check = true;
   }
 
   //Detect iPod
-  if (navigator.platform.indexOf("iPod") != -1) {
+  if (navigator.platform.indexOf("iPod") !== -1) {
     check = true;
   }
 
