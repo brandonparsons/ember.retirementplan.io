@@ -34,7 +34,7 @@ export default Ember.Component.extend({
 
   didInsertElement: function() {
     var component = this;
-    var chart     = c3.generate({
+    var chart = c3.generate({
       bindto:   '.BOUND-portfolio-scatter-chart',
       data:     component.get('data'),
       grid:     component.get('grid'),

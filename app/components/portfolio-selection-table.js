@@ -4,6 +4,11 @@ export default Ember.Component.extend({
   tagName: 'table',
   classNames: ['table', 'table-striped', 'table-bordered', 'table-hover', 'table-responsive', 'text-center'],
 
+
+  /////////////////////////
+  // COMPUTED PROPERTIES //
+  /////////////////////////
+
   optimalRiskUtilityLow: function() {
     return _.max(this.get('portfolios'), function(portfolio) {
       return portfolio.get('utilityLow');
@@ -38,6 +43,11 @@ export default Ember.Component.extend({
       return portfolio;
     });
   }.property('portfolios.@each', 'optimalRiskUtilityLow', 'optimalRiskUtilityHigh'),
+
+
+  /////////////
+  // ACTIONS //
+  /////////////
 
   actions: {
     selectPortfolio: function(portfolio) {
