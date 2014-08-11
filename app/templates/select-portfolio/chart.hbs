@@ -1,7 +1,5 @@
 {{#if loadingFrontier}}
-  <p class='lead text-center'>
-    {{fontawesome-icon type="spinner" size='3x' spin=true withForcedSpace=false}}
-  </p>
+  {{partial 'shared/spinner'}}
 {{else}}
   {{#if selectedAnyAssets}}
     {{#if selectedEnoughAssets}}

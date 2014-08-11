@@ -2,9 +2,7 @@
   <div class='col-md-12'>
 
     {{#if loading}} {{!-- Loading simulation data --}}
-      <p class='lead text-center'>
-        {{fontawesome-icon type="spinner" size='3x' spin=true withForcedSpace=false}}
-      </p>
+      {{partial 'shared/spinner'}}
     {{else}} {{!-- Not loading simulation data --}}
 
       {{#if haveChartToDisplay}} {{!-- Have a chart to display --}}
