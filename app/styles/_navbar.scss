@@ -9,13 +9,15 @@ body { padding-top: 50px; }
 .headroom--unpinned {top: -100px;}
 .headroom--pinned {top: 0;}
 
-.navbar-default .navbar-brand {
-  line-height: inherit;
-  height: inherit;
-  padding-top: 8px;
+.navbar {
+  background-color: white;
+}
+
+.navbar .navbar-brand {
+  padding-top: 7px;
   padding-right: 15px;
-  padding-bottom: 5px;
-  // padding-left: 5px;
+  padding-bottom: 0px;
+  padding-left: 15px;
 }
 
 .center-with-logo {
@@ -31,9 +33,7 @@ body { padding-top: 50px; }
 // See associated javascript (ensures clicking on root element still works if
 // it has an href)
 @media only screen and (min-width : 768px) {
-  .dropdown:hover .dropdown-menu {
-    display: block;
-  }
+  .dropdown:hover .dropdown-menu { display: block; }
 }
 
 // Width between iphone landscape & portait (will have another breakpoint for
