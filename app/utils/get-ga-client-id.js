@@ -19,12 +19,17 @@ var extractGAClientIdFromCookie = function() {
 
 export default function() {
   var clientId;
-  if (!window.ga) { return null; }
 
-  window.ga(function(tracker) {
-    clientId = tracker.get('clientId');
-  });
+  if (window.ga) {
+	  window.ga(function(tracker) {
+	    clientId = tracker.get('clientId');
+	  });
+  }
 
+  // Because the marketing site (www..../) and this ember app (www..../app/...)
+  // live on the same domain (www), we can check if there is a cookie set by the
+  // marketing site.  This won't work if you pull the ember app onto a separate
+  // domain.
   if (clientId) {
     return clientId;
   } else {
