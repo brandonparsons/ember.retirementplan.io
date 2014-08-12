@@ -2,12 +2,16 @@
   {{!-- User is logged in --}}
 
   <li>
+    <a {{action 'toggleSidebar'}}>{{fontawesome-icon type="bars"}} {{#if showSidebar}}Close Menu{{else}}Open Menu{{/if}}</a>
+  </li>
+
+  <li>
     {{#link-to 'user.dashboard'}}
       {{fontawesome-icon type='home'}} Dashboard
     {{/link-to}}
   </li>
 
-  <li class="dropdown visible-md visible-lg" style='margin-right: 15px;'> {{!-- Right margin required on this element as the `row` padding is not pushing the button over --}}
+  <li class="dropdown visible-lg" style='margin-right: 15px;'> {{!-- Right margin required on this element as the `row` padding is not pushing the button over --}}
 
     <button class="dropdown-toggle btn btn-default navbar-btn space-left button-with-image" data-toggle="dropdown">
       <img {{bind-attr src=currentUser.image}} width='28' height='28'>
@@ -38,13 +42,13 @@
     </ul> {{!-- dropdown-menu --}}
   </li> {{!-- dropdown --}}
 
-  <li class='visible-xs visible-sm'>
+  <li class='visible-xs visible-sm visible-md'>
     {{#link-to 'user.profile'}}
       {{fontawesome-icon type='user'}} Edit Profile
     {{/link-to}}
   </li>
 
-  <li class='visible-xs visible-sm'>
+  <li class='visible-xs visible-sm visible-md'>
     <a {{action 'invalidateSession'}}>{{fontawesome-icon type='sign-out'}} Sign out</a>
   </li>
 

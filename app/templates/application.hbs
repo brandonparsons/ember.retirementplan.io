@@ -3,14 +3,14 @@
 <div class='container-fluid' id='main'>
   <div clas='row'>
 
+    <div {{bind-attr class="showSidebar:col-md-9:col-md-12 showSidebar:col-md-push-3"}}>
+      {{outlet}}
+    </div>
     {{#if showSidebar}}
-      <div class='col-md-3' style='padding: 0px;'>
+      <div class='col-md-3 col-md-pull-9' style='padding: 0px;'>
         {{partial 'sections/sidebar'}}
       </div>
     {{/if}}
-    <div {{bind-attr class="showSidebar:col-md-9:col-md-12"}}>
-      {{outlet}}
-    </div>
 
   </div>
 </div>

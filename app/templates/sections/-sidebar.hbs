@@ -1,5 +1,7 @@
 <div class='list-group'>
 
+  <a class='list-group-item' {{action 'toggleSidebar'}}><h5 class='list-group-item-heading'>{{fontawesome-icon type='minus-square'}}Close Menu</h5></a>
+
   {{#link-to 'user.dashboard' classNames='list-group-item'}}
     <h5 class='list-group-item-heading'>{{fontawesome-icon type='home'}}Dashboard</h5>
   {{/link-to}}

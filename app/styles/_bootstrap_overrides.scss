@@ -1,5 +1,3 @@
-// // //
-
 // Colours //
 
 $green: #469d44;
@@ -14,7 +12,7 @@ $light-orange: #ff8c00;
 
 // $navbar-default-bg: #312312;
 
-// // //
+// //
 
 
 // Get rid of huge top-margin on page headers.... Already enough top margin
@@ -23,3 +21,11 @@ $light-orange: #ff8c00;
   text-align: center;
   margin-top: 0px;
 }
+
+// //
+
+// Keep the navbar collapsed longer as we are adding a few buttons to the navbar (won't fit)
+// http://stackoverflow.com/questions/18192082/bootstrap-3-navbar-collapse
+$grid-float-breakpoint: 992px; // Desktop-width breakpoint
+
+// //
