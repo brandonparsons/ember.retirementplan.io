@@ -2,6 +2,7 @@
 
 import Ember from 'ember';
 import { request as icAjaxRequest } from 'ic-ajax';
+import getGaClientId from 'retirement-plan/utils/get-ga-client-id';
 
 var serverLoginEndpoint       = window.RetirementPlanENV.apiHost + '/session';
 var serverLogoutEndpoint      = window.RetirementPlanENV.apiHost + '/session';
@@ -47,7 +48,11 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
     return icAjaxRequest({
       url:  serverCheckOauthEndpoint,
       type: 'POST',
-      data: { user: userData }
+      data: {
+        user: userData,
+        // POSTing the google analytics client id for signup conversion tracking. This will happen on logins as well, rails will have to check if it is a new user
+        ga_client_id: getGaClientId()
+      }
     });
   },
 
