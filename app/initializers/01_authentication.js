@@ -92,6 +92,12 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
           userData.provider     = provider;
 
           _this.confirmUserIdentity(userData).then( function(serverUserData) {
+            // Hello.js will automatically try to login if there data in
+            // localstorage. This is not the behaviour we want. The
+            // ember-simple-auth localStorage data will be single source of
+            // truth for logged-in state.
+            window.localStorage.removeItem("hello")
+
             setUpGoogleAnalyticsUserID(serverUserData.user_id);
             resolve(serverUserData);
           }, function(error) {

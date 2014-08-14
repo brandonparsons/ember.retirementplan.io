@@ -1,9 +1,12 @@
 {{#if session.isAuthenticated}}
   {{!-- User is logged in --}}
 
-  <li>
-    <a {{action 'toggleSidebar'}}>{{fontawesome-icon type="bars"}} {{#if showSidebar}}Close Menu{{else}}Open Menu{{/if}}</a>
-  </li>
+  {{#if shouldShowSidebar}}
+    {{!-- Don't show a toggle for the sidebar if they can't even see it yet --}}
+    <li>
+      <a {{action 'toggleSidebar'}}>{{fontawesome-icon type="bars"}} {{#if showSidebar}}Close Menu{{else}}Open Menu{{/if}}</a>
+    </li>
+  {{/if}}
 
   <li>
     {{#link-to 'user.dashboard'}}
