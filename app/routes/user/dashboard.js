@@ -15,4 +15,4 @@ export default Ember.Route.extend({
       this.transitionTo('email_confirmation');
     }
   }
-})
+});

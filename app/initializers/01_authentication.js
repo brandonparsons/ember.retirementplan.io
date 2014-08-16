@@ -106,7 +106,7 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
             // localstorage. This is not the behaviour we want. The
             // ember-simple-auth localStorage data will be single source of
             // truth for logged-in state.
-            window.localStorage.removeItem("hello")
+            window.localStorage.removeItem("hello");
 
             setUpGoogleAnalyticsUserID(serverUserData.user_id);
             resolve(serverUserData);
