@@ -51,13 +51,30 @@ module.exports = function(grunt) {
         }
       }
     },
+    gittag: {
+      options: {},
+      canary: {
+        // No-op. If you decide to tag canary releases, you might end up double-tagging on official releases.
+        options: {}
+      },
+      release: {
+        options: {
+          tag: 'release.<%= gitinfo.local.branch.current.shortSHA %>',
+          message: 'Published for release. <%= gitinfo.local.branch.current.shortSHA %> || <%= gitinfo.local.branch.current.SHA %>',
+        }
+      }
+    },
   });
+
   grunt.loadNpmTasks('grunt-gitinfo');
+  grunt.loadNpmTasks('grunt-git');
   grunt.loadNpmTasks('grunt-s3');
   grunt.loadNpmTasks('grunt-redis-manifest');
 
-  grunt.registerTask('release', ['gitinfo', 'redis:release']);
-  grunt.registerTask('canary', ['gitinfo', 'redis:canary']);
+  grunt.registerTask('release', ['gitinfo', 'gittag:release', 'redis:release']);
+  grunt.registerTask('canary', ['gitinfo', 'gittag:canary', 'redis:canary']);
+
   grunt.registerTask('publish-release', ['default', 'release']);
+
   return grunt.registerTask('default', ['gitinfo', 's3:dev', 'canary']);
 };
