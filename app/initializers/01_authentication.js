@@ -4,6 +4,16 @@ import Ember from 'ember';
 import { request as icAjaxRequest } from 'ic-ajax';
 import getGaClientId from 'retirement-plan/utils/get-ga-client-id';
 
+/*
+The frontend rails app can log a user in via modal and fakes the ember-simple-auth
+login process by setting localStorage keys. Therefore that login logic depends
+on the format of localStorage keys not changing. If ember-simple-auth keys change,
+or you use a different session library, be careful. Dependent on:
+  - LocalStorage key names
+  - Authenticator types "password" and "hello"
+  - Redirect location (currently set to /app/users/dashboard)
+*/
+
 var serverLoginEndpoint       = window.RetirementPlanENV.apiHost + '/session';
 var serverLogoutEndpoint      = window.RetirementPlanENV.apiHost + '/session';
 var serverCheckOauthEndpoint  = window.RetirementPlanENV.apiHost + '/session/check_oauth';
