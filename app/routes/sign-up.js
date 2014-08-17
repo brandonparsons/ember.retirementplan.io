@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import SignedOutRoute from 'retirement-plan/mixins/signed-out-route';
 import { request as icAjaxRequest } from 'ic-ajax';
-import getGaClientId from 'retirement-plan/utils/get-ga-client-id';
+import trackEvent from 'retirement-plan/utils/track-event';
 
 export default Ember.Route.extend(
   SignedOutRoute, {
@@ -24,14 +24,13 @@ export default Ember.Route.extend(
       icAjaxRequest({
         url:  window.RetirementPlanENV.apiHost + '/users',
         type: 'POST',
-        data: {
-          user:         controller.get('serialized'),
-          // POSTing the google analytics client id for signup conversion tracking
-          ga_client_id: getGaClientId()
-        }
+        data: { user: controller.get('serialized') }
       }).then( function(userData) {
+        trackEvent('conversion', 'signup');
+
         // Push the user into the store to avoid another HTTP request.
         store.pushPayload('user', userData);
+
         // Now with the user in the store, log in.
         session.authenticate('authenticator:password', {
           identification: controller.get('email'),

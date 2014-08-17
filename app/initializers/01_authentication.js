@@ -2,7 +2,8 @@
 
 import Ember from 'ember';
 import { request as icAjaxRequest } from 'ic-ajax';
-import getGaClientId from 'retirement-plan/utils/get-ga-client-id';
+import trackEvent from 'retirement-plan/utils/track-event';
+import setUpGoogleAnalyticsUserID from 'retirement-plan/utils/set-analytics-user-id';
 
 /*
 The frontend rails app can log a user in via modal and fakes the ember-simple-auth
@@ -17,21 +18,6 @@ or you use a different session library, be careful. Dependent on:
 var serverLoginEndpoint       = window.RetirementPlanENV.apiHost + '/session';
 var serverLogoutEndpoint      = window.RetirementPlanENV.apiHost + '/session';
 var serverCheckOauthEndpoint  = window.RetirementPlanENV.apiHost + '/session/check_oauth';
-
-
-var setUpGoogleAnalyticsUserID = function(userID) {
-  // Set the google analytics user id now that we have it. Supposedly can
-  // do this... see:
-  // http://stackoverflow.com/questions/23379338/set-google-analytics-user-id-after-creating-the-tracker
-  if (window.RetirementPlanENV.debug) {
-    Ember.debug("Logged in - setting Google Analytics userID to " + userID);
-  }
-  if (window.ga) {
-    window.ga('set', '&uid', userID);
-  } else {
-    Ember.warn("ga (google analyics) not present on window");
-  }
-};
 
 
 var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
@@ -58,11 +44,7 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
     return icAjaxRequest({
       url:  serverCheckOauthEndpoint,
       type: 'POST',
-      data: {
-        user: userData,
-        // POSTing the google analytics client id for signup conversion tracking. This will happen on logins as well, rails will have to check if it is a new user
-        ga_client_id: getGaClientId()
-      }
+      data: { user: userData }
     });
   },
 
@@ -109,6 +91,10 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
             window.localStorage.removeItem("hello");
 
             setUpGoogleAnalyticsUserID(serverUserData.user_id);
+            if (serverUserData.is_new_user) {
+              trackEvent('conversion', 'signup');
+            }
+
             resolve(serverUserData);
           }, function(error) {
             // Error confirming the user's identity
