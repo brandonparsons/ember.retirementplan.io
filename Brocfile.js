@@ -71,7 +71,7 @@ app.import('vendor/ember-date-picker/dist/ember-date-picker.js'); // after momen
 
 /* Import bootstrap fonts */
 ['glyphicons-halflings-regular.ttf', 'glyphicons-halflings-regular.woff', 'glyphicons-halflings-regular.eot', 'glyphicons-halflings-regular.svg'].forEach(function(path) {
-  var fullPath = 'vendor/bootstrap-sass-official/assets/fonts/bootstrap/' + path;
+  var fullPath = 'vendor/bootstrap-sass-official/vendor/assets/fonts/bootstrap/' + path;
   app.import(fullPath, {
     destDir: '/fonts/bootstrap'
   });
