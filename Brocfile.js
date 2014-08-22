@@ -69,6 +69,15 @@ app.import('vendor/ember-date-picker/dist/ember-date-picker.js'); // after momen
   app.import(fullPath);
 });
 
+/* Import bootstrap fonts */
+['glyphicons-halflings-regular.ttf', 'glyphicons-halflings-regular.woff', 'glyphicons-halflings-regular.eot', 'glyphicons-halflings-regular.svg'].forEach(function(path) {
+  var fullPath = 'vendor/bootstrap-sass-official/assets/fonts/bootstrap/' + path;
+  app.import(fullPath, {
+    destDir: '/fonts/bootstrap'
+  });
+});
+/* */
+
 /* Import fontawesome */
 ['fontawesome-webfont.ttf', 'fontawesome-webfont.woff', 'fontawesome-webfont.eot', 'FontAwesome.otf', 'fontawesome-webfont.svg'].forEach(function(path) {
   var fullPath = 'vendor/font-awesome/fonts/' + path;
