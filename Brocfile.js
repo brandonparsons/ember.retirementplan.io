@@ -59,7 +59,7 @@ app.import('bower_components/ember-notify/dist/named-amd/main.js', {
 app.import('bower_components/ember-simple-auth/ember-simple-auth.js');
 app.import('bower_components/ember-google-analytics/ember-google-analytics.js');
 app.import('bower_components/ember-validations/index.js');
-app.import('bower_components/ember-forms/dist/globals/main.js');
+app.import('bower_components/ember-forms/dist/ember_forms.js');
 app.import('bower_components/ember-spin-box/dist/ember-spin-box.js');
 app.import('bower_components/ember-date-picker/dist/ember-date-picker.js'); // after moment.js
 
