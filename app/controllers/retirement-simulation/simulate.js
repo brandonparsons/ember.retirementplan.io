@@ -5,7 +5,8 @@ import { request as icAjaxRequest } from 'ic-ajax';
 import roundTo from 'retirement-plan/utils/round-to';
 import numberToCurrency from 'retirement-plan/utils/number-to-currency';
 
-export default Ember.ObjectController.extend({
+export default Ember.ObjectController.extend(
+  Ember.GoogleAnalyticsTrackingMixin, {
 
   ////////////////
   // Properties //
@@ -37,6 +38,7 @@ export default Ember.ObjectController.extend({
       var numberOfSimulationTrials = this.get('numberOfSimulationTrials');
 
       controller.set('loading', true);
+      this.trackEvent('user_engagement', 'simulation', 'run', numberOfSimulationTrials);
 
       icAjaxRequest({
         url: window.RetirementPlanENV.apiHost + '/simulation',
