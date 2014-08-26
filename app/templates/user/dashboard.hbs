@@ -4,7 +4,7 @@
     {{!-- Currently specifying 20% width on .process-step's. If you change the number of elements, need to adjust this. --}}
 
     <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle questionnaireActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'questionnaire'}}>
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle questionnaireActive:btn-warning:btn-default"}} {{action "actionBasedTransitionTo" 'questionnaire'}}>
         {{fontawesome-icon type="check-square-o" size='2x' withForcedSpace=false}}
       </button>
       <p>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle portfolioSelectionActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo 'select_portfolio'}}>
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle portfolioSelectionActive:btn-warning:btn-default"}} {{action "actionBasedTransitionTo" 'select_portfolio'}}>
         {{fontawesome-icon type="tasks" size='2x' withForcedSpace=false}}
       </button>
       <p>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle retirementSimulationActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo nextSimulateStepRoute}}>
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle retirementSimulationActive:btn-warning:btn-default"}} {{action "actionBasedTransitionTo" nextSimulateStepRoute}}>
       {{fontawesome-icon type="bar-chart-o" size='2x' withForcedSpace=false}}
       </button>
       <p>
@@ -44,7 +44,7 @@
     </div>
 
      <div class="process-step">
-      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle trackPortfolioActive:btn-warning:btn-default"}} {{action actionBasedTransitionTo nextTrackedPortfolioStepRoute}}>
+      <button type="button" diabled="disabled" {{bind-attr class=":btn :btn-circle trackPortfolioActive:btn-warning:btn-default"}} {{action "actionBasedTransitionTo" nextTrackedPortfolioStepRoute}}>
         {{fontawesome-icon type="cloud-upload" size='2x' withForcedSpace=false}}
       </button>
       <p>

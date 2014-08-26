@@ -1,7 +1,6 @@
 /* global hello */
 
 import Ember from 'ember';
-import DS from 'ember-data';
 import { request as icAjaxRequest } from 'ic-ajax';
 
 var profileController = Ember.ObjectController.extend(
@@ -20,23 +19,16 @@ var profileController = Ember.ObjectController.extend(
     // Returns a list of authentication providers that the user has not yet
     // attached. (e.g. ['google'])
 
-    var controller = this;
-    var availableAuthentications = ['google', 'facebook'];
+    var availableAuthentications  = new Ember.Set(['google', 'facebook']);
+    var alreadyHave               = new Ember.Set(this.get('authentications'));
 
-    var promiseArray = DS.PromiseArray.create({
-      promise: new Ember.RSVP.Promise(function(resolve) {
-        controller.get('authentications').then(function(authentications) {
-          var auths = _.reject(availableAuthentications, function(provider) {
-            return _.any(authentications.get('content'), function(auth) {
-              return auth.get('provider') === provider;
-            });
-          });
-          resolve(auths);
-        });
-      }) // promise
-    }); // promiseArray
-    return promiseArray;
-  }.property('authentications.@each.provider'),
+    alreadyHave.forEach( function(have) {
+      var provider = have.get('provider');
+      availableAuthentications.remove(provider);
+    });
+
+    return availableAuthentications.toArray();
+  }.property('authentications.[]'),
 
   serialized: function() {
     return {
@@ -48,7 +40,6 @@ var profileController = Ember.ObjectController.extend(
     };
   }.property('name', 'email', 'currentPassword', 'password', 'passwordConfirmation'),
 
-  currentPasswordMissing: Ember.computed.empty('currentPassword'),
   passwordPresent:        Ember.computed.notEmpty('password'),
 
 

@@ -29,7 +29,7 @@ export default Ember.Route.extend(
 
     return new Ember.RSVP.Promise(function(resolve) {
       store.find('user', userID).then( function(user) {
-        currentUserController.set('content', user);
+        currentUserController.set('model', user);
         resolve(null);
       });
     });

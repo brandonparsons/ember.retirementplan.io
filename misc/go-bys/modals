@@ -7,7 +7,7 @@
 
 // In any template
 
-<button {{action showSharedModal}}>Show application modal</button>
+<button {{action "showSharedModal"}}>Show application modal</button>
 
 // (Already in application route)
 showSharedModal: function() {
@@ -91,7 +91,7 @@ actions: {
     <div class='modal-footer'>
       <div class='pull-right'>
         <button class='btn btn-default' data-dismiss="modal">Cancel</button>
-        <button class='btn btn-success' {{action agreed}}>OK</button>
+        <button class='btn btn-success' {{action "agreed"}}>OK</button>
       </div>
     </div>
 
@@ -101,6 +101,6 @@ actions: {
 
 [SNIP]
 
-<button {{action showInPageModal}}>Show page modal</button>
+<button {{action "showInPageModal"}}>Show page modal</button>
 
 [SNIP]

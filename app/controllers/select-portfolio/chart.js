@@ -5,7 +5,7 @@ import roundTo from 'retirement-plan/utils/round-to';
 import mobileCheck from 'retirement-plan/utils/mobile-check';
 
 export default Ember.ArrayController.extend({
-  // Model/content: Array of portfolios from server corresponding to checkboxes
+  // Model: Array of portfolios from server corresponding to checkboxes
   // NB: Working with `FrontierPortfolios` not `Portfolios`
 
   // They come this way from the server, but just in case that changes....
@@ -63,8 +63,8 @@ export default Ember.ArrayController.extend({
   // Controller Data //
   /////////////////////
 
-  portfolios: Ember.computed.alias('content'),
-  allAssets:  Ember.computed.alias('controllers.selectPortfolio.content'),
+  portfolios: Ember.computed.alias('model'),
+  allAssets:  Ember.computed.alias('controllers.selectPortfolio.model'),
 
   selectedAssetIdsCount: function() {
     return this.get('selectedAssetIds').length || 0;
@@ -189,7 +189,7 @@ export default Ember.ArrayController.extend({
     var controller = this;
     controller.set('loadingFrontier', true);
     controller._getEfficientFrontier(assetIdArray).then( function(portfolios) {
-      controller.set('content', portfolios);
+      controller.set('model', portfolios);
       controller.set('loadingFrontier', false);
     });
   },

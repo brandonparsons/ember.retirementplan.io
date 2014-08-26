@@ -82,7 +82,7 @@ actions: {
 
 // Template
 
-<a class='btn btn-default' {{action changeProgress}}>Change Progress</a>
+<a class='btn btn-default' {{action "changeProgress"}}>Change Progress</a>
 {{bs-progress progress=progress stripped=true animated=true}}
 
 ////

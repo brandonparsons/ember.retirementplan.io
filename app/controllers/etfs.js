@@ -22,6 +22,6 @@ export default Ember.ArrayController.extend({
     });
 
     return result;
-  }.property('content.[]', '@each.selected'),
+  }.property('model.[]', '@each.selected'),
 
 });

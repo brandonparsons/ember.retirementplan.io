@@ -16,7 +16,7 @@
       {{form-subtitle text='Personal Information'}}
 
       {{!-- userIsMale input --}}
-      {{em-select property="userIsMale" label="You are" prompt="-select-" content=userIsMaleOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+      {{em-select property="userIsMale" label="You are" prompt="-select-" contentBinding="userIsMaleOptions" optionValuePath="content.id" optionLabelPath="content.name"}}
 
       {{!-- married input --}}
       {{#form-text-block}}
@@ -25,7 +25,7 @@
       {{#form-text-block helpBlock=true}}
         If you are married / common-law etc., answer yes.
       {{/form-text-block}}
-      {{em-select property="married" label="Include second person" prompt="-select-" content=marriedOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+      {{em-select property="married" label="Include second person" prompt="-select-" contentBinding="marriedOptions" optionValuePath="content.id" optionLabelPath="content.name"}}
 
       {{!-- maleAge input --}}
       {{#unless hideMaleAge}}
@@ -41,7 +41,7 @@
       {{#form-text-block}}
         Are you (<strong>and</strong> your partner, if relevant) currently retired?
       {{/form-text-block}}
-      {{em-select property="userRetired" label="Currently retired" prompt="-select-" content=userRetiredOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+      {{em-select property="userRetired" label="Currently retired" prompt="-select-" contentBinding="userRetiredOptions" optionValuePath="content.id" optionLabelPath="content.name"}}
 
 
 
@@ -194,7 +194,7 @@
       {{#form-text-block helpBlock=true}}
         If you plan to sell your home and downsize, we will use the cash to cover expenses.  Answer <em>no</em> if you plan to stay in your current house, or don't want to take credit for any extra cash as a result of downsizing.
       {{/form-text-block}}
-      {{em-select property="includeHome" label="Include home in simulation" prompt="-select-" content=includeHomeOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+      {{em-select property="includeHome" label="Include home in simulation" prompt="-select-" contentBinding="includeHomeOptions" optionValuePath="content.id" optionLabelPath="content.name"}}
 
       {{#if includeHome}}
 

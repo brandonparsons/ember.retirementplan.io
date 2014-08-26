@@ -28,13 +28,13 @@
       {{!-- Action buttons --}}
       <div class='row'>
         <div class='col-md-12 text-center'>
-          <a {{bind-attr class=':btn :btn-default leftArrowDisabled:disabled'}} {{action selectPortfolioLeft}}>{{fontawesome-icon type="chevron-left" withForcedSpace=false}}</a>
-          <a {{bind-attr class=':btn :btn-success :space-left hasSelectedPortfolio:enabled:disabled'}} {{action saveSelectedPortfolio selectedPortfolioID}}>Save selection</a>
-          <a {{action toggleTableView}} class='btn btn-info space-left'>
+          <a {{bind-attr class=':btn :btn-default leftArrowDisabled:disabled'}} {{action "selectPortfolioLeft"}}>{{fontawesome-icon type="chevron-left" withForcedSpace=false}}</a>
+          <a {{bind-attr class=':btn :btn-success :space-left hasSelectedPortfolio:enabled:disabled'}} {{action "saveSelectedPortfolio" selectedPortfolioID}}>Save selection</a>
+          <a {{action "toggleTableView"}} class='btn btn-info space-left'>
             {{#if tableView}}View as Graph{{else}}View as Table{{/if}}
           </a>
-          <a class="btn btn-default space-left" {{action cancel}}>Cancel</a>
-          <a {{bind-attr class=':btn :btn-default :space-left rightArrowDisabled:disabled'}} {{action selectPortfolioRight}}>{{fontawesome-icon type="chevron-right" withForcedSpace=false}}</a>
+          <a class="btn btn-default space-left" {{action "cancel"}}>Cancel</a>
+          <a {{bind-attr class=':btn :btn-default :space-left rightArrowDisabled:disabled'}} {{action "selectPortfolioRight"}}>{{fontawesome-icon type="chevron-right" withForcedSpace=false}}</a>
         </div>
       </div>
 

@@ -18,7 +18,7 @@
 
         {{em-input property="amount" type='number' label="Amount ($)" placeholder="300" required=true}}
 
-        {{em-select property="frequency" label="Frequency" prompt="-select-" content=frequencyOptions optionValuePath="content.id" optionLabelPath="content.name"}}
+        {{em-select property="frequency" label="Frequency" prompt="-select-" contentBinding="frequencyOptions" optionValuePath="content.id" optionLabelPath="content.name"}}
 
         <div {{bind-attr class=':form-group onetimeOnValid:has-success:has-error'}}>
           {{#if isOnetime}}
@@ -47,7 +47,7 @@
       <div class='pull-right'>
         <button class='btn btn-default' data-dismiss="modal">Cancel</button>
         {{#if showDelete}}
-          <button {{action deleteExpense}} class="btn btn-danger space-left">Delete expense</button>
+          <button {{action "deleteExpense"}} class="btn btn-danger space-left">Delete expense</button>
         {{/if}}
         <button {{bind-attr class=':btn :btn-success :space-left formValid:enabled:disabled'}} {{action 'submitModal'}}>Save expense</button>
       </div>

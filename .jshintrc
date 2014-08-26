@@ -2,9 +2,10 @@
   "predef": {
     "document": true,
     "window": true,
-    "RetirementPlanENV": true,
+    "_": true,
+    "-Promise": true,
     "RetirementPlan": true,
-    "_": true
+    "RetirementPlanENV": true
   },
   "browser" : true,
   "boss" : true,

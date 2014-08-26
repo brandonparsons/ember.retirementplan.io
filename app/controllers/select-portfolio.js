@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-  // Model/content: Array of all assets - used in the checkboxes
+  // Model: Array of all assets - used in the checkboxes
 
   // NB: Working with `FrontierPortfolios` not `Portfolios`
 

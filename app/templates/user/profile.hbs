@@ -12,13 +12,13 @@
 
         {{em-input property="currentPassword" type='password' label="Current Password" placeholder="Your current password is required" required=true}}
 
-        {{em-input property="name" type='text' label="Name" placeholder="Enter a name..." required=true disabled=currentPasswordMissing}}
-        {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" required=true disabled=currentPasswordMissing}}
+        {{em-input property="name" type='text' label="Name" placeholder="Enter a name..." required=true}}
+        {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" required=true}}
 
         <hr>
 
-        {{em-input property="password" type='password' label="Password" placeholder="Leave blank to not change" disabled=currentPasswordMissing}}
-        {{em-input property="passwordConfirmation" type='password' label="Password Confirmation" placeholder="Leave blank to not change" disabled=currentPasswordMissing}}
+        {{em-input property="password" type='password' label="New Password" placeholder="Leave blank to not change"}}
+        {{em-input property="passwordConfirmation" type='password' label="Password Confirmation" placeholder="Leave blank to not change"}}
 
         <div class='row'>
           <div class='col-sm-10 col-sm-offset-2'>
@@ -40,7 +40,7 @@
           <div class='col-sm-10 col-sm-offset-2'>
             {{#bs-panel heading="Name/Email Changes" type="warning"}}
               <p>You originally signed up for this site using an external provider.  For security purposes, we can't allow changes to your profile, unless you set a password on your account.</p>
-              <p><a class='btn btn-default' {{action setPasswordOnOauthAccount}}>Set a password</a></p>
+              <p><a class='btn btn-default' {{action "setPasswordOnOauthAccount"}}>Set a password</a></p>
             {{/bs-panel}}
           </div>
         </div>
@@ -61,7 +61,7 @@
           <h5>Enabled Authentication Providers</h5>
           <ul class='list-unstyled'>
             {{#each auth in authentications}}
-              <li><strong>{{fontawesome-icon type=auth.fontawesomeIconClass}} {{titleize-string auth.provider}}</strong> - <a {{action removeAuth auth}}>{{fontawesome-icon type='times-circle'}} Remove</a></span></li>
+              <li><strong>{{fontawesome-icon type=auth.fontawesomeIconClass}} {{titleize-string auth.provider}}</strong> - <a {{action "removeAuth" auth}}>{{fontawesome-icon type='times-circle'}} Remove</a></span></li>
             {{/each}}
           </ul>
         </div>
@@ -71,7 +71,7 @@
           {{#if remainingAuthenticationProviders.length}}
             <ul class='list-unstyled'>
               {{#each provider in remainingAuthenticationProviders}}
-                <li><a {{action addOAuthProvider provider}}>Enable {{titleize-string provider}} login</a></li>
+                <li><a {{action "addOAuthProvider" provider}}>Enable {{titleize-string provider}} login</a></li>
               {{/each}}
             </ul>
           {{else}}
