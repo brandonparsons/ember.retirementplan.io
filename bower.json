@@ -19,7 +19,7 @@
     "accounting": "~0.3.2",
     "ember-notify": "~1.1.2",
     "c3": "~0.2.4",
-    "ember": "1.7.0",
+    "ember": "1.6.1",
     "ember-resolver": "~0.1.7",
     "loader": "stefanpenner/loader.js#1.0.1",
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.3",
