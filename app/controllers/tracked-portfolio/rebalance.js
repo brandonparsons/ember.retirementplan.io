@@ -24,18 +24,16 @@ export default Ember.ObjectController.extend({
 
     /* Load up required data */
 
-    var prices = this.get('prices');
-    var etfs = this.get('etfs');
-    var targetAssetWeights = this.get('portfolio.weights');
+    var prices              = this.get('prices');
+    var etfs                = this.get('etfs');
+    var targetAssetWeights  = this.get('portfolio.weights');
 
     // selectedEtfs is normally { assetId => etfTicker }
     // Invert and grab keys to get list of selected etf tickers
     var selectedEtfs = Ember.keys(_.invert(this.get('portfolio.selectedEtfs')));
 
     var currentShares = this.get('portfolio.currentShares');
-    var currentSharesOf = function(ticker) {
-      return currentShares[ticker] || 0.0;
-    };
+    var currentSharesOf = (ticker) => currentShares[ticker] || 0.0;
 
     var amount = window.parseFloat(this.get('amount'));
 
@@ -116,15 +114,30 @@ export default Ember.ObjectController.extend({
     }, {} );
   }.property('rebalanceInformation.@each.sharesToBuy'),
 
+  insufficientUnitsToSell: function() {
+    var currentShares         = this.get('portfolio.currentShares');
+    var currentSharesOf       = (ticker) => currentShares[ticker] || 0.0;
+    var rebalanceInformation  = this.get('rebalanceInformation');
+
+    if (rebalanceInformation.length > 0) {
+      return rebalanceInformation.any( (item) => {
+        var ticker      = item.get('ticker');
+        var heldUnits   = currentSharesOf(ticker);
+        var unitsToBuy  = window.parseFloat(item.get('sharesToBuy'));
+        if (unitsToBuy > 0) { return false; }
+        return (unitsToBuy * - 1) > heldUnits;
+      });
+    } else {
+      return false ;
+    }
+  }.property('rebalanceInformation', 'portfolio.currentShares'),
+
 
   /////////////////
   // Validations //
   /////////////////
 
-  amountValid:      Ember.computed.and('amountPresent', 'amountValueValid'),
-  amountPresent:    Ember.computed.notEmpty('amount'),
-  amountValueValid: Ember.computed.gte('amount', 0),
-
+  amountValid:     Ember.computed.notEmpty('amount'),
   enableSaveButton: Ember.computed.and('amountValid'),
 
 });

@@ -1,5 +1,7 @@
 /* global ga */
 
+import Ember from 'ember';
+
 export default function(userID) {
   // Set the google analytics user id now that we have it. Supposedly can do this... see:
   // http://stackoverflow.com/questions/23379338/set-google-analytics-user-id-after-creating-the-tracker
@@ -11,4 +13,4 @@ export default function(userID) {
   } else {
     Ember.warn("ga (google analyics) not present on window");
   }
-};
+}
