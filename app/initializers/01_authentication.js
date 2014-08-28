@@ -66,9 +66,18 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
     var provider  = controllerData.provider;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
+      var scope;
 
       // Starts popup auth flow.  Not using the event listener version, as then
       // it will try to check_oauth every time you log in to a 3rd party.
+      if (provider === 'facebook') {
+        scope = {scope: "public_profile, email"};
+      } else if (provider === 'google') {
+        scope = {scope: "openid profile email"};
+      } else {
+        scope = { scope: "default" };
+      }
+
       hello(provider).login( function(auth) {
         var access_token = auth.authResponse.access_token;
 
