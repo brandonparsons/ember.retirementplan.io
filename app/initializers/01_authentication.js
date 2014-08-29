@@ -78,7 +78,7 @@ var HelloAuthenticator = Ember.SimpleAuth.Authenticators.Base.extend({
         scope = { scope: "default" };
       }
 
-      hello(provider).login( function(auth) {
+      hello(provider).login(scope, function(auth) {
         var access_token = auth.authResponse.access_token;
 
         // Get user details
