@@ -40,7 +40,7 @@ export default Ember.Component.extend({
         }
       },
       label: {
-        text: 'Value Relative to Largest',
+        text: 'Relative Value',
         position: 'outer-middle'
       }
     },
@@ -88,9 +88,14 @@ export default Ember.Component.extend({
     resampledDates  = component._resampleArray(_.pluck(timeSteps, 'date'), numberOfGraphElements);
     jsDates         = _.map(resampledDates, component._asDate);
 
-    mungeData = function(sourceObject, key, target, title) {
+    mungeData = function(sourceObject, key, target, asRelativeValues, title) {
       var array = _.pluck(sourceObject, key);
-      target[title] = component._asRelativeValues(component._resampleArray(array, numberOfGraphElements));
+      var resampled = component._resampleArray(array, numberOfGraphElements);
+      if (asRelativeValues) {
+        target[title] = component._asRelativeValues(resampled);
+      } else {
+        target[title] = resampled;
+      }
       return true;
     };
 
@@ -98,12 +103,12 @@ export default Ember.Component.extend({
       jsDates: jsDates
     };
 
-    mungeData(timeSteps, 'assets_mean',             json, "Assets (Mean)");
-    mungeData(timeSteps, 'assets_ci_high',          json, "Assets (95% Confidence Low)");
-    mungeData(timeSteps, 'assets_ci_low',           json, "Assets (95% Confidence High)");
-    mungeData(timeSteps, 'income_mean',             json, "Income (Mean)");
-    mungeData(timeSteps, 'expenses_mean',           json, "Expenses (Mean)");
-    mungeData(timeSteps, 'out_of_money_percentage', json,  "Out of Money Occurences (% of Trials)");
+    mungeData(timeSteps, 'assets_mean',             json, true, "Assets (Mean)");
+    mungeData(timeSteps, 'assets_ci_high',          json, true, "Assets (95% Confidence Low)");
+    mungeData(timeSteps, 'assets_ci_low',           json, true, "Assets (95% Confidence High)");
+    mungeData(timeSteps, 'income_mean',             json, true, "Income (Mean)");
+    mungeData(timeSteps, 'expenses_mean',           json, true, "Expenses (Mean)");
+    mungeData(timeSteps, 'out_of_money_percentage', json, false, "Out of Money Occurences (% of Trials)");
 
     data = {
       x:    'jsDates',
