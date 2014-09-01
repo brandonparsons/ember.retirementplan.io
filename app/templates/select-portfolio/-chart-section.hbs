@@ -6,22 +6,20 @@
 
       <h4 class='text-center'>Portfolio Options</h4>
 
-      <p class='text-center'>
-        Select one of the portfolios (<strong>by clicking a {{#if tableView}}table row below{{else}}graph element below{{/if}}</strong>) to proceed.
+      {{#if displayInstructionsPanel}}
+        {{#bs-panel heading="Portfolio Selection" type="primary"}}
+          <p>
+            Select one of the portfolios (<strong>by clicking a table row below</strong>) to proceed.
         <a class='text-muted' data-toggle="popover" data-placement="auto" title="<div class='text-left'><p>Each of the points below correspond to a portfolio with different amounts and types of securities - <em>which securities may be used are governed by the checkboxes found on this page</em>.</p><p>Using the allowable asset classes you've checked off, an 'efficient frontier' was built, based on the nobel prize winning work surrounding <a href='http://en.wikipedia.org/wiki/Modern_portfolio_theory' target='_blank'>mean variance optimization</a> by Harry Markowitz.  This is a collection of potential portfolios where for a given return the portfolio will have the lowest risk (or vice versa - for a given amount of risk the portfolio will have the highest return).</p><p>You will need to select one of these portfolios so that we can continue with finding ETFs to meet your target asset exposures.</p></div>">{{fontawesome-icon type='question-circle'}}What are these?</a>
       </p>
 
-      {{#if tableView}}
-        {{portfolio-selection-table
-            portfolios=portfoliosForDisplay
-            selectPortfolio='selectPortfolio'}}
-        <p class='text-muted italic'>Portfolios with risks levels below your "optimal" (as determined by the risk tolerance questionnaire) are highlighted yellow. Similarly, those above your "optimal" risk level are highlighted red.</p>
-      {{else}}
-        {{portfolio-scatter-chart
-          portfolios=portfoliosForDisplay
-          selectPortfolio='selectPortfolio'}}
-        <p class='text-muted italic'>Portfolios with risks levels below your "optimal" (as determined by the risk tolerance questionnaire) are shown left of the "Low Risk Region" line. Similarly, those above your "optimal" are shown right of the "Suggested Risk Region" line.</p>
+          <p>Portfolios with risk levels below your "optimal" (as determined by the risk tolerance questionnaire) are highlighted yellow. Similarly, those above your "optimal" risk level are highlighted red.</p>
+
+          <p class='text-center'><a class='btn btn-default' {{action hideInstructionsPanel}}>Got it!</a></p>
+        {{/bs-panel}}
       {{/if}}
+
+      {{portfolio-selection-table portfolios=portfoliosForDisplay selectPortfolio='selectPortfolio'}}
 
       <br>
 
@@ -30,9 +28,6 @@
         <div class='col-md-12 text-center'>
           <a {{bind-attr class=':btn :btn-default leftArrowDisabled:disabled'}} {{action "selectPortfolioLeft"}}>{{fontawesome-icon type="chevron-left" withForcedSpace=false}}</a>
           <a {{bind-attr class=':btn :btn-success :space-left hasSelectedPortfolio:enabled:disabled'}} {{action "saveSelectedPortfolio" selectedPortfolioID}}>Save selection</a>
-          <a {{action "toggleTableView"}} class='btn btn-info space-left'>
-            {{#if tableView}}View as Graph{{else}}View as Table{{/if}}
-          </a>
           <a class="btn btn-default space-left" {{action "cancel"}}>Cancel</a>
           <a {{bind-attr class=':btn :btn-default :space-left rightArrowDisabled:disabled'}} {{action "selectPortfolioRight"}}>{{fontawesome-icon type="chevron-right" withForcedSpace=false}}</a>
         </div>

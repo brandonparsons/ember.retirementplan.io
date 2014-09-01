@@ -2,7 +2,6 @@ import Ember from 'ember';
 import { request as icAjaxRequest } from 'ic-ajax';
 import FrontierPortfolio from 'retirement-plan/models/frontier-portfolio';
 import roundTo from 'retirement-plan/utils/round-to';
-import mobileCheck from 'retirement-plan/utils/mobile-check';
 
 export default Ember.ArrayController.extend({
   // Model: Array of portfolios from server corresponding to checkboxes
@@ -22,7 +21,7 @@ export default Ember.ArrayController.extend({
 
   loadingFrontier: false,
 
-  tableView: true,
+  displayInstructionsPanel: true,
 
   selectedPortfolioID: Ember.computed.alias('controllers.selectPortfolio.selectedPortfolioID'),
 
@@ -128,13 +127,10 @@ export default Ember.ArrayController.extend({
   /////////////
 
   actions: {
-    toggleTableView: function() {
-      if (mobileCheck()) { // Mobile browser
-        window.alert("Using the graphical view for portfolio selection is not currently available in mobile browsers. Please return using your desktop!");
-      } else { // Not a mobile browser
-        this.toggleProperty('tableView');
-      }
+    hideInstructionsPanel: function() {
+      this.toggleProperty('displayInstructionsPanel');
     },
+
     selectPortfolio: function(portfolio) {
       this.set('selectedPortfolioID', portfolio.get('id'));
     },
