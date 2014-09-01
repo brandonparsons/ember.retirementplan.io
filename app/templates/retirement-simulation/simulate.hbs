@@ -5,42 +5,8 @@
       {{partial 'shared/spinner'}}
     {{else}} {{!-- Not loading simulation data --}}
 
-      {{#if haveChartToDisplay}} {{!-- Have a chart to display --}}
-
-        <p>
-          <a href="#" class='text-muted' data-toggle="tooltip" data-placement="auto" title="<p>Mean: The average value of your assets in each given time period, compared across all simulation trials.</p><p>95% Confidence High: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be lower than this 95% of the time.</p><p>95% Confidence Low: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be higher than this 95% of the time.</p><p>Out of Money Occurences: The percentage of times in a given month that you had ran out of money.</p>">{{fontawesome-icon type='question-circle'}}What are these values?</a>
-        </p>
-
-        {{simulation-timeseries-chart timeSteps=timeStepResults}}
-
-        <hr>
-        <p class='text-center'>
-          <button {{action "acceptSimulation"}} class='btn btn-success'>Accept Simulation</button>
-          {{link-to 'Change Portfolio' 'select_portfolio' classNames='btn btn-default space-left'}}
-          <button {{action "rerunSimulation"}} class='btn btn-default space-left'>Re-run Simulation</button>
-          {{link-to 'Cancel' 'user.dashboard' classNames='btn btn-default space-left'}}
-        </p>
-
-        {{bs-page-header title="Simulation Outcomes" titleLevelH3=true}}
-
-        {{#bs-panel heading="Overview" type=writtenContentData.summaryClass}}
-          <p>{{writtenContentData.summaryMessage}}</p>
-        {{/bs-panel}}
-
-        <ul>
-          <li>{{writtenContentData.assets}}</li>
-          <li>
-            For each simulated month, there was a range of outcomes for your assets. They can be summarized as follows:
-            <ul>
-              {{#each message in writtenContentData.outOfMoney}}
-                <li>{{message}}</li>
-              {{/each}}
-              <li><a href="#" class='text-muted' data-toggle="tooltip" title="We classify 'certain' as being true more than 99% of the time, likely as being true more than 90% of the time, and unlikely as being true less than 10% of the time.">{{fontawesome-icon type='question-circle'}}How are the confidence levels defined?</a></li>
-            </ul>
-          </li>
-        </ul>
-
-      {{else}} {{!-- No chart to display --}}
+      {{#unless haveChartToDisplay}} {{!-- No chart to display --}}
+        {{!-- Doing unless/else as it makes more sense to show the empty view first in this template file. --}}
 
         {{#bs-alert type='warning'}}
           <p>Select a number of trials to run, and hit 'Go'!</p>
@@ -62,7 +28,46 @@
         <p>Given the portfolio you selected earlier, we will generate a number of different possibilities for its performance based on its historical statistical properties.</p>
         <p>The calculated performance on your portfolio will be matched against the expenses and information provided earlier. The goal of this calculation is to determine if you have sufficient savings (or low enough expenses) that your retirement savings will generally last through your retirement.</p>
 
-      {{/if}}
+      {{else}} {{!-- Have a chart to display --}}
+
+        <p class="lead text-center">Simulation Outcomes</p>
+
+        {{#bs-panel heading="Overview" type=writtenContentData.summaryClass}}
+          <p>{{writtenContentData.summaryMessage}}</p>
+        {{/bs-panel}}
+
+        <p>{{simulation-results-chart-assets-outofmoney timeSteps=timeStepResults}}</p>
+        <p class='text-center'>
+          <a class='text-info' data-toggle="tooltip" data-placement="auto" title="<p>Mean: The average value of your assets in each given time period, compared across all simulation trials.</p><p>95% Confidence High: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be lower than this 95% of the time.</p><p>95% Confidence Low: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be higher than this 95% of the time.</p><p>Out of Money Occurences: The percentage of times in a given month that you had ran out of money.</p>">{{fontawesome-icon type='question-circle'}}What are these values?</a>
+          <a class='text-info' data-toggle="tooltip" title="Due to long time periods and compound interest, asset values can get quite extreme over time (both positive and negative). $100,000 growing at 8% over 90 years will reach a future value of over $100MM.  Be sure to have your expenses and income well defined.">{{fontawesome-icon type='question-circle'}}Why are these values so large?</a>
+        </p>
+
+        <p>{{simulation-results-chart-income-expenses timeSteps=timeStepResults}}</p>
+
+        <ul>
+          <li>{{writtenContentData.assets}}</li>
+          <li>
+            For each simulated month, there was a range of outcomes for your assets. They can be summarized as follows:
+            <ul>
+              {{#each message in writtenContentData.outOfMoney}}
+                <li>{{message}}</li>
+              {{/each}}
+              <li><a class='text-info' data-toggle="tooltip" title="We classify 'certain' as being true more than 99% of the time, likely as being true more than 90% of the time, and unlikely as being true less than 10% of the time.">{{fontawesome-icon type='question-circle'}}How are the confidence levels defined?</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <hr>
+
+        <p class='text-center' id='simulation-actions'>
+          <button {{action "acceptSimulation"}} class='btn btn-success'>Accept Simulation</button>
+          <button {{action "rerunSimulation"}} class='btn btn-default space-left'>Re-run Simulation</button>
+          {{link-to 'Change Portfolio' 'select_portfolio' classNames='btn btn-default space-left'}}
+          {{link-to 'Adjust Expenses' 'retirement_simulation.expenses' classNames='btn btn-default space-left'}}
+          {{link-to 'Cancel' 'user.dashboard' classNames='btn btn-default space-left'}}
+        </p>
+
+      {{/unless}}
 
     {{/if}}
 

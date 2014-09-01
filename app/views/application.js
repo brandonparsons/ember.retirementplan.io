@@ -12,10 +12,6 @@ export default Ember.View.extend({
     var header = $('.navbar')[0];
     var headroom = new Headroom(header);
     headroom.init();
-    $('body').tooltip({
-      selector: '[data-toggle=tooltip]',
-      html: true
-    });
 
     // FastClick.js
     FastClick.attach(document.body);
@@ -30,6 +26,12 @@ export default Ember.View.extend({
       } else {
         return true;
       }
+    });
+
+    // Bootstrap.js tooltips
+    $('body').tooltip({
+      selector: '[data-toggle=tooltip]',
+      html: true
     });
 
     // Bootstrap.js popovers

@@ -2,8 +2,9 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
 
-  needs: ['application', 'user/current'],
-  currentUser: Ember.computed.alias('controllers.user/current'),
+  needs: ['application', 'user/current', 'retirementSimulation/simulate'],
+  currentUser:      Ember.computed.alias('controllers.user/current'),
+  displayingChart:  Ember.computed.alias('controllers.retirementSimulation/simulate.haveChartToDisplay'),
 
   hasSimulationInput:    Ember.computed.alias('currentUser.hasSimulationInput'),
   hasNoSimulationInput:  Ember.computed.not('hasSimulationInput'),
@@ -18,7 +19,9 @@ export default Ember.ObjectController.extend({
 
   // Whether or not the right-chevron arrow in the nav tabs is disabled
   shouldBeBlockedFromLeavingParameters: Ember.computed.and('isOnParametersRoute', 'hasNoSimulationInput'),
-  nextDisabled: Ember.computed.or('isOnSimulateRoute', 'shouldBeBlockedFromLeavingParameters'),
+  notDisplayingChart:                   Ember.computed.not('displayingChart'),
+  shouldBeBlockedFromLeavingSimulate:   Ember.computed.and('isOnSimulateRoute', 'notDisplayingChart'),
+  nextDisabled:                         Ember.computed.or('shouldBeBlockedFromLeavingParameters', 'shouldBeBlockedFromLeavingSimulate'),
 
 
   // These actions could go on the route, but you are already getting & checking
@@ -46,12 +49,16 @@ export default Ember.ObjectController.extend({
       } else if ( this.get('isOnParametersRoute') ) {
         this.transitionToRoute('retirement_simulation.simulate');
       } else if ( this.get('isOnSimulateRoute') ) {
-        return null;
+        if (window.confirm("Accept this portfolio/simulation? You have additional options at the bottom of this screen.")) {
+          this.send('acceptSimulation');
+        } else {
+          // no-op
+        }
       } else { // Should not get here
         throw new Error('Invalid route name');
       }
-    }
+    },
 
-  }
+  } // actions
 
 });
