@@ -4,7 +4,7 @@ import roundTo from 'retirement-plan/utils/round-to';
 export default Ember.ObjectController.extend({
   // Model: { portfolio: {...}, prices: {....} }
 
-  needs: ['etfs'],
+  needs: ['etfs', 'user/current'],
 
 
   ////////////////
@@ -19,6 +19,8 @@ export default Ember.ObjectController.extend({
   /////////////////////////
 
   etfs: Ember.computed.alias('controllers.etfs'),
+
+  investedAmount: Ember.computed.alias('controllers.user/current.simulationInput.assets'),
 
   rebalanceInformation: function() {
 

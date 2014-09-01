@@ -9,7 +9,7 @@
   <form class='form form-horizontal' {{action 'purchasedUnits' on='submit'}}>
 
     <p><h5>Investment Amount</h5></p>
-    <p>Enter the amount of liquid assets you intend to invest in ETFs. This should be close to the amount you entered as "Assets" in the retirement simulation.  We use this information to provide guidance on the number of ETF units to purchase in order to hit your target allocation.</p>
+    <p>Enter the amount of liquid assets you intend to invest in ETFs. This should be close to the amount you entered as "Assets" in the retirement simulation ({{format-money investedAmount}}).  We use this information to provide guidance on the number of ETF units to purchase in order to hit your target allocation.</p>
 
     <div {{bind-attr class=':form-group amountValid:has-success:has-error'}}>
       <label class="col-sm-2 col-sm-offset-2 control-label">Investment Amount</label>
