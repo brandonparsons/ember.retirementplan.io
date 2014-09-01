@@ -10,7 +10,7 @@
       {{#if hasPassword}}
         {{!-- User has a password - we can allow profile edits --}}
 
-        {{em-input property="currentPassword" type='password' label="Current Password" placeholder="Your current password is required" required=true}}
+        {{em-input property="currentPassword" type='password' label="Current Password" placeholder="Your current password is required" required=true autofocus=true}}
 
         {{em-input property="name" type='text' label="Name" placeholder="Enter a name..." required=true}}
         {{em-input property="email" type='email' label="Email" placeholder="joe@example.com" required=true}}

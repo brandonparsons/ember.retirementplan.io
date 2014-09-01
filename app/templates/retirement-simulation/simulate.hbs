@@ -16,13 +16,12 @@
 
         <div class='form-group row'>
           <div class='col-sm-6 col-sm-offset-3'>
-            {{input type="number" value=numberOfSimulationTrials placeholder="1000" min=100 max=1000 classNames='form-control'}}
+            {{input type="number" classNames='form-control' value=numberOfSimulationTrials placeholder="1000" min=100 max=1000 required=true autofocus=true}}
             <p class="help-block small italic">A value between 500-1000 is generally appropriate.</p>
           </div>
         </div>
-
         <p class='text-center'>
-          <button {{action "runSimulations"}} {{bind-attr class=":btn :btn-primary loading:disabled"}}>Go!</button>
+          <button {{action "runSimulations"}} {{bind-attr class=":btn :btn-primary disableGoButton:disabled"}}>Go!</button>
         </p>
 
         <p>Given the portfolio you selected earlier, we will generate a number of different possibilities for its performance based on its historical statistical properties.</p>

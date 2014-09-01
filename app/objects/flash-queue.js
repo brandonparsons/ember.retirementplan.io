@@ -38,11 +38,10 @@ var FlashQueue = Ember.ArrayProxy.create({
   },
 
   empty: function() {
-    var stickyMessages = this.get('content');
-    stickyMessages.forEach(function(notification) {
+    this.forEach(function(notification) {
       notification.send('close');
     });
-    this.set('stickyMessages', []);
+    this.set('content', []);
     return null;
   }
 

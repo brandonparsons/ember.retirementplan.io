@@ -27,6 +27,13 @@ export default Ember.ObjectController.extend(
     return ( !Ember.isEmpty(this.get('timeStepResults')) );
   }.property('timeStepResults'),
 
+  numberOfSimulationTrialsValidLow:   Ember.computed.gt('numberOfSimulationTrials', 0),
+  numberOfSimulationTrialsValidHigh:  Ember.computed.lte('numberOfSimulationTrials', 1000),
+  numberOfSimulationTrialsValid:      Ember.computed.and('numberOfSimulationTrialsValidLow', 'numberOfSimulationTrialsValidHigh'),
+  numberOfSimulationTrialsNotValid:   Ember.computed.not('numberOfSimulationTrialsValid'),
+
+  disableGoButton: Ember.computed.or('loading', 'numberOfSimulationTrialsNotValid'),
+
 
   /////////////
   // Actions //
