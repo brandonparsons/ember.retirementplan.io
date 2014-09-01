@@ -1,6 +1,6 @@
 <div class="row chart-container">
 
-  <div class='col-md-9'>
+  <div class='col-md-8'>
 
     {{#if portfoliosForDisplay}}
 
@@ -10,8 +10,8 @@
         {{#bs-panel heading="Portfolio Selection" type="primary"}}
           <p>
             Select one of the portfolios (<strong>by clicking a table row below</strong>) to proceed.
-        <a class='text-muted' data-toggle="popover" data-placement="auto" title="<div class='text-left'><p>Each of the points below correspond to a portfolio with different amounts and types of securities - <em>which securities may be used are governed by the checkboxes found on this page</em>.</p><p>Using the allowable asset classes you've checked off, an 'efficient frontier' was built, based on the nobel prize winning work surrounding <a href='http://en.wikipedia.org/wiki/Modern_portfolio_theory' target='_blank'>mean variance optimization</a> by Harry Markowitz.  This is a collection of potential portfolios where for a given return the portfolio will have the lowest risk (or vice versa - for a given amount of risk the portfolio will have the highest return).</p><p>You will need to select one of these portfolios so that we can continue with finding ETFs to meet your target asset exposures.</p></div>">{{fontawesome-icon type='question-circle'}}What are these?</a>
-      </p>
+            <a class='text-muted' data-toggle="popover" data-placement="auto" title="<div class='text-left'><p>Each of the points below correspond to a portfolio with different amounts and types of securities - <em>which securities may be used are governed by the checkboxes found on this page</em>.</p><p>Using the allowable asset classes you've checked off, an 'efficient frontier' was built, based on the nobel prize winning work surrounding <a href='http://en.wikipedia.org/wiki/Modern_portfolio_theory' target='_blank'>mean variance optimization</a> by Harry Markowitz.  This is a collection of potential portfolios where for a given return the portfolio will have the lowest risk (or vice versa - for a given amount of risk the portfolio will have the highest return).</p><p>You will need to select one of these portfolios so that we can continue with finding ETFs to meet your target asset exposures.</p></div>">{{fontawesome-icon type='question-circle'}}What are these?</a>
+          </p>
 
           <p>Portfolios with risk levels below your "optimal" (as determined by the risk tolerance questionnaire) are highlighted yellow. Similarly, those above your "optimal" risk level are highlighted red.</p>
 
@@ -37,7 +37,7 @@
 
   </div>
 
-  <div class='col-md-3'>
+  <div class='col-md-4'>
 
     {{#if hasSelectedPortfolio}}
       <h4 class='text-center'>Portfolio Details</h4>
@@ -58,9 +58,7 @@
 
       {{!-- Pie chart of portfolio allocation --}}
       {{#if allocation}}
-        {{portfolio-pie-chart
-          allocation=allocation
-          assetClasses=allAssets}}
+        {{portfolio-pie-chart allocation=allocation assetClasses=allAssets}}
       {{/if}}
 
       {{!-- Portfolio statistics --}}

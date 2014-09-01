@@ -214,7 +214,7 @@ export default Ember.ArrayController.extend({
             portfolios.pushObject(FrontierPortfolio.create(portfolio));
           });
           resolve(portfolios);
-        }); // icAjaxRequest
+        });
       } else {
         resolve(Ember.A());
       }

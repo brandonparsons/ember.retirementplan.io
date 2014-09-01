@@ -6,7 +6,7 @@ import roundTo from 'retirement-plan/utils/round-to';
 export default Ember.Component.extend({
 
   tagName: 'div',
-  classNames: ['BOUND-portfolio-pie-chart'],
+  classNames: ['BOUND-portfolio-pie-chart', 'text-center'],
 
 
   //////////////////////////////////
