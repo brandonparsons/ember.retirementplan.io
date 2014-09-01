@@ -24,8 +24,8 @@ var questionnaireController = Ember.ObjectController.extend(
   ],
 
   savingReasonOptions: [
-    {id: 0, name: 'Liquidity and consumption'},
-    {id: 1, name: 'Education and family'}
+    {id: 0, name: 'Liquidity and consumption (personal needs)'},
+    {id: 1, name: 'Education and family (supporting others)'}
   ],
 
   investmentTimelineOptions: [

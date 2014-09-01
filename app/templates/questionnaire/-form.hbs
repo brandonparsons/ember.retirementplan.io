@@ -12,7 +12,7 @@
 
   {{!-- NO_PEOPLE INPUT --}}
   {{#form-text-block}}
-    How many people are in your immediate family? (Spouse, dependents, etc.)
+    How many people are in your household, including you? (Spouse, dependents, etc.)
   {{/form-text-block}}
   {{em-input property="noPeople" type='number' label="Household Size" placeholder="Number of people in your household"}}
 
@@ -30,19 +30,19 @@
 
   {{!-- INVESTMENT_TIMELINE INPUT --}}
   {{#form-text-block}}
-    In planning your saving and spending, are the next few months most important for you?
+    Are the next few months very important to you when planning your saving and spending?
   {{/form-text-block}}
   {{em-select property="investmentTimeline" label="Short-term Spending" prompt="-select-" contentBinding="investmentTimelineOptions" optionValuePath="content.id" optionLabelPath="content.name"}}
 
   {{!-- INVESTMENT_TIMELINE_LENGTH INPUT --}}
   {{#form-text-block}}
-    In planning your saving and spending, do you have longer than 5 years before needing the majority of your funds?
+    Do you have longer than 5 years before needing the majority of your funds?
   {{/form-text-block}}
   {{em-select property="investmentTimelineLength" label="Long-term Spending" prompt="-select-" contentBinding="investmentTimelineLengthOptions" optionValuePath="content.id" optionLabelPath="content.name"}}
 
   {{!-- ECONOMY_PERFORMANCE INPUT --}}
   {{#form-text-block}}
-    Do you expect the economy to perform better in the next 5 years than it has over the past 5?
+    How do you expect the economy to perform over the next 5 years, vs. the last 5?
   {{/form-text-block}}
   {{em-select property="economyPerformance" label="Economy Performance" prompt="-select-" contentBinding="economyPerformanceOptions" optionValuePath="content.id" optionLabelPath="content.name"}}
 
@@ -90,7 +90,7 @@
 
   {{!-- FORSEEABLE_EXPENSES INPUT --}}
   {{#form-text-block}}
-    Are you currently saving for forseeable future expenses?
+    Do you have savings to cover forseeable future expenses?
   {{/form-text-block}}
   {{em-select property="forseeableExpenses" label="Forseeable Expenses" prompt="-select-" contentBinding="forseeableExpensesOptions" optionValuePath="content.id" optionLabelPath="content.name"}}
 

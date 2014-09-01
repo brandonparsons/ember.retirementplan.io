@@ -51,6 +51,10 @@ export default Ember.Route.extend({
     }
   },
 
+  deactivate: function() {
+    this.get('controller').set('amount', null);
+  },
+
   actions: {
 
     purchasedUnits: function() {

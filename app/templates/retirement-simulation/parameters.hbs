@@ -149,7 +149,7 @@
       {{#form-text-block helpBlock=true}}
         Leave as 0 if none.  Enter the expected value for your first year of retirement in today's dollars (i.e. no inflation).  Current benefits from CPP range from $6k/year (average) to $12k/year (maximum).  OAS payments average around $6k/year.  See <a href="http://www.servicecanada.gc.ca/" target='_blank'>Service Canada</a> for more details.
       {{/form-text-block}}
-      {{em-input property="retirementIncome" type='number' label="Retirement income" placeholder="12000"}}
+      {{em-input property="retirementIncome" type='number' label="Retirement income"}}
 
       {{!-- retirementExpenses input --}}
       {{#unless allRetiredFromStart}}
@@ -202,7 +202,7 @@
         {{em-input property="homeValue" type='number' label="Current home value" placeholder="250000"}}
 
         {{!-- sellHouseIn input --}}
-        {{em-input property="sellHouseIn" type='number' label="Year until downsize" placeholder="20"}}
+        {{em-input property="sellHouseIn" type='number' label="Years until downsize" placeholder="20"}}
 
         {{!-- newHomeRelativeValue input --}}
         {{#form-text-block}}
