@@ -15,4 +15,4 @@ export default function(arr, desiredLength) {
     }, 0.0);
     return total / chunk.length;
   });
-};
+}

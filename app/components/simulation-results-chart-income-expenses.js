@@ -4,7 +4,6 @@
 // Not going to extract a base component yet though.
 
 import Ember from 'ember';
-import roundTo from 'retirement-plan/utils/round-to';
 import resampleArray from 'retirement-plan/utils/resample-array';
 import secondsToDate from 'retirement-plan/utils/seconds-to-date';
 
