@@ -3,25 +3,19 @@ import Ember from 'ember';
 export default Ember.ArrayController.extend({
 
   groupedByAsset: function() {
-    var result = [];
-
+    var assetGroups = [];
     this.forEach( function(etf) {
-      var assetBucket = result.findBy('asset', etf.get('asset'));
-
-      // If the bucket doesn't exist, create it
-      if(!assetBucket) {
+      var assetBucket = assetGroups.findBy('asset', etf.get('asset'));
+      if(!assetBucket) { // If the bucket doesn't exist, create it
         assetBucket = Ember.Object.create({
           asset: etf.get('asset'),
-          contents: []
+          etfsInGroup: []
         });
-        result.pushObject(assetBucket);
+        assetGroups.pushObject(assetBucket);
       }
-
-      // Push into the bucket
-      assetBucket.get('contents').pushObject(etf);
+      assetBucket.get('etfsInGroup').pushObject(etf); // Push this etf into the bucket
     });
-
-    return result;
-  }.property('model.[]', '@each.selected'),
+    return assetGroups;
+  }.property('@each.asset'),
 
 });

@@ -28,7 +28,7 @@ var profileController = Ember.ObjectController.extend(
     });
 
     return availableAuthentications.toArray();
-  }.property('authentications.[]'),
+  }.property('authentications.@each'),
 
   serialized: function() {
     return {

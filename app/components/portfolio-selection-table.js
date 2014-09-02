@@ -13,25 +13,26 @@ export default Ember.Component.extend({
     return _.max(this.get('portfolios'), function(portfolio) {
       return portfolio.get('utilityLow');
     }).get('annualRisk');
-  }.property('portfolios.@each.annualRisk'),
+  }.property('portfolios.@each.utilityLow', 'portfolios.@each.annualRisk'),
 
   optimalRiskUtilityHigh: function() {
     return _.max(this.get('portfolios'), function(portfolio) {
       return portfolio.get('utilityHigh');
     }).get('annualRisk');
-  }.property('portfolios.@each.annualRisk'),
+  }.property('portfolios.@each.utilityHigh', 'portfolios.@each.annualRisk'),
 
   portfoliosWithAdditionalData: function() {
     var component = this;
 
     return component.get('portfolios').map(function(portfolio, index) {
-      var portfolioRisk;
+      var portfolioRisk   = portfolio.get('annualRisk');
+      var optimalRiskLow  = component.get('optimalRiskUtilityLow');
+      var optimalRiskHigh = component.get('optimalRiskUtilityHigh');
 
       // Set the cell colours depending on the risk of the portfolios.
-      portfolioRisk = portfolio.get('annualRisk');
-      if (portfolioRisk < component.get('optimalRiskUtilityLow')) {
+      if (portfolioRisk < optimalRiskLow) {
         portfolio.set('rowClass', 'warning');
-      } else if (portfolioRisk > component.get('optimalRiskUtilityHigh')) {
+      } else if (portfolioRisk > optimalRiskHigh) {
         portfolio.set('rowClass', 'danger');
       } else {
         portfolio.set('rowClass', 'suggested-risk');
@@ -42,7 +43,7 @@ export default Ember.Component.extend({
 
       return portfolio;
     });
-  }.property('portfolios.@each', 'optimalRiskUtilityLow', 'optimalRiskUtilityHigh'),
+  }.property('portfolios.@each.annualRisk', 'optimalRiskUtilityLow', 'optimalRiskUtilityHigh'),
 
 
   /////////////

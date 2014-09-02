@@ -105,7 +105,7 @@ export default Ember.ObjectController.extend({
       };
       return result;
     }, {} );
-  }.property('rebalanceInformation.@each.sharesToBuy'),
+  }.property('rebalanceInformation.@each'),
 
   purchasedUnits: function() {
     return this.get('rebalanceInformation').reduce( function(result, rebalanceRow) {
@@ -114,7 +114,7 @@ export default Ember.ObjectController.extend({
       result[ticker] = noUnits;
       return result;
     }, {} );
-  }.property('rebalanceInformation.@each.sharesToBuy'),
+  }.property('rebalanceInformation.@each'),
 
   insufficientUnitsToSell: function() {
     var currentShares         = this.get('portfolio.currentShares');
@@ -132,14 +132,14 @@ export default Ember.ObjectController.extend({
     } else {
       return false ;
     }
-  }.property('rebalanceInformation', 'portfolio.currentShares'),
+  }.property('rebalanceInformation.@each', 'portfolio.currentShares'),
 
 
   /////////////////
   // Validations //
   /////////////////
 
-  amountValid:     Ember.computed.notEmpty('amount'),
+  amountValid:      Ember.computed.notEmpty('amount'),
   enableSaveButton: Ember.computed.and('amountValid'),
 
 });

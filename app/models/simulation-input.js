@@ -52,19 +52,21 @@ export default DS.Model.extend({
   }.property('married', 'maleAge', 'retirementAgeMale', 'femaleAge', 'retirementAgeFemale'),
 
   allRetiredFromStart: function() {
-    var maleAge, maleRetireAge, femaleAge, femaleRetireAge;
+    var maleAge, maleRetireAge, femaleAge, femaleRetireAge, married, male;
 
     maleAge         = this.get('maleAge');
     maleRetireAge   = this.get('retirementAgeMale');
     femaleAge       = this.get('femaleAge');
     femaleRetireAge = this.get('retirementAgeFemale');
+    married         = this.get('married');
+    male            = this.get('userIsMale');
 
-    if ( this.get('married') ) {
+    if ( married ) {
       // Married - both need to be retired
       return (maleRetireAge <= maleAge) && (femaleRetireAge <= femaleAge);
     } else {
       // Not married, only one age to check
-      if ( this.get('userIsMale') ) {
+      if ( male ) {
         return (maleRetireAge <= maleAge);
       } else {
         return (femaleRetireAge <= femaleAge);

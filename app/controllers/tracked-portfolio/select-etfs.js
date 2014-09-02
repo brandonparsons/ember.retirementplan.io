@@ -46,11 +46,11 @@ export default Ember.ObjectController.extend({
 
       return Ember.Object.create({
         asset: asset,
-        etfs: group.get('contents'),
+        etfs: group.get('etfsInGroup'),
         selectedEtf: selectedEtf,
       });
     });
-  }.property('etfsGroupedByAsset.[]', 'weights'),
+  }.property('etfs.@each', 'selectedEtfs', 'weights', 'etfsGroupedByAsset.@each'),
 
   etfsForHoldingsConfirmation: function() {
     // Need to confirm holdings for etfs where current shares are greater
@@ -84,7 +84,7 @@ export default Ember.ObjectController.extend({
         currentShares: currentShares[etf.get('ticker')] || 0,
       });
     });
-  }.property('etfs.[]', 'currentShares', 'selectedEtfsData'),
+  }.property('etfs.@each', 'currentShares', 'selectedEtfsData'),
 
   /* */
 
@@ -101,7 +101,6 @@ export default Ember.ObjectController.extend({
         selectedEtfs[group.get('asset.id')] = selectedEtf.get('ticker');
       }
     });
-
     return selectedEtfs;
   }.property('etfGroupsForSelection.@each.selectedEtf'),
 
@@ -110,7 +109,7 @@ export default Ember.ObjectController.extend({
       memo[obj.get('ticker')] = window.parseInt(obj.get('currentShares'));
       return memo;
     }, {});
-  }.property('etfsForHoldingsConfirmation.[]'),
+  }.property('etfsForHoldingsConfirmation.@each.ticker', 'etfsForHoldingsConfirmation.@each.currentShares'),
 
   /* */
 
@@ -120,11 +119,10 @@ export default Ember.ObjectController.extend({
   /////////////////
 
   etfsValid: function() {
-    var groups           = this.get('etfGroupsForSelection');
-    var selectedEtfsData = this.get('selectedEtfsData');
-
-    return groups.length === Ember.keys(selectedEtfsData).length;
-  }.property('etfGroupsForSelection', 'selectedEtfsData'),
+    var etfGroupsForSelection = this.get('etfGroupsForSelection');
+    var selectedEtfsData      = this.get('selectedEtfsData');
+    return etfGroupsForSelection.length === Ember.keys(selectedEtfsData).length;
+  }.property('etfGroupsForSelection.@each', 'selectedEtfsData'),
 
   displayHoldingsConfirmation: Ember.computed.and('etfsValid'), // currently essentially an alias
 

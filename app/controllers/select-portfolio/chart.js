@@ -36,7 +36,7 @@ export default Ember.ArrayController.extend({
 
     indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(selectedPortfolioID);
     return indexOfSelectedPortfolio <= 0;
-  }.property('selectedPortfolioID', 'portfolios.@each.id'),
+  }.property('hasSelectedPortfolio', 'selectedPortfolioID', 'portfolios.@each.id'),
 
   rightArrowDisabled: function() {
     var selectedPortfolioID, indexOfSelectedPortfolio;
@@ -47,7 +47,7 @@ export default Ember.ArrayController.extend({
 
     indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(selectedPortfolioID);
     return indexOfSelectedPortfolio === this.get('portfolios').get('length') - 1;
-  }.property('selectedPortfolioID', 'portfolios.@each.id'),
+  }.property('hasSelectedPortfolio', 'selectedPortfolioID', 'portfolios.@each.id'),
 
   ensureGraphRendered: function() {
     // This runs every time the route is accessed (including the first time).
@@ -84,7 +84,7 @@ export default Ember.ArrayController.extend({
     var portfolioID = this.get('selectedPortfolioID');
     if (!portfolioID) { return null; }
     return this.get('portfolios').findBy('id', portfolioID);
-  }.property('selectedPortfolioID', 'portfolios'),
+  }.property('selectedPortfolioID', 'portfolios.@each'),
   hasSelectedPortfolio: Ember.computed.notEmpty('selectedPortfolio'),
 
   selectedPortfolioReturn: function() {

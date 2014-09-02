@@ -36,7 +36,7 @@ export default Ember.Component.extend({
       json:   formattedData,
       type :  'pie',
     };
-  }.property('allocation', 'assetClasses'),
+  }.property('allocation', 'assetClasses.@each.assetClass'),
 
   dataChanged: function() {
     this.get('chart').load(this.get('data'));

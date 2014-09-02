@@ -40,7 +40,7 @@ export default Ember.ObjectController.extend({
         currentWeight:  '' + roundTo(currentWeight*100, 1) + '%',
       });
     });
-  }.property('prices', 'portfolio.currentShares', 'portfolio.weights', 'portfolio.selectedEtfs', 'etfs'),
+  }.property('prices', 'portfolio.currentShares', 'portfolio.weights', 'portfolio.selectedEtfs', 'controllers.etfs'),
 
   currentHoldingsInformation: function() {
     var currentShares = this.get('portfolio.currentShares');
@@ -56,7 +56,7 @@ export default Ember.ObjectController.extend({
         currentShares:  currentShares[etfTicker],
       });
     });
-  }.property('portfolio.currentShares', 'efs'),
+  }.property('portfolio.currentShares', 'controllers.efs'),
 
   portfolioInBalance: function() {
     var allowableDrift = this.get('allowableDrift');
@@ -71,6 +71,6 @@ export default Ember.ObjectController.extend({
       var inBalance     = Math.abs(targetWeight - currentWeight) < allowableDrift;
       return inBalance;
     });
-  }.property('targetAllocationInformation', 'currentHoldingsInformation', 'allowableDrift'),
+  }.property('allowableDrift', 'targetAllocationInformation'),
 
 });

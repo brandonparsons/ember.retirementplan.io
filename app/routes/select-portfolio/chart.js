@@ -24,7 +24,8 @@ export default Ember.Route.extend({
         data: { allocation: FrontierPortfolio.allocationFromID(portfolioID) }
       }).then( function() {
         var currentUser = route.controllerFor('user.current');
-        // Always reload the current user, so that its portfolio_id gets updated if changed portfolio
+        // Always reload the current user, so that its portfolio_id and
+        // tracking? status gets updated if changed portfolio
         currentUser.get('model').reload().then(function() {
           var firstSelectedPortfolio  = !currentUser.get('hasSelectedPortfolio');
           if (firstSelectedPortfolio) {

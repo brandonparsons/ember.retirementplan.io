@@ -94,7 +94,7 @@ export default Ember.Controller.extend({
     } else {
       return 'user.dashboard'; // Shouldn't get here user would be `userIsComplete`
     }
-  }.property('onStep'),
+  }.property('onStep', 'nextSimulateStepRoute', 'nextTrackedPortfolioStepRoute'),
 
 
   questionnaireActive:  Ember.computed.equal('onStep', 'QUESTIONNAIRE'),
