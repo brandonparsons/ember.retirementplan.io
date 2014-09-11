@@ -31,40 +31,44 @@
 
         <p class="lead text-center">Simulation Outcomes</p>
 
-        {{#bs-panel heading="Overview" type=writtenContentData.summaryClass}}
-          <p>{{writtenContentData.summaryMessage}}</p>
-        {{/bs-panel}}
+        {{#offset-spaced}}
 
-        <p>{{simulation-results-chart-assets-outofmoney timeSteps=timeStepResults}}</p>
-        <p class='text-center'>
-          <a class='text-info' data-toggle="tooltip" data-placement="auto" title="<p>Mean: The average value of your assets in each given time period, compared across all simulation trials.</p><p>95% Confidence High: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be lower than this 95% of the time.</p><p>95% Confidence Low: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be higher than this 95% of the time.</p><p>Out of Money Occurences: The percentage of times in a given month that you had ran out of money.</p>">{{fontawesome-icon type='question-circle'}}What are these values?</a>
-          <a class='text-info' data-toggle="tooltip" title="Due to long time periods and compound interest, asset values can get quite extreme over time (both positive and negative). $100,000 growing at 8% over 90 years will reach a future value of over $100MM.  Be sure to have your expenses and income well defined.">{{fontawesome-icon type='question-circle'}}Why are these values so large?</a>
-        </p>
+          {{#bs-panel heading="Overview" type=writtenContentData.summaryClass}}
+            <p>{{writtenContentData.summaryMessage}}</p>
+          {{/bs-panel}}
 
-        <p>{{simulation-results-chart-income-expenses timeSteps=timeStepResults}}</p>
+          <p>{{simulation-results-chart-assets-outofmoney timeSteps=timeStepResults}}</p>
+          <p class='text-center'>
+            <a class='text-info' data-toggle="tooltip" data-placement="auto" title="<p>Mean: The average value of your assets in each given time period, compared across all simulation trials.</p><p>95% Confidence High: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be lower than this 95% of the time.</p><p>95% Confidence Low: Given the variability of the simulated outcomes, statistical analysis dictates that the value should be higher than this 95% of the time.</p><p>Out of Money Occurences: The percentage of times in a given month that you had ran out of money.</p>">{{fontawesome-icon type='question-circle'}}What are these values?</a>
+            <a class='text-info' data-toggle="tooltip" title="Due to long time periods and compound interest, asset values can get quite extreme over time (both positive and negative). $100,000 growing at 8% over 90 years will reach a future value of over $100MM.  Be sure to have your expenses and income well defined.">{{fontawesome-icon type='question-circle'}}Why are these values so large?</a>
+          </p>
 
-        <ul>
-          <li>{{writtenContentData.assets}}</li>
-          <li>
-            For each simulated month, there was a range of outcomes for your assets. They can be summarized as follows:
-            <ul>
-              {{#each message in writtenContentData.outOfMoney}}
-                <li>{{message}}</li>
-              {{/each}}
-              <li><a class='text-info' data-toggle="tooltip" title="We classify 'certain' as being true more than 99% of the time, likely as being true more than 90% of the time, and unlikely as being true less than 10% of the time.">{{fontawesome-icon type='question-circle'}}How are the confidence levels defined?</a></li>
-            </ul>
-          </li>
-        </ul>
+          <p>{{simulation-results-chart-income-expenses timeSteps=timeStepResults}}</p>
 
-        <hr>
+          <ul>
+            <li>{{writtenContentData.assets}}</li>
+            <li>
+              For each simulated month, there was a range of outcomes for your assets. They can be summarized as follows:
+              <ul>
+                {{#each message in writtenContentData.outOfMoney}}
+                  <li>{{message}}</li>
+                {{/each}}
+                <li><a class='text-info' data-toggle="tooltip" title="We classify 'certain' as being true more than 99% of the time, likely as being true more than 90% of the time, and unlikely as being true less than 10% of the time.">{{fontawesome-icon type='question-circle'}}How are the confidence levels defined?</a></li>
+              </ul>
+            </li>
+          </ul>
 
-        <p class='text-center' id='simulation-actions'>
-          <button {{action "acceptSimulation"}} class='btn btn-success'>Accept Simulation</button>
-          <button {{action "rerunSimulation"}} class='btn btn-default space-left'>Re-run Simulation</button>
-          {{link-to 'Change Portfolio' 'select_portfolio' classNames='btn btn-default space-left'}}
-          {{link-to 'Adjust Expenses' 'retirement_simulation.expenses' classNames='btn btn-default space-left'}}
-          {{link-to 'Cancel' 'user.dashboard' classNames='btn btn-default space-left'}}
-        </p>
+          <hr>
+
+          <p class='text-center' id='simulation-actions'>
+            <button {{action "acceptSimulation"}} class='btn btn-success'>Accept Simulation</button>
+            <button {{action "rerunSimulation"}} class='btn btn-default space-left'>Re-run Simulation</button>
+            {{link-to 'Change Portfolio' 'select_portfolio' classNames='btn btn-default space-left'}}
+            {{link-to 'Adjust Expenses' 'retirement_simulation.expenses' classNames='btn btn-default space-left'}}
+            {{link-to 'Cancel' 'user.dashboard' classNames='btn btn-default space-left'}}
+          </p>
+
+        {{/offset-spaced}}
 
       {{/unless}}
 
