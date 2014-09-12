@@ -97,7 +97,7 @@ export default Ember.ObjectController.extend({
 
     etfGroups.forEach( function(group) {
       var selectedEtf = group.get('selectedEtf');
-      if (!Ember.isNone(selectedEtf)) {
+      if (!Ember.isEmpty(selectedEtf)) {
         selectedEtfs[group.get('asset.id')] = selectedEtf.get('ticker');
       }
     });

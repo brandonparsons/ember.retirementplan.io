@@ -6,7 +6,7 @@ export default Ember.ArrayController.extend({
     var assetGroups = [];
     this.forEach( function(etf) {
       var assetBucket = assetGroups.findBy('asset', etf.get('asset'));
-      if(!assetBucket) { // If the bucket doesn't exist, create it
+      if (Ember.isEmpty(assetBucket)) { // If the bucket doesn't exist, create it
         assetBucket = Ember.Object.create({
           asset: etf.get('asset'),
           etfsInGroup: []

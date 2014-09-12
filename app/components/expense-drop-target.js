@@ -25,7 +25,7 @@ export default Ember.Component.extend(
 
   dropTargetClass: function() {
     var dropAction = this.get('dropAction');
-    if (!dropAction) {
+    if (Ember.isEmpty(dropAction)) {
       return null;
     } else if (dropAction === 'drop-add') {
       return 'bg-success drop-add';

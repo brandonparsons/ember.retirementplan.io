@@ -149,7 +149,7 @@ var simulationParametersController = Ember.ObjectController.extend(
 
   marriedChanged: function() {
     var married = this.get('married');
-    if ( !Ember.isNone(married) && !married ) {
+    if ( !Ember.isEmpty(married) && !married ) {
       this.set('expensesMultiplier', 1.6);
       if ( this.get('userIsMale') ) {
         this.set('femaleAge', null);

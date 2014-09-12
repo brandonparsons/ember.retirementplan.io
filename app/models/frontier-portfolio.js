@@ -2,7 +2,7 @@ import Ember from 'ember';
 import roundTo from 'retirement-plan/utils/round-to';
 
 var idToAllocation = function(id) {
-  if (!id || typeof(id) === 'undefined') { return null; }
+  if (Ember.isEmpty(id) || typeof(id) === 'undefined') { return null; }
   return window.atob(id);
 };
 

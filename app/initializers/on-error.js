@@ -98,7 +98,7 @@ export default {
     };
 
     var determineErrorMessage = function(error, isUnprocessableEntityError) {
-      if (!error) { return 'Sorry - something went wrong.'; }
+      if (Ember.isEmpty(error)) { return 'Sorry - something went wrong.'; }
       var extractedErrors, errorMessage;
 
       if (error.jqXHR && error.jqXHR.responseJSON) {
@@ -194,7 +194,7 @@ export default {
     ///////////
 
     Ember.onerror = function(error) {
-      if (!error) { return; }
+      if (Ember.isEmpty(error)) { return; }
 
       if (window.RetirementPlanENV.debug) {
         Ember.warn("Caught Error!");

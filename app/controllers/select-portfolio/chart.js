@@ -32,7 +32,7 @@ export default Ember.ArrayController.extend({
     if (!this.get('hasSelectedPortfolio')) { return true; }
 
     selectedPortfolioID = this.get('selectedPortfolioID');
-    if (!selectedPortfolioID) { return true; }
+    if (Ember.isEmpty(selectedPortfolioID)) { return true; }
 
     indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(selectedPortfolioID);
     return indexOfSelectedPortfolio <= 0;
@@ -43,7 +43,7 @@ export default Ember.ArrayController.extend({
     if (!this.get('hasSelectedPortfolio')) { return true; }
 
     selectedPortfolioID = this.get('selectedPortfolioID');
-    if (!selectedPortfolioID) { return true; }
+    if (Ember.isEmpty(selectedPortfolioID)) { return true; }
 
     indexOfSelectedPortfolio = this.get('portfolios').mapBy('id').indexOf(selectedPortfolioID);
     return indexOfSelectedPortfolio === this.get('portfolios').get('length') - 1;
@@ -82,7 +82,7 @@ export default Ember.ArrayController.extend({
 
   selectedPortfolio: function() {
     var portfolioID = this.get('selectedPortfolioID');
-    if (!portfolioID) { return null; }
+    if (Ember.isEmpty(portfolioID)) { return null; }
     return this.get('portfolios').findBy('id', portfolioID);
   }.property('selectedPortfolioID', 'portfolios.@each'),
   hasSelectedPortfolio: Ember.computed.notEmpty('selectedPortfolio'),
@@ -102,7 +102,7 @@ export default Ember.ArrayController.extend({
 
   allocation: function() {
     var portfolioID = this.get('selectedPortfolioID');
-    if (!portfolioID) { return null; }
+    if (Ember.isEmpty(portfolioID)) { return null; }
     return FrontierPortfolio.allocationFromID(portfolioID);
   }.property('selectedPortfolioID'),
 
@@ -142,7 +142,7 @@ export default Ember.ArrayController.extend({
       portfolios          = this.get('portfolios');
       portfolioIds        = portfolios.mapBy('id');
       selectedPortfolioID = this.get('selectedPortfolioID');
-      if (!selectedPortfolioID) { return null; }
+      if (Ember.isEmpty(selectedPortfolioID)) { return null; }
 
       indexOfSelectedPortfolio = portfolioIds.indexOf(selectedPortfolioID);
 
@@ -160,7 +160,7 @@ export default Ember.ArrayController.extend({
       portfolios          = this.get('portfolios');
       portfolioIds        = portfolios.mapBy('id');
       selectedPortfolioID = this.get('selectedPortfolioID');
-      if (!selectedPortfolioID) { return null; }
+      if (Ember.isEmpty(selectedPortfolioID)) { return null; }
 
       indexOfSelectedPortfolio  = portfolioIds.indexOf(selectedPortfolioID);
 
@@ -181,7 +181,7 @@ export default Ember.ArrayController.extend({
   /////////////////////////
 
   _updateGraph: function(assetIdArray) {
-    if (!assetIdArray || assetIdArray.length < 1) { return null; }
+    if (Ember.isEmpty(assetIdArray) || assetIdArray.length < 1) { return null; }
     var controller = this;
     controller.set('loadingFrontier', true);
     controller._getEfficientFrontier(assetIdArray).then( function(portfolios) {
