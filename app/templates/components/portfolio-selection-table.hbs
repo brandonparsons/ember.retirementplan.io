@@ -2,7 +2,8 @@
   <tr>
     <th class="text-center">#</th>
     <th class="text-center">Expected Risk <small>(Standard Deviation - %)</small></th>
-    <th class="text-center">Expected Return <small>(%)</small></th>
+    <th class="text-center">Market Implied Return <small>(%)</small></th>
+    <th class="text-center">Historical Mean Return <small>(%)</small></th>
   </tr>
 </thead>
 <tbody>
@@ -11,6 +12,7 @@
       <td>{{prettyIndex}}</td>
       <td {{bind-attr class="rowClass"}}>{{rounded-percentage statistics.annual_std_dev}}</td>
       <td>{{rounded-percentage statistics.annual_nominal_return}}</td>
+      <td>{{rounded-percentage statistics.annual_alternate_return}}</td>
     </tr>
   {{/each}}
 </tbody>
